@@ -4,6 +4,7 @@ import SwiftData
 struct HomeView: View {
     @Query(sort: \WorthlyItem.createdAt, order: .reverse) private var items: [WorthlyItem]
     let onAdd: () -> Void
+    let onOpenInsights: () -> Void
 
     private var dueReviews: [CheckInDueEntry] {
         CheckInSchedule.dueEntries(for: items)
@@ -15,6 +16,10 @@ struct HomeView: View {
 
     private var bought: [WorthlyItem] {
         items.filter { $0.state == .bought }
+    }
+
+    private var insightSnapshot: InsightSnapshot {
+        InsightEngine.snapshot(for: items)
     }
 
     var body: some View {
@@ -35,6 +40,10 @@ struct HomeView: View {
                     } else {
                         if !dueReviews.isEmpty {
                             dueReviewSection
+                        }
+
+                        if let primaryInsight = insightSnapshot.primaryCard {
+                            insightTeaser(primaryInsight)
                         }
 
                         if !considering.isEmpty {
@@ -92,7 +101,7 @@ struct HomeView: View {
                     .foregroundStyle(WorthlyTheme.muted)
             }
 
-            ForEach(dueReviews) { entry in
+            ForEach(dueReviews.prefix(3)) { entry in
                 NavigationLink {
                     CheckInView(item: entry.item, stage: entry.stage)
                 } label: {
@@ -101,6 +110,37 @@ struct HomeView: View {
                 .buttonStyle(.plain)
             }
         }
+    }
+
+    private func insightTeaser(_ insight: InsightCardModel) -> some View {
+        Button(action: onOpenInsights) {
+            HStack(alignment: .top, spacing: 14) {
+                VStack(alignment: .leading, spacing: 7) {
+                    Text("YOUR FIRST PATTERN")
+                        .font(WorthlyTheme.overline)
+                        .foregroundStyle(WorthlyTheme.accent)
+
+                    Text(insight.headline)
+                        .font(WorthlyTheme.sectionTitle)
+                        .foregroundStyle(WorthlyTheme.background)
+                        .multilineTextAlignment(.leading)
+
+                    Text("查看你的消费洞察")
+                        .font(.subheadline)
+                        .foregroundStyle(WorthlyTheme.background.opacity(0.7))
+                }
+
+                Spacer(minLength: 8)
+
+                Image(systemName: "arrow.up.right")
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(WorthlyTheme.background)
+            }
+            .padding(20)
+            .background(WorthlyTheme.nearBlack)
+            .clipShape(RoundedRectangle(cornerRadius: WorthlyTheme.cardRadius, style: .continuous))
+        }
+        .buttonStyle(.plain)
     }
 
     @ViewBuilder

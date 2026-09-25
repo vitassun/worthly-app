@@ -1,12 +1,12 @@
-# Codex implementation prompt — Iteration 02
+# Codex implementation prompt — Iteration 03
 
 You are the implementation agent for Worthly / 值不值.
 
 ## Baseline
 
-Continue from the existing Iteration 01 workspace and commit:
+Continue from the existing Iteration 02 workspace and commit:
 
-`fa911b7e9dbd4419485d514ba1dada7e3710a076`
+`e7c1bbd58b52c673864cb01082d04a90c791d489`
 
 Do not recreate or replace `Worthly.xcodeproj`.
 
@@ -21,42 +21,36 @@ Then apply this package over the existing workspace.
 
 ## Implementation requirements
 
-1. Preserve the existing Xcode project, target, scheme, bundle identifier, and deployment target.
-2. Add these new files to the existing Worthly app target:
-   - `Worthly/Core/Utilities/CheckInSchedule.swift`
-   - `Worthly/Core/Services/CheckInReminderService.swift`
+1. Preserve the existing Xcode project, target, shared scheme, bundle identifier, deployment target, and SwiftData models.
+2. Add this new file to the existing Worthly app target:
+   - `Worthly/Core/Insights/InsightEngine.swift`
 3. Keep every existing Swift file in target membership.
-4. Implement the exact Iteration 02 behavior in `ITERATION.md`.
-5. Review the supplied Swift changes rather than blindly copying if a compile issue is evident.
-6. Do not change the locked information architecture or editorial design language.
-7. Do not add third-party dependencies.
-8. Local notifications must use `UserNotifications` only and remain opt-in.
-9. If the environment has Xcode, run:
+4. Apply the supplied replacements for:
+   - `Worthly/Features/Insights/InsightsView.swift`
+   - `Worthly/Features/Home/HomeView.swift`
+   - `Worthly/App/RootTabView.swift`
+5. Implement the exact thresholds and wording constraints in `ITERATION.md`.
+6. Do not add a new SwiftData property or migration in this iteration.
+7. Do not count 7 / 30 / 90 check-ins from one item as multiple analytic samples. The latest valid check-in is the single current evaluation for that item.
+8. Do not use AI / network calls / remote inference.
+9. Review supplied Swift code for compile correctness rather than blindly copying it.
+10. Preserve the locked editorial design language and native iOS behavior.
+11. If Xcode is available, run:
    `xcodebuild -project Worthly.xcodeproj -scheme Worthly -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO build`
-10. Fix compile errors until build passes when Xcode is available.
-11. If Xcode is unavailable, report BUILD as UNAVAILABLE and perform static checks for:
-   - project.pbxproj membership
-   - imports
-   - SwiftData model references
-   - navigation destinations
-   - UserNotifications references
-12. Update `handoff/LAST_CODEX_REPORT.md` with actual results.
-13. Commit on top of Iteration 01 with:
-   `feat: add post-purchase check-ins and reminders`
-14. Attempt push to `main` at most once. If authentication/write access is unavailable, do not loop.
-15. Export a full source ZIP and git bundle if push fails.
-
-## Required verification
-
-Report explicit checks for:
-- 7 / 30 / 90 due-date logic
-- sequential overdue behavior
-- duplicate prevention
-- Home due-review routing
-- check-in persistence relationship
-- item-detail history
-- reminder permission denial path
-- reminder rescheduling after purchase-date edit
+12. Fix compile errors until build passes when Xcode is available.
+13. If Xcode remains unavailable, BUILD must be UNAVAILABLE and you must perform static checks for:
+   - target membership
+   - Swift syntax / imports
+   - key-path expressions
+   - `TabView(selection:)` tags and bindings
+   - InsightEngine model references
+   - no duplicated per-stage samples
+14. Verify every scenario listed in `ITERATION.md`.
+15. Update `handoff/LAST_CODEX_REPORT.md` with actual results.
+16. Commit on top of Iteration 02 with:
+   `feat: add first personal consumption insights`
+17. Attempt push to `main` at most once. If authentication/write access is unavailable, do not loop.
+18. Export a full source ZIP and git bundle if push fails.
 
 ## Final response format
 
@@ -74,11 +68,13 @@ PASS / PARTIAL / BLOCKED
 - first meaningful error if any
 
 ### VERIFICATION
-- due schedule
-- persistence
-- navigation
-- duplicate protection
-- notifications
+- sample thresholds
+- latest-check-in selection
+- expectation/reality
+- discount grouping
+- category grouping
+- long-term memory
+- Home → Insights tab routing
 - target membership
 
 ### CHANGES
@@ -95,4 +91,4 @@ PASS / PARTIAL / BLOCKED
 - full source ZIP
 
 ### NEXT
-- 3–6 concrete suggestions for Iteration 03
+- 3–6 concrete suggestions for Iteration 04

@@ -53,8 +53,8 @@ PASS / PARTIAL / BLOCKED
 - ...
 ```
 
-The planning/review agent will verify repository state directly and prepare the next iteration.
+The planning/review agent will verify the report and prepare the next iteration.
 
-## Current iteration note — 02
+## Current iteration note — 03
 
-The check-in schedule is sequential: if 7-day is overdue and incomplete, do not jump straight to 30-day or 90-day. In-app due state must work independently of notification permission.
+Insights are deterministic summaries of the user's own data, not AI judgments. Respect every minimum sample threshold in `ITERATION.md`. Later-stage check-ins replace earlier-stage check-ins for per-item analytics; never count multiple stages from the same item as separate purchases.

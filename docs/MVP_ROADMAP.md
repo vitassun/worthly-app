@@ -36,12 +36,12 @@ Implementation status:
 - static verification passed
 - Simulator build still unverified
 
-## Iteration 02 — Revisit / Check-ins (current)
+## Iteration 02 — Revisit / Check-ins
 
 Goal:
 Complete `buy → revisit` and create the first real retention loop.
 
-Deliverables:
+Delivered:
 - 7 / 30 / 90-day due calculation
 - sequential overdue handling
 - due-review Home section
@@ -51,26 +51,34 @@ Deliverables:
 - opt-in local notifications
 - reminder rescheduling after purchase-date edits
 
-Exit criteria:
-- check-in code is in target membership
-- one stage cannot be duplicated
-- overdue stages are sequential
-- in-app due queue works without notification permission
-- notification denial is non-blocking
-- build passes on a real macOS/Xcode runner before the app is treated as TestFlight-ready
+Implementation status:
+- commit `e7c1bbd58b52c673864cb01082d04a90c791d489`
+- static verification passed
+- Simulator build still unverified
 
-## Iteration 03 — First useful insights
+## Iteration 03 — First useful insights (current)
 
 Goal:
-Turn check-in history into clear personal value.
+Turn check-in history into clear personal value without over-reading sparse data.
 
-Planned:
-- expectation vs reality
-- discount effect
-- category patterns
-- best / worst long-term purchases
-- sparse-data states
-- no AI chat; insights must come from recorded data
+Deliverables:
+- local deterministic insight engine
+- latest-check-in-per-item analytics
+- first satisfaction snapshot after 3 evaluated purchases
+- desire vs later satisfaction
+- 30+ day discount pattern with minimum group sizes
+- 30+ day category pattern with minimum category size
+- long-term highest / lowest purchase memory
+- sparse-data states and confidence copy
+- Home insight teaser that switches to the Insights tab
+
+Exit criteria:
+- sample thresholds match `ITERATION.md`
+- one item contributes at most one current analytic sample
+- no AI / network inference is used
+- no NaN / Infinity / empty metrics appear
+- Home insight teaser changes selected root tab rather than pushing a duplicate screen
+- build passes on a real macOS/Xcode runner before TestFlight readiness
 
 ## Iteration 04 — Retention & polish
 

@@ -1,28 +1,19 @@
-# Worthly / 值不值 — Iteration 02
+# Worthly — Iteration 03 package
 
-Worthly is a personal consumption-memory iOS app.
+Authoritative overlay for **First useful insights**.
 
-This package is the **Iteration 02 overlay** for an existing Iteration 01 workspace.
+Baseline expected in the implementation workspace:
 
-Current loop:
+`e7c1bbd58b52c673864cb01082d04a90c791d489`
 
-**想要 → 决定 → 买下 → 7/30/90 天回来看看 → 记录真实满意度**
+This package adds the first deterministic personal insight layer:
+- desire vs later satisfaction
+- 30+ day discount pattern
+- 30+ day category pattern
+- long-term highest / lowest purchase memory
+- sparse-data protection
+- Home insight teaser → Insights tab
 
-## This iteration adds
-
-- 7 / 30 / 90-day check-in scheduling
-- Home due-review queue
-- satisfaction + usage check-in form
-- check-in history on item detail
-- duplicate-stage protection
-- opt-in local reminders
-
-## Required baseline
-
-The implementation workspace must already contain Iteration 01 and:
-
-`fa911b7e9dbd4419485d514ba1dada7e3710a076`
-
-plus the existing generated `Worthly.xcodeproj`.
+It deliberately avoids AI-generated conclusions and does not modify SwiftData schema.
 
 Read `ITERATION.md` and `handoff/CODEX_PROMPT.md` before implementation.
