@@ -1,7 +1,7 @@
 # LAST CODEX REPORT
 
 ## RESULT
-PARTIAL — Iteration 05 implementation, XCTest target, CI gates, and static audits are complete. Local Xcode builds and XCTest execution are unavailable in this workspace because Xcode is not installed; GitHub Actions is configured as the macOS build/test gate.
+PARTIAL — Iteration 05 implementation, XCTest target, CI gates, and static audits are complete. Local Xcode builds and XCTest execution are unavailable in this workspace because Xcode is not installed. The single GitHub push attempt failed because HTTPS credentials are unavailable; complete history and source artifacts were exported.
 
 ## BASELINE
 - Expected SHA: `7cfc41eec8d16739bb6aebcd447ca105ac89e371`
@@ -13,6 +13,11 @@ PARTIAL — Iteration 05 implementation, XCTest target, CI gates, and static aud
 - Result: UNAVAILABLE. First meaningful error: `/bin/bash: line 1: xcodebuild: command not found` (exit 127).
 - Release simulator build command was also attempted and returned the same environment error.
 - `swiftc` is not installed, so the XCTest bundle could not be executed locally.
+
+## COMMIT AND PUSH
+- Feature commit: `f1f8b508d41e1562ab10ddf400ce0caf9d390ac4` (`test: harden TestFlight candidate`).
+- Branch: `main`.
+- Push: one `git push origin main` attempt; failed with `fatal: could not read Username for 'https://github.com': No such device or address`. No retry was made.
 
 ## TESTS
 - Target: `WorthlyTests` (native XCTest unit-test bundle, dependent on `Worthly`).
@@ -68,11 +73,11 @@ Additional source audit: no new `fatalError`, `try!`, TODO/FIXME, debug `print`,
 
 ## BLOCKERS
 - Local Debug/Release builds and XCTest execution require macOS with Xcode. GitHub Actions is the configured verification path after push.
-- A single push attempt will be made. If HTTPS authentication is unavailable, the required history bundle and full source ZIP will be exported without retrying.
+- Push was attempted exactly once and failed because no GitHub HTTPS credentials are available in this workspace. The required bundle and full source ZIP were created and verified; no alternate upload or retry was attempted.
 
 ## ARTIFACTS
-- `worthly-iteration-05.bundle` — to contain baseline history through the Iteration 05 commit.
-- `worthly-iteration-05-full-source.zip` — to contain `Worthly.xcodeproj`, `Worthly/`, `docs/`, `handoff/`, and `.github/`.
+- `worthly-iteration-05.bundle` — verified complete Git history on `main`, including the Iteration 05 feature commit and this report update.
+- `worthly-iteration-05-full-source.zip` — verified to contain `Worthly.xcodeproj`, `Worthly/`, `docs/`, `handoff/`, and `.github/`.
 
 ## NEXT
 - Review the first GitHub Actions Debug/XCTest/Release run and fix any macOS/Xcode-only failures.
