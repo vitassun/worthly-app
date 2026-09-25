@@ -1,5 +1,7 @@
 import Foundation
+import UIKit
 import UserNotifications
+import Combine
 
 final class CheckInReminderService {
     static let shared = CheckInReminderService()
@@ -34,7 +36,22 @@ final class CheckInReminderService {
 
     func disable() {
         UserDefaults.standard.set(false, forKey: Self.enabledKey)
-        center.removeAllPendingNotificationRequests()
+        cancelAllReminders()
+    }
+
+    func cancelAllReminders() {
+        center.getPendingNotificationRequests { requests in
+            let identifiers = requests
+                .map(\.identifier)
+                .filter { $0.hasPrefix("worthly.checkin.") }
+            self.center.removePendingNotificationRequests(withIdentifiers: identifiers)
+        }
+        center.getDeliveredNotifications { notifications in
+            let identifiers = notifications
+                .map { $0.request.identifier }
+                .filter { $0.hasPrefix("worthly.checkin.") }
+            self.center.removeDeliveredNotifications(withIdentifiers: identifiers)
+        }
     }
 
     func reschedule(for item: WorthlyItem) {
@@ -63,6 +80,10 @@ final class CheckInReminderService {
         content.title = "回来看看，它还值不值"
         content.body = "\(item.name) 已经买了 \(stage.rawValue) 天。花 10 秒记录现在的真实感受。"
         content.sound = .default
+        content.userInfo = [
+            "itemID": item.id.uuidString,
+            "stage": stage.rawValue
+        ]
 
         let components = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: deliveryDate)
         let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
@@ -79,5 +100,52 @@ final class CheckInReminderService {
 
     private func identifier(for item: WorthlyItem, stage: CheckInStage) -> String {
         "worthly.checkin.\(item.id.uuidString).\(stage.rawValue)"
+    }
+}
+
+struct CheckInNotificationRoute: Equatable, Identifiable {
+    let itemID: UUID
+    let stage: CheckInStage
+
+    var id: String { "\(itemID.uuidString)-\(stage.rawValue)" }
+}
+
+final class CheckInNotificationRouter: ObservableObject {
+    static let shared = CheckInNotificationRouter()
+    @Published var pendingRoute: CheckInNotificationRoute?
+
+    private init() {}
+
+    func receive(userInfo: [AnyHashable: Any]) {
+        guard
+            let rawID = userInfo["itemID"] as? String,
+            let itemID = UUID(uuidString: rawID),
+            let rawStage = userInfo["stage"] as? Int,
+            let stage = CheckInStage(rawValue: rawStage)
+        else { return }
+
+        pendingRoute = CheckInNotificationRoute(itemID: itemID, stage: stage)
+    }
+}
+
+final class WorthlyApplicationDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
+    ) -> Bool {
+        UNUserNotificationCenter.current().delegate = self
+        return true
+    }
+
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        didReceive response: UNNotificationResponse,
+        withCompletionHandler completionHandler: @escaping () -> Void
+    ) {
+        defer { completionHandler() }
+        let userInfo = response.notification.request.content.userInfo
+        DispatchQueue.main.async {
+            CheckInNotificationRouter.shared.receive(userInfo: userInfo)
+        }
     }
 }

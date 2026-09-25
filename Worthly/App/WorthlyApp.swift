@@ -3,6 +3,8 @@ import SwiftData
 
 @main
 struct WorthlyApp: App {
+    @UIApplicationDelegateAdaptor(WorthlyApplicationDelegate.self) private var appDelegate
+
     var body: some Scene {
         WindowGroup {
             RootTabView()

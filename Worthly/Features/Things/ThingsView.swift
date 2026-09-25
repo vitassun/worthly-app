@@ -27,9 +27,18 @@ struct ThingsView: View {
                     .pickerStyle(.segmented)
 
                     if filteredItems.isEmpty {
-                        Text("这里还没有记录。")
-                            .foregroundStyle(WorthlyTheme.muted)
-                            .padding(.top, 16)
+                        VStack(alignment: .leading, spacing: 9) {
+                            Text("这里暂时没有「\(selectedState.displayName)」记录。")
+                                .font(WorthlyTheme.sectionTitle)
+                                .foregroundStyle(WorthlyTheme.text)
+                            Text("换一个状态看看，或先回首页记下一件正在考虑的东西。")
+                                .font(.body)
+                                .foregroundStyle(WorthlyTheme.muted)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .worthlyCard()
+                        .accessibilityElement(children: .combine)
                     } else {
                         ForEach(filteredItems) { item in
                             NavigationLink {

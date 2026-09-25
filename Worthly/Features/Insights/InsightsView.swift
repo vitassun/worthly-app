@@ -58,7 +58,7 @@ struct InsightsView: View {
 
             HStack(alignment: .firstTextBaseline, spacing: 10) {
                 Text(average.formatted(.number.precision(.fractionLength(1))))
-                    .font(.system(size: 54, weight: .bold, design: .serif))
+                    .font(.system(.largeTitle, design: .serif, weight: .bold))
                     .foregroundStyle(WorthlyTheme.text)
 
                 Text("/ 10")
@@ -81,9 +81,12 @@ struct InsightsView: View {
                 .font(WorthlyTheme.overline)
                 .foregroundStyle(WorthlyTheme.accent)
 
-            Text(remaining > 0 ? "还差 \(remaining) 条回访，第一条个人规律就会出现。" : "正在建立你的消费画像。")
+            Text(remaining > 0
+                 ? "再完成 \(remaining) 次有效回访，Worthly 才开始尝试找出你的消费规律。"
+                 : "正在建立你的消费画像。")
                 .font(WorthlyTheme.sectionTitle)
                 .foregroundStyle(WorthlyTheme.text)
+                .fixedSize(horizontal: false, vertical: true)
 
             Text("Worthly 不会用一两次购买就给你贴标签。至少积累 3 件已经回访的购买后，才开始比较买前想要和后来满意。")
                 .font(.body)

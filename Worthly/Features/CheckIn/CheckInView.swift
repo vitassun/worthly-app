@@ -91,6 +91,9 @@ struct CheckInView: View {
                 step: 1
             )
             .tint(WorthlyTheme.accent)
+            .accessibilityLabel("满意度")
+            .accessibilityValue("\(satisfactionScore) 分，满分 10 分")
+            .accessibilityHint("从 1 分的后悔到 10 分的很值")
 
             HStack {
                 Text("后悔")
@@ -113,15 +116,26 @@ struct CheckInView: View {
                     Button {
                         usageFrequency = option
                     } label: {
-                        Text(option.displayName)
-                            .font(.subheadline.weight(.medium))
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 12)
-                            .foregroundStyle(usageFrequency == option ? WorthlyTheme.background : WorthlyTheme.text)
-                            .background(usageFrequency == option ? WorthlyTheme.text : WorthlyTheme.surface)
-                            .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+                        HStack(spacing: 7) {
+                            Image(systemName: usageFrequency == option ? "checkmark.circle.fill" : "circle")
+                                .accessibilityHidden(true)
+                            Text(option.displayName)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                        .font(.subheadline.weight(.medium))
+                        .frame(maxWidth: .infinity, minHeight: 44)
+                        .padding(.vertical, 8)
+                        .foregroundStyle(usageFrequency == option ? WorthlyTheme.background : WorthlyTheme.text)
+                        .background(usageFrequency == option ? WorthlyTheme.text : WorthlyTheme.surface)
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 14, style: .continuous)
+                                .stroke(usageFrequency == option ? WorthlyTheme.accent : WorthlyTheme.text.opacity(0.14), lineWidth: usageFrequency == option ? 2 : 1)
+                        }
+                        .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
                     }
                     .buttonStyle(.plain)
+                    .accessibilityLabel(option.displayName)
+                    .accessibilityValue(usageFrequency == option ? "已选择" : "未选择")
                 }
             }
         }
@@ -148,6 +162,7 @@ struct CheckInView: View {
         .buttonStyle(WorthlyPrimaryButtonStyle())
         .disabled(!canSubmit)
         .opacity(canSubmit ? 1 : 0.45)
+        .accessibilityLabel("记下现在的感觉，满意度 \(satisfactionScore) 分")
     }
 
     private func save() {

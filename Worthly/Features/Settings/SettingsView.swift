@@ -1,45 +1,137 @@
 import SwiftUI
 import SwiftData
+import UniformTypeIdentifiers
 
 struct SettingsView: View {
+    var onDataDeleted: () -> Void = {}
+    @Environment(\.modelContext) private var modelContext
     @Query private var items: [WorthlyItem]
     @AppStorage(CheckInReminderService.enabledKey) private var remindersEnabled = false
     @State private var notificationDenied = false
+    @State private var showingDeleteConfirmation = false
+    @State private var showingExportSheet = false
+    @State private var exportPayload: WorthlyJSONTransfer?
+    @State private var operationError: String?
 
     var body: some View {
         ZStack {
             WorthlyTheme.background.ignoresSafeArea()
 
             List {
-                Section("Worthly") {
-                    LabeledContent("版本", value: "0.2 check-ins")
-                    LabeledContent("默认货币", value: "CNY")
-                    LabeledContent("语言", value: "中文")
+                Section("数据") {
+                    Button {
+                        prepareExport()
+                    } label: {
+                        Label("导出我的数据", systemImage: "square.and.arrow.up")
+                    }
+                    .accessibilityLabel("导出我的 Worthly 数据为 JSON")
+
+                    Button(role: .destructive) {
+                        showingDeleteConfirmation = true
+                    } label: {
+                        Label("删除所有数据", systemImage: "trash")
+                    }
+                    .accessibilityLabel("删除所有 Worthly 数据")
                 }
 
-                Section("回访") {
-                    Toggle("7 / 30 / 90 天提醒", isOn: reminderBinding)
+                Section("提醒") {
+                    Toggle("7 / 30 / 90 天回访提醒", isOn: reminderBinding)
                         .tint(WorthlyTheme.accent)
 
-                    Text("开启后，Worthly 会在回访当天上午提醒一次。不会发送营销通知。")
+                    Text("开启后，Worthly 会在回访当天上午提醒一次。不会发送营销通知。拒绝通知权限后，App 内的回访队列仍然可用。")
                         .font(.caption)
                         .foregroundStyle(WorthlyTheme.muted)
+                        .fixedSize(horizontal: false, vertical: true)
                 }
 
-                Section("稍后接入") {
-                    Label("数据导出", systemImage: "square.and.arrow.up")
-                    Label("订阅", systemImage: "checkmark.seal")
-                    Label("隐私与删除", systemImage: "hand.raised")
+                Section("偏好") {
+                    LabeledContent("货币", value: "CNY · 人民币")
+                    LabeledContent("语言", value: "简体中文")
+                }
+
+                Section("关于") {
+                    LabeledContent("Worthly", value: appVersion)
+                    Text("你的记录保存在这台设备上。导出由系统分享功能在本地完成；Worthly 不会上传你的消费数据。")
+                        .font(.caption)
+                        .foregroundStyle(WorthlyTheme.muted)
+                        .fixedSize(horizontal: false, vertical: true)
                 }
             }
             .scrollContentBackground(.hidden)
         }
         .navigationTitle("我的")
+        .confirmationDialog(
+            "永久删除所有数据？",
+            isPresented: $showingDeleteConfirmation,
+            titleVisibility: .visible
+        ) {
+            Button("永久删除所有数据", role: .destructive) {
+                deleteAllData()
+            }
+            Button("取消", role: .cancel) {}
+        } message: {
+            Text("所有记录、回访和洞察基础数据都会永久删除。此操作无法撤销。")
+        }
+        .sheet(isPresented: $showingExportSheet) {
+            NavigationStack {
+                VStack(alignment: .leading, spacing: 18) {
+                    Text("你的 Worthly 数据已准备好。")
+                        .font(WorthlyTheme.sectionTitle)
+                        .foregroundStyle(WorthlyTheme.text)
+                    Text("JSON 文件只会通过系统分享面板交给你选择的目标，不会上传到 Worthly 服务器。")
+                        .foregroundStyle(WorthlyTheme.muted)
+
+                    if let exportPayload {
+                        ShareLink(
+                            item: exportPayload,
+                            preview: SharePreview("Worthly 数据导出", image: Image(systemName: "doc.text"))
+                        ) {
+                            Label("分享 JSON 文件", systemImage: "square.and.arrow.up")
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                        .buttonStyle(WorthlyPrimaryButtonStyle())
+                        .accessibilityLabel("分享 Worthly JSON 数据文件")
+                    }
+
+                    Spacer()
+                }
+                .padding(WorthlyTheme.pagePadding)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(WorthlyTheme.background.ignoresSafeArea())
+                .navigationTitle("导出数据")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button("完成") { showingExportSheet = false }
+                    }
+                }
+            }
+            .presentationDetents([.medium])
+        }
         .alert("通知没有开启", isPresented: $notificationDenied) {
             Button("好", role: .cancel) {}
         } message: {
             Text("你仍然可以在首页看到到期回访；需要通知时可稍后在系统设置中允许。")
         }
+        .alert("操作失败", isPresented: Binding(
+            get: { operationError != nil },
+            set: { if !$0 { operationError = nil } }
+        )) {
+            Button("好", role: .cancel) { operationError = nil }
+        } message: {
+            Text(operationError ?? "请稍后重试。")
+        }
+    }
+
+    private var appVersion: String {
+        let info = Bundle.main.infoDictionary ?? [:]
+        guard let version = info["CFBundleShortVersionString"] as? String else {
+            return "开发版本"
+        }
+        if let build = info["CFBundleVersion"] as? String {
+            return "\(version) (\(build))"
+        }
+        return version
     }
 
     private var reminderBinding: Binding<Bool> {
@@ -60,5 +152,113 @@ struct SettingsView: View {
                 }
             }
         )
+    }
+
+    private func prepareExport() {
+        do {
+            let encoder = JSONEncoder()
+            encoder.dateEncodingStrategy = .iso8601
+            encoder.outputFormatting = [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes]
+            encoder.nonConformingFloatEncodingStrategy = .throw
+
+            let document = WorthlyExportDocument(
+                exportVersion: 1,
+                exportedAt: .now,
+                items: items.map { WorthlyExportItem(item: $0) }
+            )
+            exportPayload = WorthlyJSONTransfer(data: try encoder.encode(document))
+            showingExportSheet = true
+        } catch {
+            operationError = "无法创建 JSON 导出文件：\(error.localizedDescription)"
+        }
+    }
+
+    private func deleteAllData() {
+        do {
+            for item in items {
+                modelContext.delete(item)
+            }
+            try modelContext.save()
+            CheckInReminderService.shared.cancelAllReminders()
+            onDataDeleted()
+        } catch {
+            modelContext.rollback()
+            operationError = "删除数据失败：\(error.localizedDescription)"
+        }
+    }
+}
+
+private struct WorthlyExportDocument: Encodable {
+    let exportVersion: Int
+    let exportedAt: Date
+    let items: [WorthlyExportItem]
+}
+
+private struct WorthlyExportItem: Encodable {
+    let id: String
+    let name: String
+    let category: String
+    let state: String
+    let reason: String
+    let desireScore: Int
+    let expectedUsage: String
+    let originalPrice: Double?
+    let paidPrice: Double?
+    let createdAt: Date
+    let purchaseDate: Date?
+    let decisionDate: Date?
+    let note: String?
+    let sourceNote: String?
+    let checkIns: [WorthlyExportCheckIn]
+
+    init(item: WorthlyItem) {
+        id = item.id.uuidString
+        name = item.name
+        category = item.category
+        state = item.stateRawValue
+        reason = item.reasonRawValue
+        desireScore = item.desireScore
+        expectedUsage = item.expectedUsageRawValue
+        originalPrice = item.originalPrice.flatMap { $0.isFinite ? $0 : nil }
+        paidPrice = item.paidPrice.flatMap { $0.isFinite ? $0 : nil }
+        createdAt = item.createdAt
+        purchaseDate = item.purchaseDate
+        decisionDate = item.decisionDate
+        note = item.sourceNote
+        sourceNote = item.sourceNote
+        checkIns = item.checkIns.sorted {
+            if $0.createdAt == $1.createdAt { return $0.id.uuidString < $1.id.uuidString }
+            return $0.createdAt < $1.createdAt
+        }.map { WorthlyExportCheckIn(checkIn: $0) }
+    }
+}
+
+private struct WorthlyExportCheckIn: Encodable {
+    let stage: Int
+    let satisfactionScore: Int
+    let usageFrequency: String
+    let note: String?
+    let createdAt: Date
+
+    init(checkIn: CheckIn) {
+        stage = checkIn.stageDays
+        satisfactionScore = checkIn.satisfactionScore
+        usageFrequency = checkIn.usageFrequency
+        note = checkIn.note
+        createdAt = checkIn.createdAt
+    }
+}
+
+private struct WorthlyJSONTransfer: Transferable, Identifiable {
+    let id = UUID()
+    let data: Data
+
+    static var transferRepresentation: some TransferRepresentation {
+        FileRepresentation(exportedContentType: .json) { transfer in
+            let url = FileManager.default.temporaryDirectory
+                .appendingPathComponent("Worthly-Export-\(transfer.id.uuidString).json")
+            try transfer.data.write(to: url, options: .atomic)
+            return SentTransferredFile(url)
+        }
     }
 }

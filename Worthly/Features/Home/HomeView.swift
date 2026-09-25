@@ -34,6 +34,7 @@ struct HomeView: View {
                         Label("记下一件", systemImage: "plus")
                     }
                     .buttonStyle(WorthlyPrimaryButtonStyle())
+                    .accessibilityLabel("记下一件正在考虑的东西")
 
                     if items.isEmpty {
                         emptyState
@@ -78,9 +79,10 @@ struct HomeView: View {
 
     private var emptyState: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("◎")
-                .font(.system(size: 28, weight: .medium, design: .serif))
-            Text("先记下第一件想买的东西。")
+            Image(systemName: "circle.dashed")
+                .font(.title)
+                .accessibilityHidden(true)
+            Text("先记下一件你正在考虑的东西。")
                 .font(WorthlyTheme.sectionTitle)
             Text("现在不用判断对错。Worthly 会在之后帮你回来看看，它到底值不值。")
                 .font(.body)
@@ -88,6 +90,7 @@ struct HomeView: View {
         }
         .foregroundStyle(WorthlyTheme.text)
         .worthlyCard()
+        .accessibilityElement(children: .combine)
     }
 
     private var dueReviewSection: some View {
@@ -141,6 +144,7 @@ struct HomeView: View {
             .clipShape(RoundedRectangle(cornerRadius: WorthlyTheme.cardRadius, style: .continuous))
         }
         .buttonStyle(.plain)
+        .accessibilityLabel("查看消费洞察：\(insight.headline)")
     }
 
     @ViewBuilder
@@ -175,7 +179,7 @@ struct DueCheckInRow: View {
                 Text(entry.item.name)
                     .font(.headline)
                     .foregroundStyle(WorthlyTheme.text)
-                    .lineLimit(2)
+                    .fixedSize(horizontal: false, vertical: true)
 
                 Text("现在还觉得它值吗？")
                     .font(.subheadline)
@@ -201,7 +205,7 @@ struct ItemRowView: View {
                 Text(item.name)
                     .font(.headline)
                     .foregroundStyle(WorthlyTheme.text)
-                    .lineLimit(2)
+                    .fixedSize(horizontal: false, vertical: true)
 
                 HStack(spacing: 8) {
                     Text(item.state.displayName)
@@ -210,6 +214,7 @@ struct ItemRowView: View {
                 }
                 .font(.caption)
                 .foregroundStyle(WorthlyTheme.muted)
+                .accessibilityLabel("状态：\(item.state.displayName)。原因：\(item.reason.displayName)")
             }
 
             Spacer(minLength: 12)
@@ -218,6 +223,7 @@ struct ItemRowView: View {
                 Text(PriceFormatter.currency(price))
                     .font(.system(.subheadline, design: .monospaced, weight: .semibold))
                     .foregroundStyle(WorthlyTheme.text)
+                    .accessibilityLabel("价格 \(PriceFormatter.currency(price))")
             }
         }
         .worthlyCard()

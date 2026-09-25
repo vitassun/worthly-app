@@ -103,15 +103,28 @@ struct AddItemView: View {
                     Button {
                         reason = option
                     } label: {
-                        Text(option.displayName)
-                            .font(.subheadline.weight(.medium))
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 11)
-                            .foregroundStyle(reason == option ? WorthlyTheme.background : WorthlyTheme.text)
-                            .background(reason == option ? WorthlyTheme.text : WorthlyTheme.surface)
-                            .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+                        HStack(spacing: 5) {
+                            if reason == option {
+                                Image(systemName: "checkmark")
+                                    .accessibilityHidden(true)
+                            }
+                            Text(option.displayName)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                        .font(.subheadline.weight(.medium))
+                        .frame(maxWidth: .infinity, minHeight: 44)
+                        .padding(.vertical, 7)
+                        .foregroundStyle(reason == option ? WorthlyTheme.background : WorthlyTheme.text)
+                        .background(reason == option ? WorthlyTheme.text : WorthlyTheme.surface)
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 14, style: .continuous)
+                                .stroke(reason == option ? WorthlyTheme.accent : WorthlyTheme.text.opacity(0.14), lineWidth: reason == option ? 2 : 1)
+                        }
+                        .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
                     }
                     .buttonStyle(.plain)
+                    .accessibilityLabel(option.displayName)
+                    .accessibilityValue(reason == option ? "已选择" : "未选择")
                 }
             }
 
@@ -128,6 +141,9 @@ struct AddItemView: View {
                     set: { desireScore = Int($0.rounded()) }
                 ), in: 1...10, step: 1)
                 .tint(WorthlyTheme.accent)
+                .accessibilityLabel("买前想要程度")
+                .accessibilityValue("\(desireScore) 分，满分 10 分")
+                .accessibilityHint("调整你现在有多想要这件东西")
             }
 
             Picker("预计使用", selection: $expectedUsage) {

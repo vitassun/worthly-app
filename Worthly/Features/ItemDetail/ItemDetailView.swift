@@ -39,6 +39,7 @@ struct ItemDetailView: View {
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button("编辑") { isEditing = true }
+                    .accessibilityLabel("编辑\(item.name)记录")
             }
         }
         .sheet(isPresented: $isEditing) {
@@ -82,6 +83,7 @@ struct ItemDetailView: View {
                 Text("原价  \(PriceFormatter.currency(originalPrice))")
                     .font(.system(.body, design: .monospaced))
                     .foregroundStyle(WorthlyTheme.muted)
+                    .accessibilityLabel("记录的原价：\(PriceFormatter.currency(originalPrice))")
             }
             if let sourceNote = item.sourceNote, !sourceNote.isEmpty {
                 Text(sourceNote)

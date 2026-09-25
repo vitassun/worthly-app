@@ -105,6 +105,9 @@ struct EditItemView: View {
                             set: { desireScore = Int($0.rounded()) }
                         ), in: 1...10, step: 1)
                         .tint(WorthlyTheme.accent)
+                        .accessibilityLabel("买前想要程度")
+                        .accessibilityValue("\(desireScore) 分，满分 10 分")
+                        .accessibilityHint("调整记录中的买前想要程度")
 
                         Picker("预计使用", selection: $expectedUsage) {
                             ForEach(ExpectedUsage.allCases) { option in

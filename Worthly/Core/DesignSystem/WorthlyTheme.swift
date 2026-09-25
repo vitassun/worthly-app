@@ -32,6 +32,7 @@ struct WorthlyPrimaryButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(.headline)
+            .fixedSize(horizontal: false, vertical: true)
             .foregroundStyle(WorthlyTheme.background)
             .frame(maxWidth: .infinity)
             .frame(minHeight: 50)
@@ -46,6 +47,7 @@ struct WorthlySecondaryButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(.headline)
+            .fixedSize(horizontal: false, vertical: true)
             .foregroundStyle(WorthlyTheme.text)
             .frame(maxWidth: .infinity)
             .frame(minHeight: 50)
