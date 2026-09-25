@@ -1,0 +1,178 @@
+import SwiftUI
+import SwiftData
+
+struct AddItemView: View {
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var modelContext
+
+    @State private var name = ""
+    @State private var category = "其他"
+    @State private var reason: PurchaseReason = .need
+    @State private var desireScore = 7
+    @State private var expectedUsage: ExpectedUsage = .unsure
+    @State private var originalPriceText = ""
+    @State private var paidPriceText = ""
+    @State private var alreadyBought = false
+    @State private var sourceNote = ""
+
+    private let categories = ["服饰", "数码", "美妆", "娱乐", "旅行", "家居", "学习", "其他"]
+
+    var body: some View {
+        ZStack {
+            WorthlyTheme.background.ignoresSafeArea()
+
+            ScrollView {
+                VStack(alignment: .leading, spacing: 28) {
+                    intro
+                    itemSection
+                    motivationSection
+                    priceSection
+                    saveButton
+                }
+                .padding(.horizontal, WorthlyTheme.pagePadding)
+                .padding(.bottom, 36)
+            }
+        }
+        .navigationTitle("记下一件")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .cancellationAction) {
+                Button("取消") { dismiss() }
+            }
+        }
+    }
+
+    private var intro: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("BEFORE")
+                .font(WorthlyTheme.overline)
+                .foregroundStyle(WorthlyTheme.accent)
+            Text("先记下现在的感觉。")
+                .font(WorthlyTheme.displayTitle)
+                .foregroundStyle(WorthlyTheme.text)
+            Text("不用写得很完整，20 秒内完成就够了。")
+                .foregroundStyle(WorthlyTheme.muted)
+        }
+        .padding(.top, 18)
+    }
+
+    private var itemSection: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            TextField("想买什么？", text: $name)
+                .font(.title3.weight(.semibold))
+                .textFieldStyle(.plain)
+                .padding(18)
+                .background(WorthlyTheme.surface)
+                .clipShape(RoundedRectangle(cornerRadius: WorthlyTheme.cardRadius, style: .continuous))
+
+            Picker("分类", selection: $category) {
+                ForEach(categories, id: \.self) { Text($0).tag($0) }
+            }
+            .pickerStyle(.menu)
+
+            TextField("来自哪里 / 备注（可选）", text: $sourceNote)
+                .textFieldStyle(.roundedBorder)
+        }
+    }
+
+    private var motivationSection: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text("为什么想买？")
+                .font(WorthlyTheme.sectionTitle)
+                .foregroundStyle(WorthlyTheme.text)
+
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 92), spacing: 10)], spacing: 10) {
+                ForEach(PurchaseReason.allCases) { option in
+                    Button {
+                        reason = option
+                    } label: {
+                        Text(option.displayName)
+                            .font(.subheadline.weight(.medium))
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 11)
+                            .foregroundStyle(reason == option ? WorthlyTheme.background : WorthlyTheme.text)
+                            .background(reason == option ? WorthlyTheme.text : WorthlyTheme.surface)
+                            .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+
+            VStack(alignment: .leading, spacing: 8) {
+                HStack {
+                    Text("现在有多想要？")
+                    Spacer()
+                    Text("\(desireScore)/10")
+                        .font(.system(.subheadline, design: .monospaced, weight: .semibold))
+                        .foregroundStyle(WorthlyTheme.accent)
+                }
+                Slider(value: Binding(
+                    get: { Double(desireScore) },
+                    set: { desireScore = Int($0.rounded()) }
+                ), in: 1...10, step: 1)
+                .tint(WorthlyTheme.accent)
+            }
+
+            Picker("预计使用", selection: $expectedUsage) {
+                ForEach(ExpectedUsage.allCases) { option in
+                    Text(option.displayName).tag(option)
+                }
+            }
+            .pickerStyle(.segmented)
+        }
+    }
+
+    private var priceSection: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            Text("价格")
+                .font(WorthlyTheme.sectionTitle)
+
+            TextField("原价（可选）", text: $originalPriceText)
+                .keyboardType(.decimalPad)
+                .textFieldStyle(.roundedBorder)
+
+            Toggle("已经买了", isOn: $alreadyBought)
+                .tint(WorthlyTheme.accent)
+
+            if alreadyBought {
+                TextField("最终到手价（可选）", text: $paidPriceText)
+                    .keyboardType(.decimalPad)
+                    .textFieldStyle(.roundedBorder)
+            }
+        }
+        .foregroundStyle(WorthlyTheme.text)
+    }
+
+    private var saveButton: some View {
+        Button("保存") {
+            save()
+        }
+        .buttonStyle(WorthlyPrimaryButtonStyle())
+        .disabled(name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+        .opacity(name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? 0.45 : 1)
+    }
+
+    private func save() {
+        let trimmedName = name.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedName.isEmpty else { return }
+
+        let originalPrice = Double(originalPriceText.replacingOccurrences(of: ",", with: ""))
+        let paidPrice = Double(paidPriceText.replacingOccurrences(of: ",", with: ""))
+
+        let item = WorthlyItem(
+            name: trimmedName,
+            category: category,
+            sourceNote: sourceNote.isEmpty ? nil : sourceNote,
+            state: alreadyBought ? .bought : .considering,
+            reason: reason,
+            expectedUsage: expectedUsage,
+            desireScore: desireScore,
+            originalPrice: originalPrice,
+            paidPrice: alreadyBought ? paidPrice : nil,
+            purchaseDate: alreadyBought ? .now : nil
+        )
+
+        modelContext.insert(item)
+        dismiss()
+    }
+}
