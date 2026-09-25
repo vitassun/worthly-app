@@ -1,77 +1,28 @@
-# Worthly / 值不值
+# Worthly / 值不值 — Iteration 02
 
-**Worthly（值不值）** is an iOS-first personal consumption-memory app.
+Worthly is a personal consumption-memory iOS app.
 
-It helps users learn what is actually worth buying **for them** by closing the loop between desire, purchase, use, and later satisfaction.
+This package is the **Iteration 02 overlay** for an existing Iteration 01 workspace.
 
-> 想买 → 决定 → 买 / 不买 → 7 / 30 / 90 天回看 → 形成自己的消费判断
+Current loop:
 
-## MVP product promise
+**想要 → 决定 → 买下 → 7/30/90 天回来看看 → 记录真实满意度**
 
-**Know what is actually worth buying for you.**
+## This iteration adds
 
-Worthly is not a budgeting ledger and not an AI chat app. It is a calm personal record of consumption decisions and their real outcomes.
+- 7 / 30 / 90-day check-in scheduling
+- Home due-review queue
+- satisfaction + usage check-in form
+- check-in history on item detail
+- duplicate-stage protection
+- opt-in local reminders
 
-## Current iteration
+## Required baseline
 
-**Iteration 00 — Foundation**
+The implementation workspace must already contain Iteration 01 and:
 
-This package locks:
-- product definition
-- information architecture
-- MVP scope
-- data model
-- editorial iOS design system
-- SwiftUI source skeleton
-- GitHub Actions build workflow draft
-- Codex handoff + feedback protocol
+`fa911b7e9dbd4419485d514ba1dada7e3710a076`
 
-## Recommended stack
+plus the existing generated `Worthly.xcodeproj`.
 
-- SwiftUI
-- SwiftData
-- iOS 17+
-- local-first MVP
-- UserNotifications for 7 / 30 / 90-day check-ins
-- StoreKit 2 later for subscription
-
-## Main navigation
-
-1. **首页 / Home** — what needs attention today
-2. **记录 / Things** — all considering / bought / passed items
-3. **洞察 / Insights** — what Worthly has learned
-4. **我的 / Me** — settings, subscription, privacy
-5. **Global Add** — fast capture flow
-
-## Source tree
-
-```text
-Worthly/
-├── App/
-├── Core/
-│   ├── DesignSystem/
-│   ├── Models/
-│   └── Utilities/
-└── Features/
-    ├── Home/
-    ├── AddItem/
-    ├── Things/
-    ├── ItemDetail/
-    ├── CheckIn/
-    ├── Insights/
-    └── Settings/
-```
-
-## Important
-
-The Swift files in this package are the **first app skeleton**. The repository still needs an Xcode project file (`Worthly.xcodeproj`) created around them. The included Codex prompt instructs Codex to do that, build it on a macOS runner, fix compile issues, and push the result.
-
-Read first:
-- [`docs/PROJECT_FOUNDATION.md`](docs/PROJECT_FOUNDATION.md)
-- [`docs/DESIGN_SYSTEM.md`](docs/DESIGN_SYSTEM.md)
-- [`docs/MVP_ROADMAP.md`](docs/MVP_ROADMAP.md)
-- [`handoff/CODEX_PROMPT.md`](handoff/CODEX_PROMPT.md)
-
-## Current implementation iteration
-
-Iteration 01 adds the first complete decision transition: a saved item can be edited, marked bought, or marked passed, with validated optional price entry.
+Read `ITERATION.md` and `handoff/CODEX_PROMPT.md` before implementation.

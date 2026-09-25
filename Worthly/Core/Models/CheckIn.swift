@@ -10,6 +10,26 @@ enum CheckInStage: Int, CaseIterable, Identifiable {
     var displayName: String { "\(rawValue) 天" }
 }
 
+enum UsageFrequency: String, CaseIterable, Identifiable {
+    case daily
+    case severalTimesWeek
+    case weekly
+    case rarely
+    case notUsedYet
+
+    var id: String { rawValue }
+
+    var displayName: String {
+        switch self {
+        case .daily: "几乎每天"
+        case .severalTimesWeek: "每周几次"
+        case .weekly: "大约每周"
+        case .rarely: "很少"
+        case .notUsedYet: "几乎没用"
+        }
+    }
+}
+
 @Model
 final class CheckIn {
     var id: UUID
@@ -24,7 +44,7 @@ final class CheckIn {
         id: UUID = UUID(),
         stage: CheckInStage,
         satisfactionScore: Int,
-        usageFrequency: String,
+        usageFrequency: UsageFrequency,
         note: String? = nil,
         createdAt: Date = .now,
         item: WorthlyItem? = nil
@@ -32,7 +52,7 @@ final class CheckIn {
         self.id = id
         self.stageDays = stage.rawValue
         self.satisfactionScore = satisfactionScore
-        self.usageFrequency = usageFrequency
+        self.usageFrequency = usageFrequency.rawValue
         self.note = note
         self.createdAt = createdAt
         self.item = item
@@ -40,5 +60,9 @@ final class CheckIn {
 
     var stage: CheckInStage? {
         CheckInStage(rawValue: stageDays)
+    }
+
+    var usage: UsageFrequency {
+        UsageFrequency(rawValue: usageFrequency) ?? .weekly
     }
 }

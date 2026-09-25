@@ -5,6 +5,10 @@ struct HomeView: View {
     @Query(sort: \WorthlyItem.createdAt, order: .reverse) private var items: [WorthlyItem]
     let onAdd: () -> Void
 
+    private var dueReviews: [CheckInDueEntry] {
+        CheckInSchedule.dueEntries(for: items)
+    }
+
     private var considering: [WorthlyItem] {
         items.filter { $0.state == .considering }
     }
@@ -29,6 +33,10 @@ struct HomeView: View {
                     if items.isEmpty {
                         emptyState
                     } else {
+                        if !dueReviews.isEmpty {
+                            dueReviewSection
+                        }
+
                         if !considering.isEmpty {
                             itemSection(title: "还在考虑", items: Array(considering.prefix(3)))
                         }
@@ -73,6 +81,28 @@ struct HomeView: View {
         .worthlyCard()
     }
 
+    private var dueReviewSection: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            VStack(alignment: .leading, spacing: 5) {
+                Text("该回来看看了")
+                    .font(WorthlyTheme.sectionTitle)
+                    .foregroundStyle(WorthlyTheme.text)
+                Text("不是催你记账，是看看当时的期待有没有留下来。")
+                    .font(.subheadline)
+                    .foregroundStyle(WorthlyTheme.muted)
+            }
+
+            ForEach(dueReviews) { entry in
+                NavigationLink {
+                    CheckInView(item: entry.item, stage: entry.stage)
+                } label: {
+                    DueCheckInRow(entry: entry)
+                }
+                .buttonStyle(.plain)
+            }
+        }
+    }
+
     @ViewBuilder
     private func itemSection(title: String, items: [WorthlyItem]) -> some View {
         VStack(alignment: .leading, spacing: 14) {
@@ -89,6 +119,36 @@ struct HomeView: View {
                 .buttonStyle(.plain)
             }
         }
+    }
+}
+
+struct DueCheckInRow: View {
+    let entry: CheckInDueEntry
+
+    var body: some View {
+        HStack(alignment: .top, spacing: 14) {
+            VStack(alignment: .leading, spacing: 7) {
+                Text("\(entry.stage.rawValue) DAYS LATER")
+                    .font(WorthlyTheme.overline)
+                    .foregroundStyle(WorthlyTheme.accent)
+
+                Text(entry.item.name)
+                    .font(.headline)
+                    .foregroundStyle(WorthlyTheme.text)
+                    .lineLimit(2)
+
+                Text("现在还觉得它值吗？")
+                    .font(.subheadline)
+                    .foregroundStyle(WorthlyTheme.muted)
+            }
+
+            Spacer(minLength: 8)
+
+            Image(systemName: "arrow.up.right")
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(WorthlyTheme.text)
+        }
+        .worthlyCard()
     }
 }
 

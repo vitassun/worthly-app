@@ -138,6 +138,9 @@ struct PurchaseDecisionView: View {
         }
 
         try? modelContext.save()
+        if mode == .bought {
+            CheckInReminderService.shared.reschedule(for: item)
+        }
         dismiss()
     }
 }

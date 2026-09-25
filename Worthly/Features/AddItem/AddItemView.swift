@@ -209,6 +209,9 @@ struct AddItemView: View {
 
         modelContext.insert(item)
         try? modelContext.save()
+        if alreadyBought {
+            CheckInReminderService.shared.reschedule(for: item)
+        }
         dismiss()
     }
 }

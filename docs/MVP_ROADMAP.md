@@ -1,77 +1,90 @@
 # Worthly — MVP Roadmap
 
-## Iteration 00 — Foundation (this package)
+## Iteration 00 — Foundation
 
 Goal:
-Lock product architecture and create a buildable SwiftUI shell.
+Lock product architecture and create a SwiftUI shell.
 
-Deliverables:
-- docs
-- models
+Delivered:
+- docs + design system
+- SwiftData models
 - 4-tab shell
 - add-item flow
-- basic Things list
-- basic item detail
-- placeholder Insights / Settings
-- CI build workflow
+- Things list
+- item detail baseline
+- CI workflow baseline
 
-Exit criteria:
-- Xcode project builds for iOS Simulator
-- app launches to Home
-- user can add an item locally
-- item appears in Things
-- no external service required
+Implementation status:
+- commit exists in Codex workspace
+- actual Simulator build still unverified because available Codex environment lacked Xcode
 
-## Iteration 01 — Core decision loop
+## Iteration 01 — Decide & Edit
 
 Goal:
-Make “consider → buy/pass” usable.
+Make `consider → buy/pass` usable.
 
-Deliverables:
+Delivered:
 - edit item
 - mark bought
 - mark passed
-- proper price display
-- basic item timeline
-- input validation
-- first-run onboarding
+- optional paid price + purchase date
+- inline price validation
+- decision timestamp
 
-## Iteration 02 — Check-ins
+Implementation status:
+- commit `fa911b7e9dbd4419485d514ba1dada7e3710a076`
+- static verification passed
+- Simulator build still unverified
+
+## Iteration 02 — Revisit / Check-ins (current)
 
 Goal:
-Complete “buy → revisit”.
+Complete `buy → revisit` and create the first real retention loop.
 
 Deliverables:
 - 7 / 30 / 90-day due calculation
-- local notifications
-- check-in screen
-- satisfaction history
+- sequential overdue handling
 - due-review Home section
+- check-in form
+- satisfaction + usage history
+- item-detail review timeline
+- opt-in local notifications
+- reminder rescheduling after purchase-date edits
 
-## Iteration 03 — First real insights
+Exit criteria:
+- check-in code is in target membership
+- one stage cannot be duplicated
+- overdue stages are sequential
+- in-app due queue works without notification permission
+- notification denial is non-blocking
+- build passes on a real macOS/Xcode runner before the app is treated as TestFlight-ready
+
+## Iteration 03 — First useful insights
 
 Goal:
-Make accumulated data feel valuable.
+Turn check-in history into clear personal value.
 
-Deliverables:
+Planned:
 - expectation vs reality
 - discount effect
-- category comparison
-- best / worst purchase summaries
+- category patterns
+- best / worst long-term purchases
 - sparse-data states
+- no AI chat; insights must come from recorded data
 
 ## Iteration 04 — Retention & polish
 
 Goal:
 Prepare for TestFlight.
 
-Deliverables:
+Planned:
+- first-run onboarding
 - data export / delete
 - accessibility pass
 - localization structure
-- onboarding refinement
+- notification deep-link polish
 - crash / empty-state polish
-- StoreKit subscription scaffold (not necessarily enabled)
+- StoreKit subscription scaffold
 
 ## Later, only after validation
 
@@ -80,22 +93,3 @@ Deliverables:
 - resale / effective ownership cost
 - annual report
 - richer ingestion / screenshot extraction
-
----
-
-## Iteration 01 — Decide & Edit
-
-Status: package prepared
-
-Scope:
-- edit existing record
-- considering → bought
-- considering → passed
-- optional paid price + purchase date
-- inline price validation
-- decision timestamp
-
-Next planned iteration after this passes:
-- real 7-day check-in flow
-- due-review calculation on Home
-- first useful post-purchase satisfaction record

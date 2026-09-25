@@ -186,6 +186,9 @@ struct EditItemView: View {
         }
 
         try? modelContext.save()
+        if item.state == .bought {
+            CheckInReminderService.shared.reschedule(for: item)
+        }
         dismiss()
     }
 }

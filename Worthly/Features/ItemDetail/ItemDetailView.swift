@@ -6,6 +6,14 @@ struct ItemDetailView: View {
     @State private var isEditing = false
     @State private var decisionMode: PurchaseDecisionMode?
 
+    private var completedCheckIns: [CheckIn] {
+        item.checkIns.sorted { $0.stageDays < $1.stageDays }
+    }
+
+    private var nextStage: CheckInStage? {
+        CheckInSchedule.nextPendingStage(for: item)
+    }
+
     var body: some View {
         ZStack {
             WorthlyTheme.background.ignoresSafeArea()
@@ -162,29 +170,112 @@ struct ItemDetailView: View {
         }
     }
 
+    @ViewBuilder
     private var afterSection: some View {
-        VStack(alignment: .leading, spacing: 14) {
-            Text("AFTER")
-                .font(WorthlyTheme.overline)
-                .foregroundStyle(WorthlyTheme.muted)
-            if item.state == .bought {
-                Text("下一步：7 / 30 / 90 天回访。")
-                    .font(WorthlyTheme.sectionTitle)
-                Text("长期满意度才是 Worthly 真正关心的价格。")
-                    .foregroundStyle(WorthlyTheme.muted)
-            } else if item.state == .passed {
+        if item.state == .bought {
+            VStack(alignment: .leading, spacing: 18) {
+                Text("AFTER")
+                    .font(WorthlyTheme.overline)
+                    .foregroundStyle(WorthlyTheme.background.opacity(0.72))
+
+                if completedCheckIns.isEmpty {
+                    Text("真正的‘值’，要过一阵子再问。")
+                        .font(WorthlyTheme.sectionTitle)
+                } else {
+                    Text("期待正在变成真实体验。")
+                        .font(WorthlyTheme.sectionTitle)
+
+                    ForEach(completedCheckIns) { checkIn in
+                        checkInRow(checkIn)
+                    }
+                }
+
+                if let stage = nextStage,
+                   let dueDate = CheckInSchedule.dueDate(for: item, stage: stage) {
+                    Divider()
+                        .overlay(WorthlyTheme.background.opacity(0.18))
+
+                    if dueDate <= .now {
+                        NavigationLink {
+                            CheckInView(item: item, stage: stage)
+                        } label: {
+                            HStack {
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text("\(stage.rawValue) DAYS LATER")
+                                        .font(WorthlyTheme.overline)
+                                    Text("现在回来看看")
+                                        .font(.headline)
+                                }
+                                Spacer()
+                                Image(systemName: "arrow.right")
+                            }
+                            .foregroundStyle(WorthlyTheme.background)
+                        }
+                        .buttonStyle(.plain)
+                    } else {
+                        VStack(alignment: .leading, spacing: 5) {
+                            Text("NEXT · \(stage.rawValue) DAYS")
+                                .font(WorthlyTheme.overline)
+                            Text(dueDate.formatted(date: .abbreviated, time: .omitted))
+                                .foregroundStyle(WorthlyTheme.background.opacity(0.72))
+                        }
+                    }
+                } else if !completedCheckIns.isEmpty {
+                    Text("7 / 30 / 90 天回访已完成。")
+                        .font(.headline)
+                }
+            }
+            .padding(22)
+            .foregroundStyle(WorthlyTheme.background)
+            .background(WorthlyTheme.nearBlack)
+            .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+        } else if item.state == .passed {
+            VStack(alignment: .leading, spacing: 14) {
+                Text("AFTER")
+                    .font(WorthlyTheme.overline)
+                    .foregroundStyle(WorthlyTheme.background.opacity(0.72))
                 Text("不买，也是一条完整的消费记忆。")
                     .font(WorthlyTheme.sectionTitle)
                 Text("未来的洞察会同时学习你买了什么，也学习你忍住了什么。")
+                    .foregroundStyle(WorthlyTheme.background.opacity(0.72))
+            }
+            .padding(22)
+            .foregroundStyle(WorthlyTheme.background)
+            .background(WorthlyTheme.nearBlack)
+            .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+        } else {
+            VStack(alignment: .leading, spacing: 14) {
+                Text("AFTER")
+                    .font(WorthlyTheme.overline)
                     .foregroundStyle(WorthlyTheme.muted)
-            } else {
                 Text("做出购买决定后，这里会开始记录结果。")
                     .foregroundStyle(WorthlyTheme.muted)
             }
+            .worthlyCard()
         }
-        .padding(22)
-        .foregroundStyle(WorthlyTheme.background)
-        .background(WorthlyTheme.nearBlack)
-        .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+    }
+
+    private func checkInRow(_ checkIn: CheckIn) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack(alignment: .firstTextBaseline, spacing: 12) {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("\(checkIn.stageDays) DAYS")
+                        .font(WorthlyTheme.overline)
+                        .foregroundStyle(WorthlyTheme.background.opacity(0.64))
+                    Text(checkIn.usage.displayName)
+                        .font(.subheadline)
+                        .foregroundStyle(WorthlyTheme.background.opacity(0.72))
+                }
+                Spacer()
+                Text("\(checkIn.satisfactionScore)/10")
+                    .font(.system(.title3, design: .monospaced, weight: .bold))
+            }
+
+            if let note = checkIn.note, !note.isEmpty {
+                Text(note)
+                    .font(.footnote)
+                    .foregroundStyle(WorthlyTheme.background.opacity(0.72))
+            }
+        }
     }
 }
