@@ -71,3 +71,7 @@ Read first:
 - [`docs/DESIGN_SYSTEM.md`](docs/DESIGN_SYSTEM.md)
 - [`docs/MVP_ROADMAP.md`](docs/MVP_ROADMAP.md)
 - [`handoff/CODEX_PROMPT.md`](handoff/CODEX_PROMPT.md)
+
+## Current implementation iteration
+
+Iteration 01 adds the first complete decision transition: a saved item can be edited, marked bought, or marked passed, with validated optional price entry.

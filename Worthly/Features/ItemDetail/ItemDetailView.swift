@@ -3,6 +3,9 @@ import SwiftUI
 struct ItemDetailView: View {
     let item: WorthlyItem
 
+    @State private var isEditing = false
+    @State private var decisionMode: PurchaseDecisionMode?
+
     var body: some View {
         ZStack {
             WorthlyTheme.background.ignoresSafeArea()
@@ -12,6 +15,11 @@ struct ItemDetailView: View {
                     header
                     beforeSection
                     purchaseSection
+
+                    if item.state == .considering {
+                        decisionActions
+                    }
+
                     afterSection
                 }
                 .padding(.horizontal, WorthlyTheme.pagePadding)
@@ -20,6 +28,22 @@ struct ItemDetailView: View {
         }
         .navigationTitle(item.name)
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button("编辑") { isEditing = true }
+            }
+        }
+        .sheet(isPresented: $isEditing) {
+            NavigationStack {
+                EditItemView(item: item)
+            }
+        }
+        .sheet(item: $decisionMode) { mode in
+            NavigationStack {
+                PurchaseDecisionView(item: item, mode: mode)
+            }
+            .presentationDetents(mode == .bought ? [.large] : [.medium, .large])
+        }
     }
 
     private var header: some View {
@@ -51,6 +75,10 @@ struct ItemDetailView: View {
                     .font(.system(.body, design: .monospaced))
                     .foregroundStyle(WorthlyTheme.muted)
             }
+            if let sourceNote = item.sourceNote, !sourceNote.isEmpty {
+                Text(sourceNote)
+                    .foregroundStyle(WorthlyTheme.muted)
+            }
         }
         .worthlyCard()
     }
@@ -61,7 +89,8 @@ struct ItemDetailView: View {
                 .font(WorthlyTheme.overline)
                 .foregroundStyle(WorthlyTheme.muted)
 
-            if item.state == .bought {
+            switch item.state {
+            case .bought:
                 if let paidPrice = item.paidPrice {
                     Text(PriceFormatter.currency(paidPrice))
                         .font(.system(.largeTitle, design: .serif, weight: .bold))
@@ -79,12 +108,58 @@ struct ItemDetailView: View {
                         .font(WorthlyTheme.overline)
                         .foregroundStyle(WorthlyTheme.accent)
                 }
-            } else {
-                Text(item.state == .passed ? "最后没有买。" : "还没有做决定。")
+
+                if let purchaseDate = item.purchaseDate {
+                    Text(purchaseDate.formatted(date: .abbreviated, time: .omitted))
+                        .font(.caption)
+                        .foregroundStyle(WorthlyTheme.muted)
+                }
+
+            case .passed:
+                Text("最后没有买。")
+                    .font(WorthlyTheme.sectionTitle)
+                Text("这个决定也会留在你的消费记忆里。")
+                    .foregroundStyle(WorthlyTheme.muted)
+                if let decisionDate = item.decisionDate {
+                    Text(decisionDate.formatted(date: .abbreviated, time: .omitted))
+                        .font(.caption)
+                        .foregroundStyle(WorthlyTheme.muted)
+                }
+
+            case .considering:
+                Text("还没有做决定。")
+                    .font(WorthlyTheme.sectionTitle)
+
+            case .archived:
+                Text("这条记录已经归档。")
                     .font(WorthlyTheme.sectionTitle)
             }
         }
         .worthlyCard()
+    }
+
+    private var decisionActions: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("DECIDE")
+                .font(WorthlyTheme.overline)
+                .foregroundStyle(WorthlyTheme.accent)
+
+            Text("后来呢？")
+                .font(WorthlyTheme.sectionTitle)
+                .foregroundStyle(WorthlyTheme.text)
+
+            HStack(spacing: 12) {
+                Button("买了") {
+                    decisionMode = .bought
+                }
+                .buttonStyle(WorthlyPrimaryButtonStyle())
+
+                Button("没买") {
+                    decisionMode = .passed
+                }
+                .buttonStyle(WorthlySecondaryButtonStyle())
+            }
+        }
     }
 
     private var afterSection: some View {
@@ -93,9 +168,14 @@ struct ItemDetailView: View {
                 .font(WorthlyTheme.overline)
                 .foregroundStyle(WorthlyTheme.muted)
             if item.state == .bought {
-                Text("7 / 30 / 90 天回访将在下一迭代接入。")
+                Text("下一步：7 / 30 / 90 天回访。")
                     .font(WorthlyTheme.sectionTitle)
                 Text("长期满意度才是 Worthly 真正关心的价格。")
+                    .foregroundStyle(WorthlyTheme.muted)
+            } else if item.state == .passed {
+                Text("不买，也是一条完整的消费记忆。")
+                    .font(WorthlyTheme.sectionTitle)
+                Text("未来的洞察会同时学习你买了什么，也学习你忍住了什么。")
                     .foregroundStyle(WorthlyTheme.muted)
             } else {
                 Text("做出购买决定后，这里会开始记录结果。")

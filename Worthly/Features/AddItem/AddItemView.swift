@@ -17,6 +17,23 @@ struct AddItemView: View {
 
     private let categories = ["服饰", "数码", "美妆", "娱乐", "旅行", "家居", "学习", "其他"]
 
+    private var trimmedName: String {
+        name.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
+    private var originalPriceError: String? {
+        PriceInputParser.validationMessage(for: originalPriceText)
+    }
+
+    private var paidPriceError: String? {
+        guard alreadyBought else { return nil }
+        return PriceInputParser.validationMessage(for: paidPriceText)
+    }
+
+    private var canSave: Bool {
+        !trimmedName.isEmpty && originalPriceError == nil && paidPriceError == nil
+    }
+
     var body: some View {
         ZStack {
             WorthlyTheme.background.ignoresSafeArea()
@@ -127,20 +144,38 @@ struct AddItemView: View {
             Text("价格")
                 .font(WorthlyTheme.sectionTitle)
 
-            TextField("原价（可选）", text: $originalPriceText)
-                .keyboardType(.decimalPad)
-                .textFieldStyle(.roundedBorder)
+            priceField(
+                title: "原价（可选）",
+                text: $originalPriceText,
+                error: originalPriceError
+            )
 
             Toggle("已经买了", isOn: $alreadyBought)
                 .tint(WorthlyTheme.accent)
 
             if alreadyBought {
-                TextField("最终到手价（可选）", text: $paidPriceText)
-                    .keyboardType(.decimalPad)
-                    .textFieldStyle(.roundedBorder)
+                priceField(
+                    title: "最终到手价（可选）",
+                    text: $paidPriceText,
+                    error: paidPriceError
+                )
             }
         }
         .foregroundStyle(WorthlyTheme.text)
+    }
+
+    private func priceField(title: String, text: Binding<String>, error: String?) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            TextField(title, text: text)
+                .keyboardType(.decimalPad)
+                .textFieldStyle(.roundedBorder)
+
+            if let error {
+                Text(error)
+                    .font(.caption)
+                    .foregroundStyle(WorthlyTheme.accent)
+            }
+        }
     }
 
     private var saveButton: some View {
@@ -148,31 +183,32 @@ struct AddItemView: View {
             save()
         }
         .buttonStyle(WorthlyPrimaryButtonStyle())
-        .disabled(name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
-        .opacity(name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? 0.45 : 1)
+        .disabled(!canSave)
+        .opacity(canSave ? 1 : 0.45)
     }
 
     private func save() {
-        let trimmedName = name.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmedName.isEmpty else { return }
+        guard canSave else { return }
 
-        let originalPrice = Double(originalPriceText.replacingOccurrences(of: ",", with: ""))
-        let paidPrice = Double(paidPriceText.replacingOccurrences(of: ",", with: ""))
+        let originalPrice = PriceInputParser.value(from: originalPriceText)
+        let paidPrice = alreadyBought ? PriceInputParser.value(from: paidPriceText) : nil
 
         let item = WorthlyItem(
             name: trimmedName,
             category: category,
-            sourceNote: sourceNote.isEmpty ? nil : sourceNote,
+            sourceNote: sourceNote.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? nil : sourceNote,
             state: alreadyBought ? .bought : .considering,
             reason: reason,
             expectedUsage: expectedUsage,
             desireScore: desireScore,
             originalPrice: originalPrice,
-            paidPrice: alreadyBought ? paidPrice : nil,
-            purchaseDate: alreadyBought ? .now : nil
+            paidPrice: paidPrice,
+            purchaseDate: alreadyBought ? .now : nil,
+            decisionDate: alreadyBought ? .now : nil
         )
 
         modelContext.insert(item)
+        try? modelContext.save()
         dismiss()
     }
 }

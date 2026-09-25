@@ -42,6 +42,24 @@ struct WorthlyPrimaryButtonStyle: ButtonStyle {
     }
 }
 
+struct WorthlySecondaryButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .font(.headline)
+            .foregroundStyle(WorthlyTheme.text)
+            .frame(maxWidth: .infinity)
+            .frame(minHeight: 50)
+            .padding(.horizontal, 18)
+            .background(WorthlyTheme.surface)
+            .overlay {
+                RoundedRectangle(cornerRadius: WorthlyTheme.cardRadius, style: .continuous)
+                    .stroke(WorthlyTheme.text.opacity(0.14), lineWidth: 1)
+            }
+            .clipShape(RoundedRectangle(cornerRadius: WorthlyTheme.cardRadius, style: .continuous))
+            .opacity(configuration.isPressed ? 0.72 : 1)
+    }
+}
+
 struct WorthlyCardModifier: ViewModifier {
     func body(content: Content) -> some View {
         content

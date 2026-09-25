@@ -1,71 +1,53 @@
-# Codex handoff — Iteration 00
+# CODEX HANDOFF — ITERATION 01
 
-Paste the following prompt into Codex with repository **vitassun/worthly-app** selected.
+Work from the current Iteration 00 workspace/commit. Do **not** rebuild the project from scratch.
 
----
+## Input
+Overlay the files from this package onto the repository using the same paths.
 
-You are the implementation agent for the iOS app **Worthly / 值不值** in repository `vitassun/worthly-app`.
+## Required implementation work
 
-I will provide/upload a package named `worthly-iteration-00-foundation.zip`. Treat the package contents as the authoritative product/design baseline for this iteration.
+1. Preserve the existing `Worthly.xcodeproj` and shared `Worthly` scheme created in Iteration 00.
+2. Add these new Swift files to the Worthly app target:
+   - `Worthly/Core/Utilities/PriceInputParser.swift`
+   - `Worthly/Features/ItemDetail/EditItemView.swift`
+   - `Worthly/Features/ItemDetail/PurchaseDecisionView.swift`
+3. Ensure all modified files remain in the app target.
+4. Confirm the SwiftData model change adding optional `decisionDate` is accepted.
+5. Verify behavior:
+   - create considering item
+   - edit it
+   - mark it bought with/without paid price
+   - mark another item passed
+   - invalid price such as `abc` cannot save
+   - `0` cannot save when entered as a price
+   - empty optional price is allowed
+6. Run Simulator build when Xcode is available:
+   `xcodebuild -project Worthly.xcodeproj -scheme Worthly -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO build`
+7. If `xcodebuild` is unavailable, do not claim build PASS. Perform project-file/target membership checks and report the limitation.
+8. Update `handoff/LAST_CODEX_REPORT.md` with the actual result.
+9. Commit on top of the current Iteration 00 commit. Suggested message:
+   `feat: add item decision and editing flow`
+10. Attempt push to `main` once. If provider integration again returns 403, do not loop on retries. Export:
+   - a git bundle containing Iteration 00 + Iteration 01 commits
+   - a full source ZIP including `Worthly.xcodeproj`
 
-## Goal
+## Locked constraints
 
-Import the package into the repository, create a valid native iOS Xcode project around the supplied Swift source, build it, fix implementation-level compile issues, then commit and push to `main`.
+- SwiftUI
+- SwiftData
+- iOS 17+
+- bundle id `com.vitassun.worthly`
+- no React Native / Flutter / backend / AI chat / auth / analytics SDK / third-party UI library
+- no gradients / glassmorphism / decorative shadows / extra accent colors
 
-## Rules
+## Do not broaden scope
+Do not add check-ins, notifications, images, subscriptions, social features, or additional architecture in this iteration.
 
-1. Preserve the product architecture and design decisions in:
-   - `docs/PROJECT_FOUNDATION.md`
-   - `docs/DESIGN_SYSTEM.md`
-   - `docs/MVP_ROADMAP.md`
-2. Native iOS only: **SwiftUI + SwiftData**, iOS 17+.
-3. Do not add React Native, Flutter, backend services, AI chat, analytics SDKs, auth, or third-party UI libraries.
-4. Do not redesign the app or expand scope beyond Iteration 00.
-5. Never commit secrets, signing certificates, provisioning profiles, `.p8`, `.p12`, or API keys.
-6. Keep GitHub Actions using a standard macOS runner.
-7. Do not require paid Apple signing for CI; simulator build must use `CODE_SIGNING_ALLOWED=NO`.
-8. If an included Swift source has a compile error, make the smallest reasonable fix while preserving intent.
-9. Prefer a clean Xcode project with scheme name `Worthly` and bundle identifier `com.vitassun.worthly` (change only if repository constraints require it).
-10. Do not wait for approval between normal implementation steps. Stop only for a hard blocker that cannot be resolved without changing product scope or exposing secrets.
-
-## Required work
-
-- Copy package files into repo root, preserving paths.
-- Create `Worthly.xcodeproj` and a shared scheme `Worthly`.
-- Add all Swift sources under `Worthly/` to the app target.
-- Set deployment target iOS 17.0 or later.
-- Ensure generated Info.plist settings are sufficient for the current shell.
-- Run an iOS Simulator build with `xcodebuild`.
-- Fix compile failures until the simulator build passes, if possible.
-- Review `.github/workflows/ios-build.yml` and adjust only if needed for the generated project.
-- Before committing, create/update `handoff/LAST_CODEX_REPORT.md` using the report format in `AGENTS.md`. The report must reflect the actual build result and deviations.
-- Commit all changes with a concise commit message.
-- Push to `main`.
-
-## Acceptance criteria
-
-- repository contains the docs and source structure from the package
-- `Worthly.xcodeproj` exists
-- scheme `Worthly` exists and is shared
-- project builds for generic iOS Simulator without signing
-- app root uses 4 tabs: 首页 / 记录 / 洞察 / 我的
-- Add Item flow persists an item through SwiftData
-- original price is optional
-- paid price is optional and shown for bought items
-- editorial palette remains:
-  - `#EFEAE0`
-  - `#E5DFD2`
-  - `#1A1A1A`
-  - `#5C5852`
-  - `#CD6F47`
-- no gradients / glassmorphism / decorative shadows / multi-color category system
-
-## Final response format — IMPORTANT
-
-Return a compact handoff for the planning/review agent in exactly these sections:
+## Final response format
 
 ### RESULT
-`PASS` / `PARTIAL` / `BLOCKED`
+PASS / PARTIAL / BLOCKED
 
 ### COMMIT
 - commit SHA
@@ -74,24 +56,27 @@ Return a compact handoff for the planning/review agent in exactly these sections
 
 ### BUILD
 - exact build command
-- PASS/FAIL
-- if failed: first meaningful error and what remains
+- PASS/FAIL/UNAVAILABLE
+- first meaningful compile error if any
+
+### VERIFICATION
+- target membership
+- decision flow
+- edit flow
+- price validation
 
 ### CHANGES
-- files/directories added
-- notable fixes made to supplied code
+- actual files/features changed
 
 ### DEVIATIONS
-- anything changed from the supplied architecture/design, with reason
-- write `None` if none
+- None if none
 
 ### BLOCKERS
-- unresolved blockers
-- write `None` if none
+- None if none
+
+### ARTIFACTS
+- git bundle path if push failed
+- full source ZIP path if push failed
 
 ### NEXT
-- 3–6 concrete recommendations for Iteration 01
-
-Also ensure the same substantive handoff is persisted in `handoff/LAST_CODEX_REPORT.md` inside the repository (commit SHA itself may be omitted from that file).
-
-Do not give a long narrative. The next agent will verify the repository directly.
+- 3–6 concrete recommendations for Iteration 02

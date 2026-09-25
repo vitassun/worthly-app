@@ -5,26 +5,32 @@ PARTIAL
 
 ## BUILD
 - command: `xcodebuild -project Worthly.xcodeproj -scheme Worthly -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO build`
-- result: FAIL before compilation; this execution environment is Linux and does not provide `xcodebuild` or the Swift toolchain.
+- result: UNAVAILABLE; attempted in this Linux environment, but Xcode is not installed.
 - first meaningful failure: `/bin/bash: xcodebuild: command not found` (exit 127).
 
+## VERIFICATION
+- target membership: static project check passed; all 16 Swift files under `Worthly/` have file references and app-target Sources entries. Shared scheme still points to the existing Worthly target.
+- decision flow: source inspection confirms the considering item can transition to bought or passed, sets `decisionDate`, and saves through the existing model context. Runtime UI/SwiftData behavior was not executable here.
+- edit flow: source inspection confirms the requested item fields are initialized from and saved back to the existing model.
+- price validation: source inspection confirms blank optional values are accepted, invalid non-empty text and values at or below zero are rejected, and form actions are disabled while validation errors exist. Runtime interaction was not executable here.
+- SwiftData: `decisionDate` is an optional `Date` with a nil initializer default; this is an additive optional model field. Persistent-store migration was not runtime-tested.
+
 ## CHANGES
-- Imported all files from the Iteration 00 foundation package at their original paths; all entries in `MANIFEST.sha256` verified successfully.
-- Added `Worthly.xcodeproj` with the shared `Worthly` scheme, iOS 17 deployment target, SwiftUI/SwiftData app target, and bundle identifier `com.vitassun.worthly`.
-- Added all 13 Swift source files under `Worthly/` to the app target.
-- Reviewed `.github/workflows/ios-build.yml`; its project, scheme, macOS runner, Simulator destination, and no-signing build command match the generated project.
-- Local structural checks passed for scheme XML, source target membership, deployment target, and bundle identifier.
-- Created a local commit on branch `main`; push was blocked by GitHub integration permissions (HTTP 403: `Resource not accessible by integration`).
+- Overlaid Iteration 01 package files at their original paths and verified all entries in `MANIFEST.sha256`.
+- Preserved the Iteration 00 Xcode project and shared scheme; added `PriceInputParser.swift`, `EditItemView.swift`, and `PurchaseDecisionView.swift` to the existing app target.
+- Added edit and purchase/pass decision flows, optional decision timestamp, and inline price validation.
+- Existing iOS build workflow remains aligned with the project and shared scheme.
 
 ## DEVIATIONS
-- Simulator build could not be run because this environment is Linux without Xcode. No product architecture or design changes were made.
+- None to product architecture or visual direction.
 
 ## BLOCKERS
-- GitHub integration rejected repository writes with HTTP 403, so the local commit could not be pushed to `vitassun/worthly-app`.
+- Simulator build unavailable because this environment does not provide Xcode.
+- The single push attempt could not authenticate: `fatal: could not read Username for 'https://github.com': terminal prompts disabled`. No push retry was made.
 
 ## NEXT
-- Push the local `main` commit to `vitassun/worthly-app` from an authorized Git client.
-- Let the `iOS Build` GitHub Actions workflow run on macOS and verify the Simulator build.
-- Fix any compiler errors reported by CI and update this report.
-- Launch the app in Simulator and verify the four tabs and SwiftData-backed Add flow.
-- Begin Iteration 01 with edit, bought/passed transitions, and price validation.
+- Verify model migration and all acceptance flows in an iOS 17+ Simulator.
+- Push the final local commit using an authenticated GitHub client; the single push attempt in this environment could not authenticate.
+- Fix any compile or runtime issues found by the macOS build.
+- Confirm bought/pass records appear under their matching Things filters.
+- Start Iteration 02 with due-date calculation and local check-in reminders.

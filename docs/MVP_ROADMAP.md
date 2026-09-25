@@ -80,3 +80,22 @@ Deliverables:
 - resale / effective ownership cost
 - annual report
 - richer ingestion / screenshot extraction
+
+---
+
+## Iteration 01 — Decide & Edit
+
+Status: package prepared
+
+Scope:
+- edit existing record
+- considering → bought
+- considering → passed
+- optional paid price + purchase date
+- inline price validation
+- decision timestamp
+
+Next planned iteration after this passes:
+- real 7-day check-in flow
+- due-review calculation on Home
+- first useful post-purchase satisfaction record

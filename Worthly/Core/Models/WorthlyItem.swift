@@ -79,6 +79,7 @@ final class WorthlyItem {
     var originalPrice: Double?
     var paidPrice: Double?
     var purchaseDate: Date?
+    var decisionDate: Date?
 
     @Relationship(deleteRule: .cascade, inverse: \CheckIn.item)
     var checkIns: [CheckIn] = []
@@ -95,7 +96,8 @@ final class WorthlyItem {
         desireScore: Int = 5,
         originalPrice: Double? = nil,
         paidPrice: Double? = nil,
-        purchaseDate: Date? = nil
+        purchaseDate: Date? = nil,
+        decisionDate: Date? = nil
     ) {
         self.id = id
         self.name = name
@@ -109,6 +111,7 @@ final class WorthlyItem {
         self.originalPrice = originalPrice
         self.paidPrice = paidPrice
         self.purchaseDate = purchaseDate
+        self.decisionDate = decisionDate
     }
 
     var state: ItemState {
