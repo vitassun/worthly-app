@@ -9,10 +9,10 @@ enum WorthlyRootTab: Hashable {
 }
 
 struct RootTabView: View {
+    @Environment(\.modelContext) private var modelContext
     @State private var selectedTab: WorthlyRootTab = .home
     @State private var isAddingItem = false
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
-    @Query private var items: [WorthlyItem]
     @StateObject private var notificationRouter = CheckInNotificationRouter.shared
     @State private var notificationDestination: NotificationDestination?
 
@@ -73,35 +73,43 @@ struct RootTabView: View {
                 }
             }
         }
-        .onChange(of: notificationRouter.pendingRoute) { _, _ in
-            handlePendingNotificationRoute()
-        }
-        .task {
-            handlePendingNotificationRoute()
+        .task(id: notificationRouter.pendingRoute) {
+            await consumePendingNotificationRoute()
         }
     }
 
-    private func handlePendingNotificationRoute() {
+    private func consumePendingNotificationRoute() async {
         guard let route = notificationRouter.pendingRoute else { return }
-        notificationRouter.pendingRoute = nil
-        selectedTab = .home
 
-        guard let item = items.first(where: { $0.id == route.itemID }) else {
-            notificationDestination = nil
-            return
-        }
+        while !Task.isCancelled {
+            do {
+                let items = try modelContext.fetch(FetchDescriptor<WorthlyItem>())
+                guard notificationRouter.pendingRoute == route else { return }
 
-        guard item.state == .bought else {
-            notificationDestination = nil
-            return
-        }
+                let destination = route.destination(in: items)
+                notificationRouter.consume(route)
+                selectedTab = .home
 
-        if CheckInSchedule.isCompleted(route.stage, for: item) {
-            notificationDestination = NotificationDestination(item: item, stage: route.stage, stageIsCompleted: true)
-        } else if CheckInSchedule.nextPendingStage(for: item) == route.stage {
-            notificationDestination = NotificationDestination(item: item, stage: route.stage, stageIsCompleted: false)
-        } else {
-            notificationDestination = NotificationDestination(item: item, stage: route.stage, stageIsCompleted: true)
+                switch destination {
+                case .home:
+                    notificationDestination = nil
+                case .checkIn(let itemID, let stage):
+                    if let item = items.first(where: { $0.id == itemID }) {
+                        notificationDestination = NotificationDestination(item: item, stage: stage, stageIsCompleted: false)
+                    } else {
+                        notificationDestination = nil
+                    }
+                case .itemDetail(let itemID):
+                    if let item = items.first(where: { $0.id == itemID }) {
+                        notificationDestination = NotificationDestination(item: item, stage: route.stage, stageIsCompleted: true)
+                    } else {
+                        notificationDestination = nil
+                    }
+                }
+                return
+            } catch {
+                try? await Task.sleep(nanoseconds: 250_000_000)
+            }
         }
     }
 }

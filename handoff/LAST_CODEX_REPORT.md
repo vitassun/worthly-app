@@ -1,67 +1,82 @@
 # LAST CODEX REPORT
 
 ## RESULT
-PARTIAL — Iteration 04 changes are implemented and statically audited. Simulator build and OS-level interaction tests are unavailable in this workspace because Xcode is not installed.
+PARTIAL — Iteration 05 implementation, XCTest target, CI gates, and static audits are complete. Local Xcode builds and XCTest execution are unavailable in this workspace because Xcode is not installed; GitHub Actions is configured as the macOS build/test gate.
 
 ## BASELINE
-- Expected starting commit: `677254fee00761c79f8b3db560ca4d8659fad150`
-- Actual starting commit: `677254fee00761c79f8b3db560ca4d8659fad150`
-- `origin/main` matched the expected baseline after fetch and fast-forward-only synchronization.
-- Existing Xcode project, shared scheme, bundle identifier, deployment target, and SwiftData model files were preserved.
+- Expected SHA: `7cfc41eec8d16739bb6aebcd447ca105ac89e371`
+- Actual starting SHA: `7cfc41eec8d16739bb6aebcd447ca105ac89e371`
+- `origin/main` was fetched and fast-forward-only synchronization confirmed this baseline before edits.
 
 ## BUILD
-- command: `xcodebuild -project Worthly.xcodeproj -scheme Worthly -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO build`
-- result: UNAVAILABLE
-- first meaningful failure: `/bin/bash: line 1: xcodebuild: command not found` (exit 127). `swiftc` is also unavailable.
+- Debug command: `xcodebuild -project Worthly.xcodeproj -scheme Worthly -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO build`
+- Result: UNAVAILABLE. First meaningful error: `/bin/bash: line 1: xcodebuild: command not found` (exit 127).
+- Release simulator build command was also attempted and returned the same environment error.
+- `swiftc` is not installed, so the XCTest bundle could not be executed locally.
+
+## TESTS
+- Target: `WorthlyTests` (native XCTest unit-test bundle, dependent on `Worthly`).
+- Test files: `InsightEngineTests.swift`, `CheckInScheduleTests.swift`, `PriceInputParserAndExportTests.swift`, `NotificationAndDeletionTests.swift`.
+- Static coverage includes insight sample thresholds/latest stage/finite metrics; sequential 7/30/90 scheduling; price validation; deterministic JSON fields/date/optional/non-finite behavior; deletion/cascade/preferences/reminder ID filtering; notification payload/fallback/current stage/foreground presentation/pending route handling.
+- Runtime result: NOT RUN (no Xcode/Swift compiler). SwiftData cascade is covered by an in-memory integration test in source but remains unverified at runtime here.
+
+## CI
+- Updated `.github/workflows/ios-build.yml` on `macos-latest`.
+- Debug simulator build: configured with generic iOS Simulator and signing disabled.
+- XCTest: configured to select an available iPhone simulator at runtime and run `xcodebuild ... test`; command failures stop the workflow.
+- Release simulator build: configured with generic iOS Simulator and signing disabled.
+- Workflow YAML parses locally; CI execution has not yet occurred for this commit.
 
 ## VERIFICATION
-All checks below are static source and project audits; they are not simulator/runtime results.
+All source behavior checks below are static unless marked as tests authored; no simulator/device execution is claimed.
 
-1. First launch selects onboarding because `hasCompletedOnboarding` defaults to `false` in `@AppStorage`.
-2. Both onboarding completion actions persist `hasCompletedOnboarding = true`, so later launches use the tabs.
-3. “记下第一件东西” marks onboarding complete and opens the existing `AddItemView` sheet.
-4. Empty Home shows “先记下一件你正在考虑的东西。” and its “记下一件” CTA.
-5. Every empty Things filter renders a state-specific editorial card.
-6. Insights still uses the existing `InsightEngine` thresholds and `remainingUntilFirstInsight`; sparse state says how many valid check-ins remain.
-7. JSON DTO exports every item and related check-in field requested, including `decisionDate`, source note, and check-in history. Dates use ISO 8601; missing optional values are omitted as valid JSON optionals.
-8. Non-finite prices are converted to nil and `JSONEncoder` is configured to throw on nonconforming floating-point values; the export cannot emit `NaN` or `Infinity` from prices.
-9. First “删除所有数据” tap only sets the confirmation presentation state; it does not mutate the model context.
-10. Destructive confirmation names records, check-ins, and insight base data. Confirming deletes all queried `WorthlyItem` values; the existing SwiftData cascade relationship removes related `CheckIn` values. Query refresh returns Home/Things/Insights to their empty state, and Settings returns to the empty Home tab. The onboarding preference is untouched.
-11. After save, pending and delivered notifications with the Worthly check-in identifier prefix are removed. Other notification identifiers are not touched.
-12. Notification content includes `itemID` and `stage`. A tap for the current uncompleted next stage opens that item’s `CheckInView`.
-13. The same route validation supports a 30-day stage and routes to the matching item/stage when it is the next pending stage.
-14. A route whose item no longer exists is ignored and leaves the app on Home.
-15. A route for a completed or non-current stage opens Item Detail; it never creates a duplicate check-in. `CheckInView` retains its existing completion guard.
-16. Main Home, onboarding, export, and delete controls have descriptive VoiceOver labels.
-17. Satisfaction and desire sliders expose their current 1–10 score as accessibility values; usage and reason selections expose selected state in text and with a checkmark.
-18. Key screens use semantic fonts and scrollable content, large button labels can wrap, controls meet or exceed 44pt, and onboarding skips its transition animation under Reduce Motion. Price text has no strikethrough presentation in this app; the existing original-price text is announced as “记录的原价”.
-19. No Swift file was added. Static project audit found 19 Swift files, 19 project references, and 19 Worthly Sources entries; all source files remain in the app target. Shared scheme XML is valid, bundle ID remains `com.vitassun.worthly`, and deployment target remains iOS 17.0.
-20. `WorthlyItem.swift` and `CheckIn.swift` are unchanged; no SwiftData schema changes were made.
+1. Baseline started at `7cfc41eec8d16739bb6aebcd447ca105ac89e371`.
+2. `WorthlyTests` native target exists and depends on the Worthly app target.
+3. Shared `Worthly` scheme XML parses and includes `WorthlyTests` in TestAction.
+4. InsightEngine tests cover zero/two/three samples, latest valid stage, excluded states, discount thresholds/prices, category and long-term thresholds, and finite display values.
+5. CheckInSchedule tests cover 7/30/90 due order, late sequential catch-up, completion, excluded states, fallback date, and duplicate prevention.
+6. PriceInputParser tests cover empty, integer, decimal, whitespace/currency symbol, invalid text, zero, negative, and extreme finite input.
+7. Export tests check required item/check-in fields, ISO 8601 dates, omitted nils, non-finite prices, JSON decoding, and deterministic order.
+8. Notification route tests cover valid/invalid payloads, deleted items, completed and non-current stages, current stage, pending route retention, and foreground presentation options.
+9. Static PBX parsing confirms XCTest sources are not in app Sources.
+10. Static PBX parsing confirms no test source is in app Sources and every Worthly Swift file belongs to the app target.
+11. Debug and Release app configurations both define `MARKETING_VERSION = 0.1.0`.
+12. Debug and Release app configurations both define `CURRENT_PROJECT_VERSION = 1`.
+13. Settings reads `CFBundleShortVersionString` and `CFBundleVersion` from the main bundle.
+14. `Worthly/PrivacyInfo.xcprivacy` is included as an app resource; it declares no tracking/collected data and only the UserDefaults required-reason API used by local preferences.
+15. No camera, microphone, location, contacts, photo-library, or tracking usage-description key was added.
+16. Debug simulator configuration is present; local build unavailable due to missing Xcode.
+17. Release simulator configuration is present; local build unavailable due to missing Xcode.
+18. GitHub Actions is configured to run Debug build, XCTest, and Release build on macOS.
+19. No third-party dependency or SDK was added.
+20. `WorthlyItem.swift` and `CheckIn.swift` are unchanged; no SwiftData schema change was made.
+21. `git diff --check` passes.
+22. OpenStep project parsing, object reference resolution, scheme XML, workflow YAML, and exact app/test target membership checks pass statically.
 
-Additional checks: `git diff --check` passes. The existing GitHub Actions workflow still builds the unchanged project/scheme on `macos-latest` with the same simulator build command. Design tokens remain locked; no gradient, glass, decorative shadow, third-party package, network feature, or paywall was introduced.
+Additional source audit: no new `fatalError`, `try!`, TODO/FIXME, debug `print`, secret, team ID, provisioning profile, or certificate was added. Automatic signing remains configurable without a hard-coded Apple team. The AppIcon is a restrained, single-color geometric W mark on the warm editorial background; it is a provisional mark for review before public release. Existing generated native launch screen remains minimal.
 
 ## CHANGES
-- Added first-launch three-page editorial onboarding with `@AppStorage` completion state and direct first-item entry.
-- Replaced Settings placeholders with JSON export, confirmed destructive data removal, reminder preference, read-only currency/language values, version display, and local privacy note.
-- Added a local JSON Transferable file with sorted, pretty-printed output, ISO 8601 dates, optional null/omitted values, and finite-price sanitization.
-- Added notification payload routing through `UNUserNotificationCenterDelegate` to the item’s next check-in or safe detail/Home fallback.
-- Added editorial empty states for Home and filtered Things, clarified sparse Insights progress, and improved VoiceOver labels, selection state, touch targets, Dynamic Type wrapping, and Reduce Motion behavior.
-- Updated `MANIFEST.sha256` for changed tracked files.
+- Added a native `WorthlyTests` target with four focused XCTest source files and shared-scheme test action.
+- Extracted JSON encoding, full data deletion, notification route parsing/destination selection, and Worthly reminder identifier filtering into testable helpers.
+- Kept notification routes pending until SwiftData fetch succeeds; completed or stale stages resolve safely, deleted items return Home, and foreground notifications use a system banner/sound.
+- Added app version/build values, automatic signing configuration without a Team ID, supported orientations, a minimal AppIcon asset, and a minimal privacy manifest.
+- Expanded GitHub Actions to build Debug, run XCTest on an available iPhone simulator, and build Release.
+- Added `docs/TESTFLIGHT_CHECKLIST.md` with verified source configuration separated from device/App Store Connect steps that remain unchecked.
 
 ## DEVIATIONS
-- The user requested a TestFlight-readiness foundation, not a TestFlight build. Runtime notification and accessibility behavior cannot be verified here without Xcode/simulator; no architecture or product-scope deviation was made.
+- None to the requested product architecture or design system. Runtime build, XCTest, notification lifecycle, and device accessibility checks remain unverified locally because this workspace has no Xcode or Swift compiler.
 
 ## BLOCKERS
-- No Xcode or Swift compiler is installed in this workspace. The requested simulator build and runtime scenario execution could not be performed.
-- One push attempt: `git push origin main` — failed with `fatal: could not read Username for 'https://github.com': No such device or address`. No retry was made.
+- Local Debug/Release builds and XCTest execution require macOS with Xcode. GitHub Actions is the configured verification path after push.
+- A single push attempt will be made. If HTTPS authentication is unavailable, the required history bundle and full source ZIP will be exported without retrying.
 
 ## ARTIFACTS
-- `worthly-iteration-04.bundle` — complete Iteration 00–04 history through local `main`.
-- `worthly-iteration-04-full-source.zip` — source including `Worthly.xcodeproj`, `Worthly/`, `docs/`, `handoff/`, and `.github/`.
+- `worthly-iteration-05.bundle` — to contain baseline history through the Iteration 05 commit.
+- `worthly-iteration-05-full-source.zip` — to contain `Worthly.xcodeproj`, `Worthly/`, `docs/`, `handoff/`, and `.github/`.
 
 ## NEXT
-- Run the exact simulator build on the `macos-latest` GitHub Actions runner.
-- Exercise first-launch onboarding and export/delete flows on a physical device or simulator.
-- Test notification responses from foreground, background, and terminated app states, including deleted and completed stages.
-- Run VoiceOver and largest Dynamic Type settings over onboarding, check-in, and Settings.
-- Add unit tests for export shape, finite-number filtering, cascade deletion, and route-stage validation when a test target is introduced.
+- Review the first GitHub Actions Debug/XCTest/Release run and fix any macOS/Xcode-only failures.
+- Exercise cold-start and background notification taps with SwiftData startup timing on a simulator/device.
+- Run export and destructive-delete flows on device, including checking exported JSON in Files/Share destinations.
+- Complete VoiceOver and largest Dynamic Type passes on Home, Add Item, Check-in, Insights, and Settings.
+- Approve or replace the provisional geometric app icon and create a signed device archive with the developer’s own Apple team.

@@ -50,7 +50,7 @@ struct SettingsView: View {
                 }
 
                 Section("关于") {
-                    LabeledContent("Worthly", value: appVersion)
+                    LabeledContent("版本", value: appVersion)
                     Text("你的记录保存在这台设备上。导出由系统分享功能在本地完成；Worthly 不会上传你的消费数据。")
                         .font(.caption)
                         .foregroundStyle(WorthlyTheme.muted)
@@ -125,13 +125,9 @@ struct SettingsView: View {
 
     private var appVersion: String {
         let info = Bundle.main.infoDictionary ?? [:]
-        guard let version = info["CFBundleShortVersionString"] as? String else {
-            return "开发版本"
-        }
-        if let build = info["CFBundleVersion"] as? String {
-            return "\(version) (\(build))"
-        }
-        return version
+        let version = info["CFBundleShortVersionString"] as? String ?? "未设置"
+        let build = info["CFBundleVersion"] as? String ?? "未设置"
+        return "Version \(version) (\(build))"
     }
 
     private var reminderBinding: Binding<Bool> {
@@ -156,17 +152,7 @@ struct SettingsView: View {
 
     private func prepareExport() {
         do {
-            let encoder = JSONEncoder()
-            encoder.dateEncodingStrategy = .iso8601
-            encoder.outputFormatting = [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes]
-            encoder.nonConformingFloatEncodingStrategy = .throw
-
-            let document = WorthlyExportDocument(
-                exportVersion: 1,
-                exportedAt: .now,
-                items: items.map { WorthlyExportItem(item: $0) }
-            )
-            exportPayload = WorthlyJSONTransfer(data: try encoder.encode(document))
+            exportPayload = WorthlyJSONTransfer(data: try WorthlyDataExporter.data(for: items))
             showingExportSheet = true
         } catch {
             operationError = "无法创建 JSON 导出文件：\(error.localizedDescription)"
@@ -175,77 +161,14 @@ struct SettingsView: View {
 
     private func deleteAllData() {
         do {
-            for item in items {
-                modelContext.delete(item)
+            try WorthlyDataDeletion.deleteAll(in: modelContext) {
+                CheckInReminderService.shared.cancelAllReminders()
             }
-            try modelContext.save()
-            CheckInReminderService.shared.cancelAllReminders()
             onDataDeleted()
         } catch {
             modelContext.rollback()
             operationError = "删除数据失败：\(error.localizedDescription)"
         }
-    }
-}
-
-private struct WorthlyExportDocument: Encodable {
-    let exportVersion: Int
-    let exportedAt: Date
-    let items: [WorthlyExportItem]
-}
-
-private struct WorthlyExportItem: Encodable {
-    let id: String
-    let name: String
-    let category: String
-    let state: String
-    let reason: String
-    let desireScore: Int
-    let expectedUsage: String
-    let originalPrice: Double?
-    let paidPrice: Double?
-    let createdAt: Date
-    let purchaseDate: Date?
-    let decisionDate: Date?
-    let note: String?
-    let sourceNote: String?
-    let checkIns: [WorthlyExportCheckIn]
-
-    init(item: WorthlyItem) {
-        id = item.id.uuidString
-        name = item.name
-        category = item.category
-        state = item.stateRawValue
-        reason = item.reasonRawValue
-        desireScore = item.desireScore
-        expectedUsage = item.expectedUsageRawValue
-        originalPrice = item.originalPrice.flatMap { $0.isFinite ? $0 : nil }
-        paidPrice = item.paidPrice.flatMap { $0.isFinite ? $0 : nil }
-        createdAt = item.createdAt
-        purchaseDate = item.purchaseDate
-        decisionDate = item.decisionDate
-        note = item.sourceNote
-        sourceNote = item.sourceNote
-        checkIns = item.checkIns.sorted {
-            if $0.createdAt == $1.createdAt { return $0.id.uuidString < $1.id.uuidString }
-            return $0.createdAt < $1.createdAt
-        }.map { WorthlyExportCheckIn(checkIn: $0) }
-    }
-}
-
-private struct WorthlyExportCheckIn: Encodable {
-    let stage: Int
-    let satisfactionScore: Int
-    let usageFrequency: String
-    let note: String?
-    let createdAt: Date
-
-    init(checkIn: CheckIn) {
-        stage = checkIn.stageDays
-        satisfactionScore = checkIn.satisfactionScore
-        usageFrequency = checkIn.usageFrequency
-        note = checkIn.note
-        createdAt = checkIn.createdAt
     }
 }
 

@@ -5,9 +5,18 @@
       <BuildActionEntry buildForTesting="YES" buildForRunning="YES" buildForProfiling="YES" buildForArchiving="YES" buildForAnalyzing="YES">
         <BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="81CC1892AD995BB2B5B5E09D" BuildableName="Worthly.app" BlueprintName="Worthly" ReferencedContainer="container:Worthly.xcodeproj" />
       </BuildActionEntry>
+      <BuildActionEntry buildForTesting="YES" buildForRunning="NO" buildForProfiling="NO" buildForArchiving="NO" buildForAnalyzing="NO">
+        <BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="A60000000000000000000001" BuildableName="WorthlyTests.xctest" BlueprintName="WorthlyTests" ReferencedContainer="container:Worthly.xcodeproj" />
+      </BuildActionEntry>
     </BuildActionEntries>
   </BuildAction>
-  <TestAction buildConfiguration="Debug" selectedDebuggerIdentifier="Xcode.DebuggerFoundation.Debugger" selectedLauncherIdentifier="Xcode.DebuggerFoundation.Launcher" shouldUseLaunchSchemeArgsEnv="YES" />
+  <TestAction buildConfiguration="Debug" selectedDebuggerIdentifier="Xcode.DebuggerFoundation.Debugger" selectedLauncherIdentifier="Xcode.DebuggerFoundation.Launcher" shouldUseLaunchSchemeArgsEnv="YES">
+    <Testables>
+      <TestableReference skipped="NO" parallelizable="NO">
+        <BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="A60000000000000000000001" BuildableName="WorthlyTests.xctest" BlueprintName="WorthlyTests" ReferencedContainer="container:Worthly.xcodeproj" />
+      </TestableReference>
+    </Testables>
+  </TestAction>
   <LaunchAction buildConfiguration="Debug" selectedDebuggerIdentifier="Xcode.DebuggerFoundation.Debugger" selectedLauncherIdentifier="Xcode.DebuggerFoundation.Launcher" launchStyle="0" useCustomWorkingDirectory="NO" ignoresPersistentStateOnLaunch="NO" debugDocumentVersioning="YES" debugServiceExtension="internal" allowLocationSimulation="YES">
     <BuildableProductRunnable runnableDebuggingMode="0">
       <BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="81CC1892AD995BB2B5B5E09D" BuildableName="Worthly.app" BlueprintName="Worthly" ReferencedContainer="container:Worthly.xcodeproj" />

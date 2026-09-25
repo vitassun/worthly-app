@@ -1,4 +1,4 @@
-name: iOS Build
+name: iOS Build and Tests
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
   pull_request:
 
 jobs:
-  build:
+  build-test-release:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
@@ -14,12 +14,43 @@ jobs:
       - name: Show Xcode version
         run: xcodebuild -version
 
-      - name: Build for iOS Simulator
+      - name: Select available iPhone Simulator
+        id: simulator
+        run: |
+          DEVICE_ID=$(xcrun simctl list devices available --json | python3 -c 'import json,sys; data=json.load(sys.stdin); devices=[d for group in data["devices"].values() for d in group if d["isAvailable"] and d["name"].startswith("iPhone")]; print(devices[0]["udid"] if devices else "")')
+          if [ -z "$DEVICE_ID" ]; then
+            echo "No available iPhone Simulator runtime was found." >&2
+            exit 1
+          fi
+          echo "id=$DEVICE_ID" >> "$GITHUB_OUTPUT"
+
+      - name: Build Debug for iOS Simulator
         run: |
           xcodebuild \
             -project Worthly.xcodeproj \
             -scheme Worthly \
             -configuration Debug \
+            -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO \
+            build
+
+      - name: Run XCTest suite
+        run: |
+          xcodebuild \
+            -project Worthly.xcodeproj \
+            -scheme Worthly \
+            -configuration Debug \
+            -destination 'platform=iOS Simulator,id=${{ steps.simulator.outputs.id }}' \
+            CODE_SIGNING_ALLOWED=NO \
+            test
+
+      - name: Build Release for iOS Simulator
+        run: |
+          xcodebuild \
+            -project Worthly.xcodeproj \
+            -scheme Worthly \
+            -configuration Release \
             -sdk iphonesimulator \
             -destination 'generic/platform=iOS Simulator' \
             CODE_SIGNING_ALLOWED=NO \

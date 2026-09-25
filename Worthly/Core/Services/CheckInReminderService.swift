@@ -41,15 +41,11 @@ final class CheckInReminderService {
 
     func cancelAllReminders() {
         center.getPendingNotificationRequests { requests in
-            let identifiers = requests
-                .map(\.identifier)
-                .filter { $0.hasPrefix("worthly.checkin.") }
+            let identifiers = WorthlyReminderIdentifiers.matching(requests.map(\.identifier))
             self.center.removePendingNotificationRequests(withIdentifiers: identifiers)
         }
         center.getDeliveredNotifications { notifications in
-            let identifiers = notifications
-                .map { $0.request.identifier }
-                .filter { $0.hasPrefix("worthly.checkin.") }
+            let identifiers = WorthlyReminderIdentifiers.matching(notifications.map { $0.request.identifier })
             self.center.removeDeliveredNotifications(withIdentifiers: identifiers)
         }
     }
@@ -99,15 +95,8 @@ final class CheckInReminderService {
     }
 
     private func identifier(for item: WorthlyItem, stage: CheckInStage) -> String {
-        "worthly.checkin.\(item.id.uuidString).\(stage.rawValue)"
+        "\(WorthlyReminderIdentifiers.prefix)\(item.id.uuidString).\(stage.rawValue)"
     }
-}
-
-struct CheckInNotificationRoute: Equatable, Identifiable {
-    let itemID: UUID
-    let stage: CheckInStage
-
-    var id: String { "\(itemID.uuidString)-\(stage.rawValue)" }
 }
 
 final class CheckInNotificationRouter: ObservableObject {
@@ -117,15 +106,18 @@ final class CheckInNotificationRouter: ObservableObject {
     private init() {}
 
     func receive(userInfo: [AnyHashable: Any]) {
-        guard
-            let rawID = userInfo["itemID"] as? String,
-            let itemID = UUID(uuidString: rawID),
-            let rawStage = userInfo["stage"] as? Int,
-            let stage = CheckInStage(rawValue: rawStage)
-        else { return }
-
-        pendingRoute = CheckInNotificationRoute(itemID: itemID, stage: stage)
+        guard let route = CheckInNotificationRoute.parse(userInfo: userInfo) else { return }
+        pendingRoute = route
     }
+
+    func consume(_ route: CheckInNotificationRoute) {
+        guard pendingRoute == route else { return }
+        pendingRoute = nil
+    }
+}
+
+enum WorthlyNotificationPresentationPolicy {
+    static var foregroundOptions: UNNotificationPresentationOptions { [.banner, .sound] }
 }
 
 final class WorthlyApplicationDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
@@ -142,10 +134,18 @@ final class WorthlyApplicationDelegate: NSObject, UIApplicationDelegate, UNUserN
         didReceive response: UNNotificationResponse,
         withCompletionHandler completionHandler: @escaping () -> Void
     ) {
-        defer { completionHandler() }
         let userInfo = response.notification.request.content.userInfo
         DispatchQueue.main.async {
             CheckInNotificationRouter.shared.receive(userInfo: userInfo)
+            completionHandler()
         }
+    }
+
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        willPresent notification: UNNotification,
+        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
+    ) {
+        completionHandler(WorthlyNotificationPresentationPolicy.foregroundOptions)
     }
 }
