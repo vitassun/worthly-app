@@ -26,6 +26,8 @@ enum CheckInSchedule {
     }
 
     static func nextPendingStage(for item: WorthlyItem) -> CheckInStage? {
+        guard item.state == .bought else { return nil }
+
         let completed = completedStages(for: item)
         return CheckInStage.allCases
             .sorted { $0.rawValue < $1.rawValue }

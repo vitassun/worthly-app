@@ -29,18 +29,32 @@ final class InsightEngineTests: XCTestCase {
         XCTAssertTrue(snapshot.cards.contains { $0.id == "expectation-reality" })
     }
 
-    func testLatestStageWinsOncePerItem() {
-        let item = makeItem(checkIns: [(.day7, 2), (.day30, 8)])
-        let snapshot = InsightEngine.snapshot(for: [item])
-        XCTAssertEqual(snapshot.evaluatedCount, 1)
-        XCTAssertEqual(snapshot.matureCount, 1)
-        XCTAssertEqual(snapshot.averageSatisfaction, 8)
+    func testLatestStageWinsOncePerItem() throws {
+        let targetWithThirtyDay = makeItem(checkIns: [(.day7, 2), (.day30, 8)])
+        let firstItems = [
+            targetWithThirtyDay,
+            makeItem(checkIns: [(.day7, 6)]),
+            makeItem(checkIns: [(.day7, 4)])
+        ]
 
-        let allStages = makeItem(checkIns: [(.day7, 2), (.day30, 5), (.day90, 9)])
-        let latest = InsightEngine.snapshot(for: [allStages])
-        XCTAssertEqual(latest.evaluatedCount, 1)
-        XCTAssertEqual(latest.matureCount, 1)
-        XCTAssertEqual(latest.averageSatisfaction, 9)
+        let thirtyDaySnapshot = InsightEngine.snapshot(for: firstItems)
+        XCTAssertEqual(thirtyDaySnapshot.evaluatedCount, 3)
+        XCTAssertEqual(thirtyDaySnapshot.matureCount, 1)
+        let thirtyDayAverage = try XCTUnwrap(thirtyDaySnapshot.averageSatisfaction)
+        XCTAssertEqual(thirtyDayAverage, 6.0, accuracy: 0.0001)
+
+        let targetWithNinetyDay = makeItem(checkIns: [(.day7, 2), (.day30, 5), (.day90, 9)])
+        let secondItems = [
+            targetWithNinetyDay,
+            makeItem(checkIns: [(.day7, 6)]),
+            makeItem(checkIns: [(.day7, 4)])
+        ]
+
+        let ninetyDaySnapshot = InsightEngine.snapshot(for: secondItems)
+        XCTAssertEqual(ninetyDaySnapshot.evaluatedCount, 3)
+        XCTAssertEqual(ninetyDaySnapshot.matureCount, 1)
+        let ninetyDayAverage = try XCTUnwrap(ninetyDaySnapshot.averageSatisfaction)
+        XCTAssertEqual(ninetyDayAverage, 19.0 / 3.0, accuracy: 0.0001)
     }
 
     func testPassedAndConsideringItemsDoNotContribute() {
