@@ -3,8 +3,12 @@ import SwiftUI
 struct ItemDetailView: View {
     let item: WorthlyItem
 
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var modelContext
     @State private var isEditing = false
     @State private var decisionMode: PurchaseDecisionMode?
+    @State private var showingDeleteConfirmation = false
+    @State private var operationError: String?
 
     private var completedCheckIns: [CheckIn] {
         item.checkIns.sorted { $0.stageDays < $1.stageDays }
@@ -37,9 +41,22 @@ struct ItemDetailView: View {
         .navigationTitle(item.name)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
+            ToolbarItemGroup(placement: .topBarTrailing) {
                 Button("编辑") { isEditing = true }
                     .accessibilityLabel("编辑\(item.name)记录")
+
+                Menu {
+                    Button(role: .destructive) {
+                        showingDeleteConfirmation = true
+                    } label: {
+                        Label("删除记录", systemImage: "trash")
+                    }
+                } label: {
+                    Image(systemName: "ellipsis")
+                        .frame(minWidth: 44, minHeight: 44)
+                        .contentShape(Rectangle())
+                }
+                .accessibilityLabel("更多记录操作")
             }
         }
         .sheet(isPresented: $isEditing) {
@@ -52,6 +69,26 @@ struct ItemDetailView: View {
                 PurchaseDecisionView(item: item, mode: mode)
             }
             .presentationDetents(mode == .bought ? [.large] : [.medium, .large])
+        }
+        .confirmationDialog(
+            "永久删除『\(item.name)』？",
+            isPresented: $showingDeleteConfirmation,
+            titleVisibility: .visible
+        ) {
+            Button("永久删除这条记录", role: .destructive) {
+                deleteItem()
+            }
+            Button("取消", role: .cancel) {}
+        } message: {
+            Text("这条记录和它的全部回访都会删除，也会取消对应的本地提醒。此操作无法撤销。")
+        }
+        .alert("删除失败", isPresented: Binding(
+            get: { operationError != nil },
+            set: { if !$0 { operationError = nil } }
+        )) {
+            Button("好", role: .cancel) { operationError = nil }
+        } message: {
+            Text(operationError ?? "请稍后重试。")
         }
     }
 
@@ -238,7 +275,7 @@ struct ItemDetailView: View {
                     .foregroundStyle(WorthlyTheme.background.opacity(0.72))
                 Text("不买，也是一条完整的消费记忆。")
                     .font(WorthlyTheme.sectionTitle)
-                Text("未来的洞察会同时学习你买了什么，也学习你忍住了什么。")
+                Text("Worthly 会保留这次没买的决定；目前的满意度洞察只使用真正买下并完成回访的记录。")
                     .foregroundStyle(WorthlyTheme.background.opacity(0.72))
             }
             .padding(22)
@@ -254,6 +291,20 @@ struct ItemDetailView: View {
                     .foregroundStyle(WorthlyTheme.muted)
             }
             .worthlyCard()
+        }
+    }
+
+    private func deleteItem() {
+        let itemID = item.id
+        modelContext.delete(item)
+
+        do {
+            try modelContext.save()
+            CheckInReminderService.shared.cancelReminders(for: itemID)
+            dismiss()
+        } catch {
+            modelContext.rollback()
+            operationError = "删除记录失败：\(error.localizedDescription)"
         }
     }
 

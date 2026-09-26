@@ -144,3 +144,20 @@ Do not add:
 Preferred commit message:
 
 `feat: add first personal consumption insights`
+
+## Iteration 06 — Memory Library
+
+### Delivered
+
+- Added deterministic local search, state/category filtering, and sorting for the consumption memory list.
+- Replaced the state picker with horizontally scrolling state chips and added category/sort menus plus system search.
+- Added separate empty-library and no-results states, a clear-filters action, and add-item actions connected to the existing root add sheet.
+- Added confirmed deletion for a single item. A successful SwiftData save precedes cancellation of that item's pending and delivered 7 / 30 / 90 day reminders; check-ins continue to use the existing cascade relationship.
+- Corrected the passed-item copy to describe only the existing bought-item satisfaction insights.
+- Added `ItemLibraryQueryTests` for search fields, combined filters, all states, deterministic sort order, and normalized available categories.
+
+### Verification scope
+
+- `ItemLibraryQuery.swift` belongs only to the Worthly app target; `ItemLibraryQueryTests.swift` belongs only to WorthlyTests.
+- No SwiftData schema or InsightEngine change was made.
+- XCTest execution depends on the existing GitHub Actions Debug / XCTest / Release gate.

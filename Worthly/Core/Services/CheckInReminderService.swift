@@ -51,7 +51,7 @@ final class CheckInReminderService {
     }
 
     func reschedule(for item: WorthlyItem) {
-        let identifiers = CheckInStage.allCases.map { identifier(for: item, stage: $0) }
+        let identifiers = CheckInStage.allCases.map { identifier(for: item.id, stage: $0) }
         center.removePendingNotificationRequests(withIdentifiers: identifiers)
 
         guard
@@ -64,7 +64,13 @@ final class CheckInReminderService {
     }
 
     func cancel(item: WorthlyItem, stage: CheckInStage) {
-        center.removePendingNotificationRequests(withIdentifiers: [identifier(for: item, stage: stage)])
+        center.removePendingNotificationRequests(withIdentifiers: [identifier(for: item.id, stage: stage)])
+    }
+
+    func cancelReminders(for itemID: UUID) {
+        let identifiers = CheckInStage.allCases.map { identifier(for: itemID, stage: $0) }
+        center.removePendingNotificationRequests(withIdentifiers: identifiers)
+        center.removeDeliveredNotifications(withIdentifiers: identifiers)
     }
 
     private func schedule(item: WorthlyItem, stage: CheckInStage) {
@@ -84,7 +90,7 @@ final class CheckInReminderService {
         let components = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: deliveryDate)
         let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
         let request = UNNotificationRequest(
-            identifier: identifier(for: item, stage: stage),
+            identifier: identifier(for: item.id, stage: stage),
             content: content,
             trigger: trigger
         )
@@ -94,8 +100,8 @@ final class CheckInReminderService {
         }
     }
 
-    private func identifier(for item: WorthlyItem, stage: CheckInStage) -> String {
-        "\(WorthlyReminderIdentifiers.prefix)\(item.id.uuidString).\(stage.rawValue)"
+    private func identifier(for itemID: UUID, stage: CheckInStage) -> String {
+        "\(WorthlyReminderIdentifiers.prefix)\(itemID.uuidString).\(stage.rawValue)"
     }
 }
 

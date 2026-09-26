@@ -30,7 +30,7 @@ struct RootTabView: View {
                     .tag(WorthlyRootTab.home)
 
                     NavigationStack {
-                        ThingsView()
+                        ThingsView(onAdd: { isAddingItem = true })
                     }
                     .tabItem { Label("记录", systemImage: "square.stack") }
                     .tag(WorthlyRootTab.things)
