@@ -50,7 +50,7 @@ final class NotificationAndDeletionTests: XCTestCase {
         XCTAssertFalse(options.contains(.list))
     }
 
-    func testNotificationRouteStaysPendingUntilModelContextCanResolveIt() {
+    func testNotificationRouteStaysPendingUntilModelContextCanResolveIt() throws {
         let router = CheckInNotificationRouter.shared
         router.pendingRoute = nil
         let id = UUID()
