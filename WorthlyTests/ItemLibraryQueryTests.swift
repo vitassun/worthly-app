@@ -79,7 +79,7 @@ final class ItemLibraryQueryTests: XCTestCase {
             makeItem(id: uuid(5), category: "生活")
         ]
 
-        XCTAssertEqual(ItemLibraryQuery.availableCategories(in: items), ["其他", "生活", "数码"])
+        XCTAssertEqual(ItemLibraryQuery.availableCategories(in: items), ["其他", "数码", "生活"])
     }
 
     private func query(
