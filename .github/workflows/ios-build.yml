@@ -55,3 +55,35 @@ jobs:
             -destination 'generic/platform=iOS Simulator' \
             CODE_SIGNING_ALLOWED=NO \
             build
+
+      - name: Build unsigned device app
+        run: |
+          xcodebuild \
+            -project Worthly.xcodeproj \
+            -scheme Worthly \
+            -configuration Release \
+            -sdk iphoneos \
+            -destination 'generic/platform=iOS' \
+            -derivedDataPath build/device \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            build
+
+      - name: Package unsigned IPA
+        run: |
+          APP_PATH="build/device/Build/Products/Release-iphoneos/Worthly.app"
+          test -d "$APP_PATH"
+          test -x "$APP_PATH/Worthly"
+          rm -rf Payload
+          mkdir -p Payload
+          cp -R "$APP_PATH" Payload/
+          zip -qry "Worthly-unsigned-${GITHUB_SHA::7}.ipa" Payload
+          ls -lh Worthly-unsigned-*.ipa
+
+      - name: Upload unsigned IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: Worthly-unsigned-ipa
+          path: Worthly-unsigned-*.ipa
+          if-no-files-found: error
