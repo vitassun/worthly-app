@@ -41,36 +41,35 @@ final class DecisionReviewScheduleTests: XCTestCase {
         }
     }
 
-    func testDueEntriesSkipItemsThatAreNotDue() throws {
-        let due = makeConsideringItem(id: uuid(1), createdAt: date(-10))
-        let notDue = makeConsideringItem(id: uuid(2), createdAt: date(-2))
-        let bought = WorthlyItem(id: uuid(3), name: "Bought", createdAt: date(-30), state: .bought)
-        let now = date(0)
+    func testDueEntriesSkipItemsThatAreNotDue() {
+        let due = makeConsideringItem(id: uuid(1), createdAt: daysBefore(10))
+        let notDue = makeConsideringItem(id: uuid(2), createdAt: daysBefore(2))
+        let bought = WorthlyItem(id: uuid(3), name: "Bought", createdAt: daysBefore(30), state: .bought)
 
-        let entries = DecisionReviewSchedule.dueEntries(for: [due, notDue, bought], now: now)
+        let entries = DecisionReviewSchedule.dueEntries(for: [due, notDue, bought], now: fixedDate)
 
         XCTAssertEqual(entries.map(\.item.id), [due.id])
     }
 
-    func testDueEntriesUseDeterministicDueDateThenCreatedAtThenIdentifierOrder() throws {
-        let shared = date(-10)
+    func testDueEntriesUseDeterministicDueDateThenCreatedAtThenIdentifierOrder() {
+        let shared = daysBefore(10)
         let highIdentifier = makeConsideringItem(id: uuid(9), createdAt: shared)
         let lowIdentifier = makeConsideringItem(id: uuid(1), createdAt: shared)
-        let earliest = makeConsideringItem(id: uuid(5), createdAt: date(-20))
+        let earliest = makeConsideringItem(id: uuid(5), createdAt: daysBefore(20))
 
-        let entries = DecisionReviewSchedule.dueEntries(for: [highIdentifier, lowIdentifier, earliest], now: date(0))
+        let entries = DecisionReviewSchedule.dueEntries(for: [highIdentifier, lowIdentifier, earliest], now: fixedDate)
 
         XCTAssertEqual(entries.map(\.item.id), [earliest.id, lowIdentifier.id, highIdentifier.id])
     }
 
     func testEachDueConsideringItemProducesExactlyOneEntry() {
         let items = [
-            makeConsideringItem(id: uuid(1), createdAt: date(-10)),
-            makeConsideringItem(id: uuid(2), createdAt: date(-8)),
-            makeConsideringItem(id: uuid(3), createdAt: date(-30))
+            makeConsideringItem(id: uuid(1), createdAt: daysBefore(10)),
+            makeConsideringItem(id: uuid(2), createdAt: daysBefore(8)),
+            makeConsideringItem(id: uuid(3), createdAt: daysBefore(30))
         ]
 
-        let entries = DecisionReviewSchedule.dueEntries(for: items, now: date(0))
+        let entries = DecisionReviewSchedule.dueEntries(for: items, now: fixedDate)
 
         XCTAssertEqual(entries.count, items.count)
         XCTAssertEqual(Set(entries.map(\.id)).count, entries.count)
@@ -88,7 +87,7 @@ final class DecisionReviewScheduleTests: XCTestCase {
         UUID(uuidString: String(format: "00000000-0000-0000-0000-%012d", value)) ?? UUID()
     }
 
-    private func date(_ offset: TimeInterval) -> Date {
-        Date(timeIntervalSince1970: 1_735_689_600 + offset)
+    private func daysBefore(_ days: Int) -> Date {
+        Calendar.current.date(byAdding: .day, value: -days, to: fixedDate) ?? fixedDate
     }
 }
