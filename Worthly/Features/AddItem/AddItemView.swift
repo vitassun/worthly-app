@@ -4,6 +4,7 @@ import SwiftData
 struct AddItemView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     @State private var name = ""
     @State private var category = "其他"
@@ -104,10 +105,11 @@ struct AddItemView: View {
                         reason = option
                     } label: {
                         HStack(spacing: 5) {
-                            if reason == option {
-                                Image(systemName: "checkmark")
-                                    .accessibilityHidden(true)
-                            }
+                            Image(systemName: "checkmark")
+                                .font(.caption.weight(.bold))
+                                .frame(width: 12)
+                                .opacity(reason == option ? 1 : 0)
+                                .accessibilityHidden(true)
                             Text(option.displayName)
                                 .fixedSize(horizontal: false, vertical: true)
                         }
@@ -127,6 +129,7 @@ struct AddItemView: View {
                     .accessibilityValue(reason == option ? "已选择" : "未选择")
                 }
             }
+            .animation(reduceMotion ? nil : .easeInOut(duration: 0.15), value: reason)
 
             VStack(alignment: .leading, spacing: 8) {
                 HStack {
@@ -146,12 +149,16 @@ struct AddItemView: View {
                 .accessibilityHint("调整你现在有多想要这件东西")
             }
 
-            Picker("预计使用", selection: $expectedUsage) {
-                ForEach(ExpectedUsage.allCases) { option in
-                    Text(option.displayName).tag(option)
+            VStack(alignment: .leading, spacing: 8) {
+                Text("预计多久用一次？")
+
+                Picker("预计使用", selection: $expectedUsage) {
+                    ForEach(ExpectedUsage.allCases) { option in
+                        Text(option.displayName).tag(option)
+                    }
                 }
+                .pickerStyle(.segmented)
             }
-            .pickerStyle(.segmented)
         }
     }
 

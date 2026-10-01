@@ -775,6 +775,8 @@ Palette:
 
 Only one chromatic accent: orange.
 
+The app is light-only. `INFOPLIST_KEY_UIUserInterfaceStyle = Light` is set on the app target's Debug and Release build configurations, so the fixed light palette above stays correct even when the device is in dark mode. Without it, system-drawn controls (text field placeholders, segmented pickers, alerts, sheets) follow the device appearance and become unreadable against the light background. Do not remove that setting, and do not add dark-mode color variants, without an explicit product decision to support dark mode.
+
 Typography:
 
 - serif display headings
