@@ -870,6 +870,10 @@ Required stages:
 2. XCTest
 3. Release simulator build
 
+These three stages are required and must run on every push to `main` and every pull request.
+
+After them the workflow also builds the app for the `iphoneos` SDK with signing disabled and uploads an unsigned IPA as the `Worthly-unsigned-ipa` artifact. This stage is additive: it exists so a build can be sideloaded onto a physical device without an Apple Developer account. It never replaces or shortens the three gates above. Do not remove it, and do not move it ahead of them.
+
 Static inspection alone is not enough.
 
 If local Xcode is unavailable:
@@ -896,19 +900,19 @@ GitHub `main` is the single source of truth.
 Current verified baseline:
 
 ```text
-f1c63f20778299cb475c5ae625e326a900eb3c23
+3fd31203f76d2d2fa0658bc58c34d6632b99a6bc
 ```
 
 Commit:
 
 ```text
-docs: record Iteration 07 verification
+ci: package and upload an unsigned device IPA
 ```
 
 Latest verified GitHub Actions gate:
 
 ```text
-iOS Build and Tests #11
+iOS Build and Tests #13
 ```
 
 Status:
@@ -916,6 +920,7 @@ Status:
 - Debug Build: PASS
 - XCTest: PASS (44 tests, 0 failures)
 - Release Build: PASS
+- Unsigned device app + IPA packaging: PASS (artifact `Worthly-unsigned-ipa`, verified arm64 / `iPhoneOS`)
 
 Do not rely on an old Work/agent filesystem as project storage.
 

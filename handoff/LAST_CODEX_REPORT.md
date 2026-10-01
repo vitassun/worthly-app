@@ -58,5 +58,6 @@ PASS
 ## NEXT
 
 - Run 9 failed XCTest on three `DecisionReviewScheduleTests` cases. The cause was a fixture defect, not product logic: the test helper added its offset in seconds, so items meant to be 10 days old were 10 seconds old and never due. Fixed in `5fe44b6`. Product code was not changed.
-- Iteration 08 (TestFlight runtime QA) needs a macOS host with Xcode and a simulator or device; it cannot be executed on this Windows workspace.
+- The workflow now also builds an unsigned device app and uploads it as the `Worthly-unsigned-ipa` artifact (`3fd3120`, run 13). This artifact was downloaded and inspected: the binary is 64-bit arm64, `CFBundleSupportedPlatforms` is `iPhoneOS`, bundle id `com.vitassun.worthly`, minimum iOS 17.0. It is unsigned by design, so it must be re-signed by a sideloading tool using the tester's own Apple ID before it will install.
+- Iteration 08 (TestFlight runtime QA) still needs a macOS host with Xcode for simulator work, but on-device smoke testing can now be done by sideloading the artifact above onto a physical iPhone from a Windows machine.
 - Iterations 09 (archive semantics) and 10 (monetization) require explicit product approval before any code.
