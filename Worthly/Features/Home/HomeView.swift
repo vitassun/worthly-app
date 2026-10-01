@@ -177,7 +177,7 @@ struct HomeView: View {
                     .foregroundStyle(WorthlyTheme.background)
             }
             .padding(20)
-            .background(WorthlyTheme.nearBlack)
+            .background(WorthlyTheme.emphasis)
             .clipShape(RoundedRectangle(cornerRadius: WorthlyTheme.cardRadius, style: .continuous))
         }
         .buttonStyle(.plain)

@@ -160,7 +160,7 @@ private struct InsightCardView: View {
                 .fixedSize(horizontal: false, vertical: true)
         }
         .padding(20)
-        .background(card.isEmphasis ? WorthlyTheme.nearBlack : WorthlyTheme.surface)
+        .background(card.isEmphasis ? WorthlyTheme.emphasis : WorthlyTheme.surface)
         .clipShape(RoundedRectangle(cornerRadius: WorthlyTheme.cardRadius, style: .continuous))
     }
 

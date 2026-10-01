@@ -266,7 +266,7 @@ struct ItemDetailView: View {
             }
             .padding(22)
             .foregroundStyle(WorthlyTheme.background)
-            .background(WorthlyTheme.nearBlack)
+            .background(WorthlyTheme.emphasis)
             .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
         } else if item.state == .passed {
             VStack(alignment: .leading, spacing: 14) {
@@ -280,7 +280,7 @@ struct ItemDetailView: View {
             }
             .padding(22)
             .foregroundStyle(WorthlyTheme.background)
-            .background(WorthlyTheme.nearBlack)
+            .background(WorthlyTheme.emphasis)
             .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
         } else {
             VStack(alignment: .leading, spacing: 14) {

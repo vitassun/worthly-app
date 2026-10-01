@@ -97,7 +97,7 @@ struct ThingsView: View {
                             .foregroundStyle(isSelected ? WorthlyTheme.background : WorthlyTheme.text)
                             .padding(.horizontal, 15)
                             .frame(minHeight: 44)
-                            .background(isSelected ? WorthlyTheme.nearBlack : WorthlyTheme.surface)
+                            .background(isSelected ? WorthlyTheme.emphasis : WorthlyTheme.surface)
                             .clipShape(Capsule())
                     }
                     .buttonStyle(.plain)

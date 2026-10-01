@@ -95,7 +95,6 @@
 			MARKETING_VERSION = 0.1.0;
 			INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 			INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-			INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 			ENABLE_TESTABILITY = YES;}; name = Debug; };
 		AC9A65BC677E5CDF860ADAB4 /* Release */ = { isa = XCBuildConfiguration; buildSettings = { 		PRODUCT_NAME = "$(TARGET_NAME)";
 		SDKROOT = iphoneos;
@@ -116,8 +115,7 @@
 			CURRENT_PROJECT_VERSION = 1;
 			MARKETING_VERSION = 0.1.0;
 			INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
-			INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-			INFOPLIST_KEY_UIUserInterfaceStyle = Light;}; name = Release; };
+			INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";}; name = Release; };
 		A50000000000000000000001 /* WorthlyDataExporter.swift */ = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Worthly/Core/Utilities/WorthlyDataExporter.swift"; sourceTree = "<group>"; };
 		A50000000000000000000002 /* WorthlyDataDeletion.swift */ = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Worthly/Core/Services/WorthlyDataDeletion.swift"; sourceTree = "<group>"; };
 		A50000000000000000000003 /* CheckInNotificationRoute.swift */ = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Worthly/Core/Utilities/CheckInNotificationRoute.swift"; sourceTree = "<group>"; };

@@ -764,18 +764,22 @@ Worthly should feel like:
 
 > editorial magazine × native iOS interaction × personal consumption memory
 
-Palette:
+Palette — every colour resolves per appearance in `WorthlyTheme.swift`:
 
-- background: `#EFEAE0`
-- secondary surface: `#E5DFD2`
-- primary text: `#1A1A1A`
-- secondary text: `#5C5852`
-- accent: `#CD6F47`
-- near black: `#0A0A0A`
+| role | light | dark |
+| --- | --- | --- |
+| background | `#EFEAE0` | `#17140F` |
+| secondary surface | `#E5DFD2` | `#221E17` |
+| primary text | `#1A1A1A` | `#EFEAE0` |
+| secondary text | `#5C5852` | `#A69D8F` |
+| accent | `#CD6F47` | `#E0895E` |
+| emphasis | `#0A0A0A` | `#F5F0E5` |
 
 Only one chromatic accent: orange.
 
-The app is light-only. `INFOPLIST_KEY_UIUserInterfaceStyle = Light` is set on the app target's Debug and Release build configurations, so the fixed light palette above stays correct even when the device is in dark mode. Without it, system-drawn controls (text field placeholders, segmented pickers, alerts, sheets) follow the device appearance and become unreadable against the light background. Do not remove that setting, and do not add dark-mode color variants, without an explicit product decision to support dark mode.
+The light values are the original locked palette and must not drift. The dark values invert the same relationships rather than introducing a new look: `background` and `text` deliberately swap roles, which is what makes primary buttons, selected chips and emphasis cards invert correctly without any per-view work. The dark accent is lifted because the light orange does not carry enough contrast on a dark ground. `emphasis` is the rare high-contrast card; it flips to a light surface in dark mode, because a near-black card on a dark page is invisible.
+
+Do not add a third appearance, a second accent colour, or any colour literal outside `WorthlyTheme`. Do not reintroduce a light-only declaration: the app follows the system appearance, and every surface must stay readable in both.
 
 Typography:
 
