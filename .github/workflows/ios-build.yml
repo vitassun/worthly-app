@@ -81,6 +81,12 @@ jobs:
           zip -qry "Worthly-unsigned-${GITHUB_SHA::7}.ipa" Payload
           ls -lh Worthly-unsigned-*.ipa
 
+      - name: Verify IPA is a device build
+        run: |
+          # TODO(human): assert the packaged IPA targets a physical device,
+          # not the simulator, before it is uploaded.
+          echo "verification not implemented yet"
+
       - name: Upload unsigned IPA
         uses: actions/upload-artifact@v4
         with:
