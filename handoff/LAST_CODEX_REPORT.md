@@ -1,29 +1,49 @@
 # LAST CODEX REPORT
 
-## Iteration 06 — Memory Library
+## Iteration 07 — Decision Revisit
 
 ### Baseline
 
-- Expected and actual starting commit: `f47d4d71124f1472a29d43825f00bbcd28af55ed` on `main`.
+- Expected and actual starting commit: `4a172e62da8f6584799803d734b28688530aa52e` on `main`.
+- The working tree was clean and `HEAD` matched the handoff baseline before editing.
 
-### Changes
+### RESULT
 
-- Added `ItemLibraryQuery` pure logic for trimmed localized case-insensitive search across name, category, source note, reason display name, and state display name.
-- Added state and normalized-category filtering, deterministic newest/oldest/desire sorting, and trimmed/deduplicated categories with empty values represented as `其他`.
-- Rebuilt Things with horizontal state chips, category and sort menus, system search, result count, distinct empty-library/no-results states, clear-filters action, and add actions wired to the existing root AddItem sheet.
-- Added confirmed single-item deletion. A successful SwiftData save precedes cancellation of only that item's pending and delivered 7/30/90 reminders. A save error rolls back, shows an alert, and leaves the view/reminders intact. Related check-ins use the existing cascade.
-- Updated passed-state copy to match the existing bought-only satisfaction insights.
-- Added `ItemLibraryQueryTests.swift` for all search fields, combined state/category filters, all states, deterministic sorting/tie-breaks, and category trim/empty/deduplication.
+PASS (static verification only)
+
+### BUILD
+
+- command: `xcodebuild -project Worthly.xcodeproj -scheme Worthly -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO build`
+- result: UNAVAILABLE — this environment is Windows and has no `xcodebuild` or iOS SDK.
+- first meaningful failure, if any: none applicable; the existing GitHub Actions workflow remains the runtime gate.
+
+### CHANGES
+
+- Added `Worthly/Core/Utilities/DecisionReviewSchedule.swift`: a pure helper plus `DecisionReviewEntry`. A `considering` item is due for a decision revisit 7 days after `createdAt`; bought / passed / archived items never anchor a review. Entries sort deterministically by due date, then creation date, then item identifier.
+- Updated `Worthly/Features/Home/HomeView.swift`: added the `还想买吗？` section (up to 3 due revisits plus a remaining count), added the `DecisionReviewRow` row view, and excluded due-revisit items from the ordinary `还在考虑` list so they never render twice on Home. Revisit rows navigate to the existing `ItemDetailView`, whose bought / passed decision flow is unchanged.
+- Added `WorthlyTests/DecisionReviewScheduleTests.swift`: 7 tests covering the not-due / exactly-due / overdue boundary, `createdAt + 7 days` due date, non-considering states, exclusion of non-due items, deterministic ordering with identifier tie-breaks, and one entry per due item.
+- Registered both new files in `Worthly.xcodeproj/project.pbxproj`. `DecisionReviewSchedule.swift` is in the Worthly app Sources only; `DecisionReviewScheduleTests.swift` is in the WorthlyTests Sources only.
+- Updated `ITERATION.md` with the Iteration 07 section and refreshed `MANIFEST.sha256`.
 
 ### Verification
 
-- `git diff --check`: PASS.
+- `git diff --check`: PASS (no whitespace errors).
+- `project.pbxproj` structure: braces `106 / 106`, parentheses `30 / 30`, even quote count; every new object identifier resolves to a definition plus exactly the expected reference count.
+- Target membership: `DecisionReviewSchedule.swift` appears only in the Worthly app `PBXSourcesBuildPhase`; `DecisionReviewScheduleTests.swift` appears only in the WorthlyTests `PBXSourcesBuildPhase`.
+- `WorthlyItem.swift`, `CheckIn.swift`, and `InsightEngine.swift` are unchanged. No SwiftData schema change, no notification change, no CI change.
 - `MANIFEST.sha256`: all listed file hashes refreshed and verified.
-- Static PBX structure and target membership check: PASS. `ItemLibraryQuery.swift` is only in Worthly app Sources; `ItemLibraryQueryTests.swift` is only in WorthlyTests Sources.
-- Existing shared scheme and GitHub Actions workflow were retained; Debug Build, XCTest, and Release Build gates were not changed.
-- `WorthlyItem.swift`, `CheckIn.swift`, and `InsightEngine.swift` are unchanged. No SwiftData schema or insight threshold changes.
-- Local Xcode build/XCTest: UNAVAILABLE because `xcodebuild` is not installed. The existing GitHub Actions workflow is the runtime verification gate.
+- Local Xcode build / XCTest: UNAVAILABLE because `xcodebuild` is not installed. The existing GitHub Actions workflow is the runtime verification gate.
 
-### Scope
+### DEVIATIONS
 
-No archive/unarchive behavior, StoreKit, backend, CloudKit, image feature, localization refactor, third-party dependency, or unrelated page refactor was added.
+- None. The implementation follows the Iteration 07 plan in the handoff without schema, notification, or insight changes.
+
+### BLOCKERS
+
+- None.
+
+### NEXT
+
+- Let the existing GitHub Actions gate run Debug / XCTest / Release on the new commit before any further product work.
+- Consider an explicit "decide later" acknowledgement for decision revisits if the Home queue ever grows past three items.
+- Consider surfacing the decision-revisit interval in Settings only if the product decides the 7-day window should be user-configurable.

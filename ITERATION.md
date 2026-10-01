@@ -161,3 +161,20 @@ Preferred commit message:
 - `ItemLibraryQuery.swift` belongs only to the Worthly app target; `ItemLibraryQueryTests.swift` belongs only to WorthlyTests.
 - No SwiftData schema or InsightEngine change was made.
 - XCTest execution depends on the existing GitHub Actions Debug / XCTest / Release gate.
+
+## Iteration 07 — Decision Revisit
+
+### Delivered
+
+- Added the pure `DecisionReviewSchedule` helper. A `considering` item becomes due for an in-app decision revisit 7 days after `createdAt`; bought / passed / archived items never qualify.
+- Added `DecisionReviewEntry` with deterministic ordering by due date, then creation date, then identifier.
+- Home gained a `还想买吗？` section that lists up to 3 due decision revisits and reports how many more are waiting.
+- Items shown as due decision revisits are removed from the ordinary `还在考虑` section so they never appear twice on Home.
+- Tapping a revisit row opens the existing Item Detail screen, where the existing bought / passed decision flow stays authoritative.
+
+### Scope
+
+- No SwiftData schema change. `WorthlyItem.swift` and `CheckIn.swift` are unchanged.
+- No InsightEngine change.
+- No new notification permission, notification type, or reminder identifier.
+- `DecisionReviewSchedule.swift` belongs only to the Worthly app target; `DecisionReviewScheduleTests.swift` belongs only to WorthlyTests.

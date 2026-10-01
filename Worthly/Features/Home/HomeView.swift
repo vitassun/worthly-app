@@ -10,8 +10,13 @@ struct HomeView: View {
         CheckInSchedule.dueEntries(for: items)
     }
 
+    private var decisionRevisits: [DecisionReviewEntry] {
+        DecisionReviewSchedule.dueEntries(for: items)
+    }
+
     private var considering: [WorthlyItem] {
-        items.filter { $0.state == .considering }
+        let revisitingIDs = Set(decisionRevisits.map(\.item.id))
+        return items.filter { $0.state == .considering && !revisitingIDs.contains($0.id) }
     }
 
     private var bought: [WorthlyItem] {
@@ -41,6 +46,10 @@ struct HomeView: View {
                     } else {
                         if !dueReviews.isEmpty {
                             dueReviewSection
+                        }
+
+                        if !decisionRevisits.isEmpty {
+                            decisionRevisitSection
                         }
 
                         if let primaryInsight = insightSnapshot.primaryCard {
@@ -115,6 +124,34 @@ struct HomeView: View {
         }
     }
 
+    private var decisionRevisitSection: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            VStack(alignment: .leading, spacing: 5) {
+                Text("还想买吗？")
+                    .font(WorthlyTheme.sectionTitle)
+                    .foregroundStyle(WorthlyTheme.text)
+                Text("放了一段时间了，回来看看当初的想要还在不在。")
+                    .font(.subheadline)
+                    .foregroundStyle(WorthlyTheme.muted)
+            }
+
+            ForEach(decisionRevisits.prefix(3)) { entry in
+                NavigationLink {
+                    ItemDetailView(item: entry.item)
+                } label: {
+                    DecisionReviewRow(entry: entry)
+                }
+                .buttonStyle(.plain)
+            }
+
+            if decisionRevisits.count > 3 {
+                Text("还有 \(decisionRevisits.count - 3) 件也放了很久。")
+                    .font(.subheadline)
+                    .foregroundStyle(WorthlyTheme.muted)
+            }
+        }
+    }
+
     private func insightTeaser(_ insight: InsightCardModel) -> some View {
         Button(action: onOpenInsights) {
             HStack(alignment: .top, spacing: 14) {
@@ -182,6 +219,36 @@ struct DueCheckInRow: View {
                     .fixedSize(horizontal: false, vertical: true)
 
                 Text("现在还觉得它值吗？")
+                    .font(.subheadline)
+                    .foregroundStyle(WorthlyTheme.muted)
+            }
+
+            Spacer(minLength: 8)
+
+            Image(systemName: "arrow.up.right")
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(WorthlyTheme.text)
+        }
+        .worthlyCard()
+    }
+}
+
+struct DecisionReviewRow: View {
+    let entry: DecisionReviewEntry
+
+    var body: some View {
+        HStack(alignment: .top, spacing: 14) {
+            VStack(alignment: .leading, spacing: 7) {
+                Text("DECISION · \(DecisionReviewSchedule.reviewIntervalDays) DAYS")
+                    .font(WorthlyTheme.overline)
+                    .foregroundStyle(WorthlyTheme.accent)
+
+                Text(entry.item.name)
+                    .font(.headline)
+                    .foregroundStyle(WorthlyTheme.text)
+                    .fixedSize(horizontal: false, vertical: true)
+
+                Text("买了，还是先放下？")
                     .font(.subheadline)
                     .foregroundStyle(WorthlyTheme.muted)
             }
