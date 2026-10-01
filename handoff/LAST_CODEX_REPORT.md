@@ -9,13 +9,17 @@
 
 ### RESULT
 
-PASS (static verification only)
+PASS — GitHub Actions run 10 is green on `5fe44b6328ee3feff0924fc8bb14e9824fcf1d8c`.
 
 ### BUILD
 
-- command: `xcodebuild -project Worthly.xcodeproj -scheme Worthly -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO build`
-- result: UNAVAILABLE — this environment is Windows and has no `xcodebuild` or iOS SDK.
-- first meaningful failure, if any: none applicable; the existing GitHub Actions workflow remains the runtime gate.
+- command: the existing `.github/workflows/ios-build.yml` gate (Debug simulator build, XCTest, Release simulator build)
+- result: PASS — run `36843424330` (`iOS Build and Tests #10`) reported `success`.
+  - Build Debug for iOS Simulator: success
+  - Run XCTest suite: success — `Executed 44 tests, with 0 failures`
+  - Build Release for iOS Simulator: success
+- first meaningful failure, if any: run 9 failed the XCTest step on three `DecisionReviewScheduleTests` cases. The cause was a defect in the new test fixtures, not in `DecisionReviewSchedule`: the helper added its offset in seconds, so items meant to be 10 days old were 10 seconds old and never due. Fixed in `5fe44b6` by switching the helper to day-based offsets.
+- note: this environment is Windows and has no `xcodebuild`, so the local build is still UNAVAILABLE. GitHub Actions is the runtime gate and it passed.
 
 ### CHANGES
 
@@ -31,8 +35,8 @@ PASS (static verification only)
 - `project.pbxproj` structure: braces `106 / 106`, parentheses `30 / 30`, even quote count; every new object identifier resolves to a definition plus exactly the expected reference count.
 - Target membership: `DecisionReviewSchedule.swift` appears only in the Worthly app `PBXSourcesBuildPhase`; `DecisionReviewScheduleTests.swift` appears only in the WorthlyTests `PBXSourcesBuildPhase`.
 - `WorthlyItem.swift`, `CheckIn.swift`, and `InsightEngine.swift` are unchanged. No SwiftData schema change, no notification change, no CI change.
-- `MANIFEST.sha256`: all listed file hashes refreshed and verified.
-- Local Xcode build / XCTest: UNAVAILABLE because `xcodebuild` is not installed. The existing GitHub Actions workflow is the runtime verification gate.
+- `MANIFEST.sha256`: all listed file hashes refreshed and verified against the normalized (LF) repository content.
+- Runtime verification: GitHub Actions run `36843424330` passed Debug build, all 44 XCTest cases and the Release build on `5fe44b6`. The 7 new `DecisionReviewScheduleTests` cases all passed.
 
 ### DEVIATIONS
 
@@ -44,6 +48,6 @@ PASS (static verification only)
 
 ### NEXT
 
-- Let the existing GitHub Actions gate run Debug / XCTest / Release on the new commit before any further product work.
+- Iteration 07 is committed and the CI gate is green, so the next iteration can start from `5fe44b6`.
 - Consider an explicit "decide later" acknowledgement for decision revisits if the Home queue ever grows past three items.
 - Consider surfacing the decision-revisit interval in Settings only if the product decides the 7-day window should be user-configurable.
