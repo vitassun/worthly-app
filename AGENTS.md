@@ -902,19 +902,19 @@ GitHub `main` is the single source of truth.
 Current verified baseline:
 
 ```text
-3fd31203f76d2d2fa0658bc58c34d6632b99a6bc
+ca99b0894869739debd48a5d4ddbbe18acf2968c
 ```
 
 Commit:
 
 ```text
-ci: package and upload an unsigned device IPA
+fix: render the app light-only and repair form affordances
 ```
 
 Latest verified GitHub Actions gate:
 
 ```text
-iOS Build and Tests #13
+iOS Build and Tests #15
 ```
 
 Status:
@@ -922,7 +922,7 @@ Status:
 - Debug Build: PASS
 - XCTest: PASS (44 tests, 0 failures)
 - Release Build: PASS
-- Unsigned device app + IPA packaging: PASS (artifact `Worthly-unsigned-ipa`, verified arm64 / `iPhoneOS`)
+- Unsigned device app + IPA packaging: PASS (artifact `Worthly-unsigned-ipa`, verified arm64 / `iPhoneOS` / `UIUserInterfaceStyle = Light`)
 
 Do not rely on an old Work/agent filesystem as project storage.
 
