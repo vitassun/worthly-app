@@ -906,19 +906,19 @@ GitHub `main` is the single source of truth.
 Current verified baseline:
 
 ```text
-ca99b0894869739debd48a5d4ddbbe18acf2968c
+30fd3661c6431c23d24f915607852d1ac13f6aef
 ```
 
 Commit:
 
 ```text
-fix: render the app light-only and repair form affordances
+feat: add a warm dark appearance alongside the light palette
 ```
 
 Latest verified GitHub Actions gate:
 
 ```text
-iOS Build and Tests #15
+iOS Build and Tests #17
 ```
 
 Status:
@@ -926,7 +926,7 @@ Status:
 - Debug Build: PASS
 - XCTest: PASS (44 tests, 0 failures)
 - Release Build: PASS
-- Unsigned device app + IPA packaging: PASS (artifact `Worthly-unsigned-ipa`, verified arm64 / `iPhoneOS` / `UIUserInterfaceStyle = Light`)
+- Unsigned device app + IPA packaging: PASS (artifact `Worthly-unsigned-ipa`, verified arm64 / `iPhoneOS`, no `UIUserInterfaceStyle` override so the app follows the system appearance)
 
 Do not rely on an old Work/agent filesystem as project storage.
 
