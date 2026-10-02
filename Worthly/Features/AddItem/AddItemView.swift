@@ -15,6 +15,7 @@ struct AddItemView: View {
     @State private var paidPriceText = ""
     @State private var alreadyBought = false
     @State private var sourceNote = ""
+    @State private var operationError: String?
 
     private let categories = ["服饰", "数码", "美妆", "娱乐", "旅行", "家居", "学习", "其他"]
 
@@ -57,6 +58,14 @@ struct AddItemView: View {
             ToolbarItem(placement: .cancellationAction) {
                 Button("取消") { dismiss() }
             }
+        }
+        .alert("保存失败", isPresented: Binding(
+            get: { operationError != nil },
+            set: { if !$0 { operationError = nil } }
+        )) {
+            Button("好", role: .cancel) { operationError = nil }
+        } message: {
+            Text(operationError ?? "请稍后重试。")
         }
     }
 
@@ -216,10 +225,12 @@ struct AddItemView: View {
         let originalPrice = PriceInputParser.value(from: originalPriceText)
         let paidPrice = alreadyBought ? PriceInputParser.value(from: paidPriceText) : nil
 
+        let trimmedSourceNote = sourceNote.trimmingCharacters(in: .whitespacesAndNewlines)
+
         let item = WorthlyItem(
             name: trimmedName,
             category: category,
-            sourceNote: sourceNote.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? nil : sourceNote,
+            sourceNote: trimmedSourceNote.isEmpty ? nil : trimmedSourceNote,
             state: alreadyBought ? .bought : .considering,
             reason: reason,
             expectedUsage: expectedUsage,
@@ -231,10 +242,16 @@ struct AddItemView: View {
         )
 
         modelContext.insert(item)
-        try? modelContext.save()
-        if alreadyBought {
-            CheckInReminderService.shared.reschedule(for: item)
+
+        do {
+            try modelContext.save()
+            if alreadyBought {
+                CheckInReminderService.shared.reschedule(for: item)
+            }
+            dismiss()
+        } catch {
+            modelContext.rollback()
+            operationError = "保存失败：\(error.localizedDescription)"
         }
-        dismiss()
     }
 }

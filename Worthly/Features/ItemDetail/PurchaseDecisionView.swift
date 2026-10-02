@@ -17,12 +17,13 @@ struct PurchaseDecisionView: View {
 
     @State private var paidPriceText: String
     @State private var purchaseDate: Date
+    @State private var operationError: String?
 
     init(item: WorthlyItem, mode: PurchaseDecisionMode) {
         self.item = item
         self.mode = mode
         _paidPriceText = State(initialValue: PriceInputParser.editingString(item.paidPrice))
-        _purchaseDate = State(initialValue: item.purchaseDate ?? .now)
+        _purchaseDate = State(initialValue: min(item.purchaseDate ?? .now, .now))
     }
 
     private var paidPriceError: String? {
@@ -61,6 +62,14 @@ struct PurchaseDecisionView: View {
                 Button("取消") { dismiss() }
             }
         }
+        .alert("保存失败", isPresented: Binding(
+            get: { operationError != nil },
+            set: { if !$0 { operationError = nil } }
+        )) {
+            Button("好", role: .cancel) { operationError = nil }
+        } message: {
+            Text(operationError ?? "请稍后重试。")
+        }
     }
 
     private var header: some View {
@@ -97,7 +106,7 @@ struct PurchaseDecisionView: View {
                 }
             }
 
-            DatePicker("购买日期", selection: $purchaseDate, displayedComponents: .date)
+            DatePicker("购买日期", selection: $purchaseDate, in: ...Date.now, displayedComponents: .date)
         }
         .worthlyCard()
     }
@@ -137,10 +146,15 @@ struct PurchaseDecisionView: View {
             item.decisionDate = .now
         }
 
-        try? modelContext.save()
-        if mode == .bought {
-            CheckInReminderService.shared.reschedule(for: item)
+        do {
+            try modelContext.save()
+            if mode == .bought {
+                CheckInReminderService.shared.reschedule(for: item)
+            }
+            dismiss()
+        } catch {
+            modelContext.rollback()
+            operationError = "保存失败：\(error.localizedDescription)"
         }
-        dismiss()
     }
 }

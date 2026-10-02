@@ -12,6 +12,7 @@ struct CheckInView: View {
     @State private var usageFrequency: UsageFrequency = .weekly
     @State private var note = ""
     @State private var duplicateDetected = false
+    @State private var operationError: String?
 
     private var alreadyCompleted: Bool {
         CheckInSchedule.isCompleted(stage, for: item)
@@ -49,6 +50,14 @@ struct CheckInView: View {
             Button("好", role: .cancel) {}
         } message: {
             Text("Worthly 每个阶段只保留一次回访。")
+        }
+        .alert("保存失败", isPresented: Binding(
+            get: { operationError != nil },
+            set: { if !$0 { operationError = nil } }
+        )) {
+            Button("好", role: .cancel) { operationError = nil }
+        } message: {
+            Text(operationError ?? "请稍后重试。")
         }
     }
 
@@ -183,8 +192,14 @@ struct CheckInView: View {
         )
 
         modelContext.insert(checkIn)
-        try? modelContext.save()
-        CheckInReminderService.shared.reschedule(for: item)
-        dismiss()
+
+        do {
+            try modelContext.save()
+            CheckInReminderService.shared.reschedule(for: item)
+            dismiss()
+        } catch {
+            modelContext.rollback()
+            operationError = "保存失败：\(error.localizedDescription)"
+        }
     }
 }

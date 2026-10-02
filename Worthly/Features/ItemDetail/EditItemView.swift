@@ -16,20 +16,31 @@ struct EditItemView: View {
     @State private var paidPriceText: String
     @State private var sourceNote: String
     @State private var purchaseDate: Date
+    @State private var operationError: String?
 
     private let categories = ["服饰", "数码", "美妆", "娱乐", "旅行", "家居", "学习", "其他"]
+
+    private var categoryOptions: [String] {
+        var options = categories
+        let original = item.category.trimmingCharacters(in: .whitespacesAndNewlines)
+        if !original.isEmpty, !options.contains(original) {
+            options.append(original)
+        }
+        return options
+    }
 
     init(item: WorthlyItem) {
         self.item = item
         _name = State(initialValue: item.name)
-        _category = State(initialValue: item.category)
+        let trimmedCategory = item.category.trimmingCharacters(in: .whitespacesAndNewlines)
+        _category = State(initialValue: trimmedCategory.isEmpty ? "其他" : trimmedCategory)
         _reason = State(initialValue: item.reason)
         _desireScore = State(initialValue: item.desireScore)
         _expectedUsage = State(initialValue: item.expectedUsage)
         _originalPriceText = State(initialValue: PriceInputParser.editingString(item.originalPrice))
         _paidPriceText = State(initialValue: PriceInputParser.editingString(item.paidPrice))
         _sourceNote = State(initialValue: item.sourceNote ?? "")
-        _purchaseDate = State(initialValue: item.purchaseDate ?? .now)
+        _purchaseDate = State(initialValue: min(item.purchaseDate ?? .now, .now))
     }
 
     private var trimmedName: String {
@@ -73,7 +84,7 @@ struct EditItemView: View {
                             .clipShape(RoundedRectangle(cornerRadius: WorthlyTheme.cardRadius, style: .continuous))
 
                         Picker("分类", selection: $category) {
-                            ForEach(categories, id: \.self) { Text($0).tag($0) }
+                            ForEach(categoryOptions, id: \.self) { Text($0).tag($0) }
                         }
                         .pickerStyle(.menu)
 
@@ -134,7 +145,7 @@ struct EditItemView: View {
                                 error: paidPriceError
                             )
 
-                            DatePicker("购买日期", selection: $purchaseDate, displayedComponents: .date)
+                            DatePicker("购买日期", selection: $purchaseDate, in: ...Date.now, displayedComponents: .date)
                         }
                     }
 
@@ -156,6 +167,14 @@ struct EditItemView: View {
                 Button("取消") { dismiss() }
             }
         }
+        .alert("保存失败", isPresented: Binding(
+            get: { operationError != nil },
+            set: { if !$0 { operationError = nil } }
+        )) {
+            Button("好", role: .cancel) { operationError = nil }
+        } message: {
+            Text(operationError ?? "请稍后重试。")
+        }
     }
 
     private func priceField(title: String, text: Binding<String>, error: String?) -> some View {
@@ -175,12 +194,14 @@ struct EditItemView: View {
     private func save() {
         guard canSave else { return }
 
+        let trimmedSourceNote = sourceNote.trimmingCharacters(in: .whitespacesAndNewlines)
+
         item.name = trimmedName
         item.category = category
         item.reason = reason
         item.desireScore = desireScore
         item.expectedUsage = expectedUsage
-        item.sourceNote = sourceNote.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? nil : sourceNote
+        item.sourceNote = trimmedSourceNote.isEmpty ? nil : trimmedSourceNote
         item.originalPrice = PriceInputParser.value(from: originalPriceText)
 
         if item.state == .bought {
@@ -188,10 +209,15 @@ struct EditItemView: View {
             item.purchaseDate = purchaseDate
         }
 
-        try? modelContext.save()
-        if item.state == .bought {
-            CheckInReminderService.shared.reschedule(for: item)
+        do {
+            try modelContext.save()
+            if item.state == .bought {
+                CheckInReminderService.shared.reschedule(for: item)
+            }
+            dismiss()
+        } catch {
+            modelContext.rollback()
+            operationError = "保存失败：\(error.localizedDescription)"
         }
-        dismiss()
     }
 }

@@ -54,6 +54,11 @@ final class CheckInReminderService {
         let identifiers = CheckInStage.allCases.map { identifier(for: item.id, stage: $0) }
         center.removePendingNotificationRequests(withIdentifiers: identifiers)
 
+        let completedIdentifiers = CheckInStage.allCases
+            .filter { CheckInSchedule.isCompleted($0, for: item) }
+            .map { identifier(for: item.id, stage: $0) }
+        center.removeDeliveredNotifications(withIdentifiers: completedIdentifiers)
+
         guard
             isEnabled,
             item.state == .bought,
