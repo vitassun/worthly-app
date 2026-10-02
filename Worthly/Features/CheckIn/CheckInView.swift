@@ -6,7 +6,7 @@ struct CheckInView: View {
     @Environment(\.modelContext) private var modelContext
 
     let item: WorthlyItem
-    let stage: CheckInStage
+    let stage: CheckInStage?
 
     @State private var satisfactionScore = 7
     @State private var usageFrequency: UsageFrequency = .weekly
@@ -15,17 +15,19 @@ struct CheckInView: View {
     @State private var operationError: String?
 
     private var alreadyCompleted: Bool {
-        CheckInSchedule.isCompleted(stage, for: item)
+        guard let stage else { return false }
+        return CheckInSchedule.isCompleted(stage, for: item)
     }
 
     private var canSubmit: Bool {
+        guard item.state == .bought, !alreadyCompleted else { return false }
+        guard let stage else { return true }
         guard
-            item.state == .bought,
             CheckInSchedule.nextPendingStage(for: item) == stage,
             let dueDate = CheckInSchedule.dueDate(for: item, stage: stage)
         else { return false }
 
-        return dueDate <= .now && !alreadyCompleted
+        return dueDate <= .now
     }
 
     var body: some View {
@@ -44,7 +46,7 @@ struct CheckInView: View {
                 .padding(.vertical, 24)
             }
         }
-        .navigationTitle("\(stage.rawValue) 天回访")
+        .navigationTitle(stage.map { "\($0.rawValue) 天回访" } ?? "随时回访")
         .navigationBarTitleDisplayMode(.inline)
         .alert("这次回访已经记录过了", isPresented: $duplicateDetected) {
             Button("好", role: .cancel) {}
@@ -63,7 +65,7 @@ struct CheckInView: View {
 
     private var header: some View {
         VStack(alignment: .leading, spacing: 9) {
-            Text("\(stage.rawValue) DAYS LATER")
+            Text(stage.map { "\($0.rawValue) DAYS LATER" } ?? "ANYTIME · 随时回访")
                 .font(WorthlyTheme.overline)
                 .foregroundStyle(WorthlyTheme.accent)
 
@@ -176,9 +178,11 @@ struct CheckInView: View {
 
     private func save() {
         guard item.state == .bought else { return }
-        guard !CheckInSchedule.isCompleted(stage, for: item) else {
-            duplicateDetected = true
-            return
+        if let stage {
+            guard !CheckInSchedule.isCompleted(stage, for: item) else {
+                duplicateDetected = true
+                return
+            }
         }
         guard canSubmit else { return }
 

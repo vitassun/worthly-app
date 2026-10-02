@@ -482,6 +482,19 @@ Rules:
 
 Never skip stages simply because an item is old.
 
+## Free-form reflections (随时回访)
+
+In addition to the staged reviews, a `.bought` item may hold any number of
+free-form reflections recorded on any day.
+
+- stored as `stageDays == 0`; `CheckIn.isAdHoc` is the canonical test
+- `CheckInSchedule.adHocStageDays` is the only place that literal lives
+- a free-form reflection never completes or replaces a 7 / 30 / 90 stage
+- it never changes `nextPendingStage` and never schedules or cancels a reminder
+- it is excluded from `InsightEngine` satisfaction data
+- `CheckInSchedule.timeline(for:)` is the canonical chronological display order
+- several reflections per day are allowed and are never deduplicated
+
 ---
 
 # 10. InsightEngine invariants
@@ -507,6 +520,8 @@ Each purchase contributes at most one current evaluation:
 ```
 
 Never count multiple stages from one purchase as separate purchases.
+
+Free-form reflections (`CheckIn.isAdHoc`) are never an evaluation.
 
 ## Sparse-data protection
 
@@ -701,6 +716,7 @@ Capture includes:
 - original price
 - already-bought option
 - paid price when relevant
+- purchase date when already bought (any past day, never the future)
 
 Default state:
 
@@ -748,6 +764,8 @@ For bought:
 - 7d
 - 30d
 - 90d reviews
+- any number of free-form `随时回访` reflections, listed chronologically
+- an always-available `记录现在的感觉` entry point
 
 For passed:
 

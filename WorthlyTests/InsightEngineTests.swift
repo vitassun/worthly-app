@@ -129,6 +129,25 @@ final class InsightEngineTests: XCTestCase {
         XCTAssertTrue(InsightEngine.snapshot(for: mature).cards.contains { $0.id == "long-term-extremes" })
     }
 
+    func testAdHocReflectionsDoNotCreateEvaluations() {
+        let item = makeItem(checkIns: [], adHocScores: [9])
+        let snapshot = InsightEngine.snapshot(for: [item])
+        XCTAssertEqual(snapshot.evaluatedCount, 0)
+        XCTAssertNil(snapshot.averageSatisfaction)
+        XCTAssertTrue(snapshot.cards.isEmpty)
+    }
+
+    func testAdHocReflectionDoesNotOverrideLatestStage() {
+        let items = [
+            makeItem(checkIns: [(.day7, 4)], adHocScores: [9]),
+            makeItem(checkIns: [(.day7, 4)], adHocScores: [9]),
+            makeItem(checkIns: [(.day7, 4)], adHocScores: [9])
+        ]
+        let snapshot = InsightEngine.snapshot(for: items)
+        XCTAssertEqual(snapshot.evaluatedCount, 3)
+        XCTAssertEqual(snapshot.averageSatisfaction, 4)
+    }
+
     func testMetricsRemainFiniteAndNonemptyForExtremePrices() {
         let items = [
             makeItem(originalPrice: .greatestFiniteMagnitude, paidPrice: 1, checkIns: [(.day90, 9)]),
@@ -150,7 +169,8 @@ final class InsightEngineTests: XCTestCase {
         desire: Int = 7,
         originalPrice: Double? = nil,
         paidPrice: Double? = nil,
-        checkIns: [(CheckInStage, Int)]
+        checkIns: [(CheckInStage, Int)],
+        adHocScores: [Int] = []
     ) -> WorthlyItem {
         let item = WorthlyItem(
             name: "Item \(UUID().uuidString.prefix(5))",
@@ -163,6 +183,9 @@ final class InsightEngineTests: XCTestCase {
         )
         for (stage, score) in checkIns {
             _ = CheckIn(stage: stage, satisfactionScore: score, usageFrequency: .weekly, item: item)
+        }
+        for score in adHocScores {
+            _ = CheckIn(stage: nil, satisfactionScore: score, usageFrequency: .weekly, item: item)
         }
         return item
     }

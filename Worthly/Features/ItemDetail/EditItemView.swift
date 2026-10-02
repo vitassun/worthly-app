@@ -83,10 +83,15 @@ struct EditItemView: View {
                             .background(WorthlyTheme.surface)
                             .clipShape(RoundedRectangle(cornerRadius: WorthlyTheme.cardRadius, style: .continuous))
 
-                        Picker("分类", selection: $category) {
-                            ForEach(categoryOptions, id: \.self) { Text($0).tag($0) }
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("它属于哪一类？")
+                                .font(WorthlyTheme.sectionTitle)
+                                .foregroundStyle(WorthlyTheme.text)
+                            Picker("分类", selection: $category) {
+                                ForEach(categoryOptions, id: \.self) { Text($0).tag($0) }
+                            }
+                            .pickerStyle(.menu)
                         }
-                        .pickerStyle(.menu)
 
                         TextField("来自哪里 / 备注（可选）", text: $sourceNote)
                             .textFieldStyle(.roundedBorder)

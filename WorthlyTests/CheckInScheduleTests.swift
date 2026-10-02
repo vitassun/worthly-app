@@ -67,6 +67,43 @@ final class CheckInScheduleTests: XCTestCase {
         XCTAssertEqual(CheckInSchedule.nextPendingStage(for: item), .day30)
     }
 
+    func testAdHocCheckInDoesNotCompleteOrAdvanceAnyStage() throws {
+        let purchase = fixedDate
+        let item = makeBoughtItem(purchaseDate: purchase)
+        _ = CheckIn(stage: nil, satisfactionScore: 9, usageFrequency: .weekly, item: item)
+
+        XCTAssertTrue(CheckInSchedule.completedStages(for: item).isEmpty)
+        XCTAssertFalse(CheckInSchedule.isCompleted(.day7, for: item))
+        XCTAssertEqual(CheckInSchedule.nextPendingStage(for: item), .day7)
+
+        let now = try XCTUnwrap(Calendar.current.date(byAdding: .day, value: 8, to: purchase))
+        XCTAssertEqual(CheckInSchedule.dueEntry(for: item, now: now)?.stage, .day7)
+    }
+
+    func testAdHocCheckInDoesNotBlockSequentialStages() {
+        let item = makeBoughtItem(purchaseDate: fixedDate, completed: [.day7])
+        _ = CheckIn(stage: nil, satisfactionScore: 9, usageFrequency: .weekly, item: item)
+        XCTAssertEqual(CheckInSchedule.nextPendingStage(for: item), .day30)
+    }
+
+    func testAdHocCheckInIsStoredAsZeroAndMarked() {
+        let item = makeBoughtItem(purchaseDate: fixedDate)
+        let checkIn = CheckIn(stage: nil, satisfactionScore: 9, usageFrequency: .weekly, item: item)
+        XCTAssertTrue(checkIn.isAdHoc)
+        XCTAssertNil(checkIn.stage)
+        XCTAssertEqual(checkIn.stageDays, 0)
+    }
+
+    func testTimelineOrdersChronologicallyThenByStage() {
+        let item = makeBoughtItem(purchaseDate: fixedDate)
+        let base = fixedDate
+        _ = CheckIn(stage: .day7, satisfactionScore: 7, usageFrequency: .weekly, createdAt: base, item: item)
+        _ = CheckIn(stage: nil, satisfactionScore: 8, usageFrequency: .weekly, createdAt: base.addingTimeInterval(60), item: item)
+        _ = CheckIn(stage: .day30, satisfactionScore: 9, usageFrequency: .weekly, createdAt: base.addingTimeInterval(120), item: item)
+
+        XCTAssertEqual(CheckInSchedule.timeline(for: item).map(\.stageDays), [7, 0, 30])
+    }
+
     private var fixedDate: Date {
         Date(timeIntervalSince1970: 1_735_689_600)
     }

@@ -2,73 +2,134 @@
 
 ## RESULT
 
-PASS — CI run #19 green on a022489
+PARTIAL — feature work implemented and statically checked. No local Xcode (Windows host),
+so Debug / XCTest / Release have not been run yet. CI is the runtime gate and has not run
+for this commit.
 
 ## BASELINE
 
-- expected SHA: `7869d0b` (working tree started clean on `main`)
-- actual SHA: `7869d0b` (matched before editing; uncommitted work only)
+- expected SHA: `a022489b9797e37867473c7ab0611fa83dbfa9df`
+- actual SHA: `a022489b9797e37867473c7ab0611fa83dbfa9df` (matched before editing; tree clean)
 
 ## BUILD
 
-- Debug: PASS — GitHub Actions "iOS Build and Tests" #19 (not local)
-- XCTest: PASS (44 tests, 0 failures) — GitHub Actions "iOS Build and Tests" #19 (not local)
-- Release: PASS — GitHub Actions "iOS Build and Tests" #19 (not local)
-- Unsigned IPA: PASS — GitHub Actions "iOS Build and Tests" #19 (not local)
+- Debug: NOT RUN — no Xcode on this host
+- XCTest: NOT RUN — no Xcode on this host
+- Release: NOT RUN — no Xcode on this host
 
 ## CHANGES
 
-- `Worthly/Features/AddItem/AddItemView.swift`
-  - `save()` no longer uses `try? modelContext.save()`. Wrapped in `do/catch`; on success it reschedules reminders (only when `alreadyBought`) and dismisses, on failure it calls `modelContext.rollback()` (removing the inserted item), does not reschedule, does not dismiss, and surfaces the error.
-  - Added `@State private var operationError: String?` and the standard `.alert("保存失败", …)` block copied from `ItemDetailView`.
-  - `sourceNote` is now stored trimmed (`trimmedSourceNote`, nil when empty) instead of the raw string.
-- `Worthly/Features/ItemDetail/EditItemView.swift`
-  - `save()` wrapped in `do/catch` with the same success/failure contract (rollback reverts the in-place mutations on `item`). Added the `operationError` state and alert.
-  - `sourceNote` now stored trimmed (nil when empty).
-  - Added computed `categoryOptions` that appends `item.category` (trimmed, non-empty) when it is not already in the fixed `categories` list; the category `Picker` now uses `categoryOptions`, so a record with a legacy/unknown category keeps a matching tag.
-  - `DatePicker("购买日期", …)` is now bounded by `in: ...Date.now`; init clamps with `min(item.purchaseDate ?? .now, .now)`.
-  - `category` state is initialised from the trimmed `item.category` (fallback 其他) so the Picker selection always matches a tag in `categoryOptions`.
-- `Worthly/Features/ItemDetail/PurchaseDecisionView.swift`
-  - `confirm()` wrapped in `do/catch` with the same contract. Added the `operationError` state and alert.
-  - `DatePicker("购买日期", …)` bounded by `in: ...Date.now`; init clamps with `min(item.purchaseDate ?? .now, .now)`.
+Three requested product changes. No new files; `Worthly.xcodeproj` untouched.
+
+### 1. Add flow can record a real purchase date
+
+`Worthly/Features/AddItem/AddItemView.swift`
+
+- The Add flow hardcoded `purchaseDate: .now` and had no date picker at all, so an item
+  marked `已经买了` could only ever be dated today.
+- Added `@State private var purchaseDate: Date = .now`, a
+  `DatePicker("购买日期", selection: $purchaseDate, in: ...Date.now, displayedComponents: .date)`
+  inside the existing `if alreadyBought` block, and `purchaseDate: alreadyBought ? purchaseDate : nil`
+  in `save()`. `decisionDate` is still `.now` (it records when the decision was entered, matching
+  `PurchaseDecisionView`).
+
+### 2. Any-day reflections (随时回访)
+
+A bought item can now take a reflection on any day, in addition to the staged 7 / 30 / 90 reviews.
+Stored as `stageDays == 0` so there is **no schema change and no migration**.
+
+- `Worthly/Core/Utilities/CheckInSchedule.swift`
+  - new documented constant `adHocStageDays = 0`
+  - `completedStages(for:)` now subtracts it, so a free-form reflection can never satisfy a stage
+  - new pure, testable `timeline(for:)` (createdAt → stageDays → id, deterministic)
+- `Worthly/Core/Models/CheckIn.swift`
+  - initializer takes `stage: CheckInStage?`; `stageDays = stage?.rawValue ?? CheckInSchedule.adHocStageDays`
+  - new `isAdHoc`
 - `Worthly/Features/CheckIn/CheckInView.swift`
-  - `save()` wrapped in `do/catch` with the same contract (rollback removes the inserted `CheckIn`). Added the `operationError` state and a second alert alongside the existing duplicate-detected alert.
-- `Worthly/Core/Services/CheckInReminderService.swift`
-  - `reschedule(for:)` now also removes *delivered* notifications for stages where `CheckInSchedule.isCompleted(stage, for: item)` is true, so a finished check-in's delivered banner does not linger. Only the given item's identifiers are touched; no other Worthly reminders are affected.
+  - `stage` is now `CheckInStage?`; for `nil` the form is submittable any day, any number of times,
+    with no due-date gate and no duplicate guard; staged behaviour is unchanged
+  - header / navigation title fall back to `ANYTIME · 随时回访`
+- `Worthly/Features/ItemDetail/ItemDetailView.swift`
+  - reflection list now uses `CheckInSchedule.timeline(for:)`; added `hasStagedCheckIns`
+  - the AFTER card for bought items gained an always-available `ANYTIME · 记录现在的感觉` entry point
+  - `checkInRow` labels a free-form reflection by date (`随时回访 · <date>`)
+
+Unchanged on purpose: staged sequencing, `nextPendingStage`, the reminder service, notification
+routing, and `InsightEngine` logic. `InsightEngine.latestCheckIn` already filters on
+`CheckInStage(rawValue:) != nil`, so free-form reflections are ignored without an engine change.
+
+### 3. The category selector now has a visible question
+
+`Worthly/Features/AddItem/AddItemView.swift`, `Worthly/Features/ItemDetail/EditItemView.swift`
+
+The category `Picker` sat bare in a `VStack` with only its own `分类` label. Both are now wrapped in
+a labelled `VStack` with the visible heading `它属于哪一类？`, matching the existing
+`为什么想买？` / `预计多久用一次？` sections. The Picker keeps its `分类` label for VoiceOver.
+
+### Tests
+
+New methods in existing test files only:
+
+- `WorthlyTests/CheckInScheduleTests.swift`: `testAdHocCheckInDoesNotCompleteOrAdvanceAnyStage`,
+  `testAdHocCheckInDoesNotBlockSequentialStages`, `testAdHocCheckInIsStoredAsZeroAndMarked`,
+  `testTimelineOrdersChronologicallyThenByStage`
+- `WorthlyTests/InsightEngineTests.swift`: `testAdHocReflectionsDoNotCreateEvaluations`,
+  `testAdHocReflectionDoesNotOverrideLatestStage`; private `makeItem` helper gained a defaulted
+  `adHocScores: [Int] = []` parameter
+
+### Docs
+
+`AGENTS.md` §9 (new "Free-form reflections" subsection), §10 (free-form reflections are never an
+evaluation), §14 (purchase date selectable when already bought), §15 (AFTER section).
 
 ## TARGET MEMBERSHIP
 
-- app sources: unchanged — no file added or removed; only existing app-target sources edited
-- test sources: unchanged — no test file added or edited
+- app sources: every edited file is an existing member of the `Worthly` target; no files added
+- test sources: methods added to existing `WorthlyTests` files; no files added
+- `Worthly.xcodeproj/project.pbxproj` not modified
 
 ## SCHEMA
 
-- unchanged — no `WorthlyItem` / `CheckIn` field added or removed, no migration, no `InsightEngine` change
+- unchanged. No new stored properties. `CheckIn.stageDays` is already `Int`; free-form reflections
+  use `0`, which the stage enum cannot represent.
 
 ## DEVIATIONS
 
-- None.
+- Free-form reflections are intentionally **excluded from `InsightEngine`**, so daily reflections
+  appear in an item's timeline but do not move the insight cards yet. This preserves the §10
+  "latest stage wins / one evaluation per purchase" invariant. Letting them feed insights needs a
+  separate product decision (ordering + thresholds + tests).
+- JSON export format is unchanged (`exportVersion = 1`); a free-form reflection is exported with
+  `"stage": 0`. Making it explicit would be an export-format change.
+- `HomeView` gained no new entry point; reflections are reached through Item Detail.
 
 ## BLOCKERS
 
-- No macOS/Xcode host: Debug, XCTest, and Release could not be run locally. GitHub Actions must confirm the three gates.
+- None. Local build/test verification is impossible on this host.
+
+## VERIFICATION
+
+- `git diff --check`: passes
+- brace/paren balance spot-checked on every edited file
+- `git diff --stat`: 8 files, +151/-28 before the doc edits
 
 ## COMMIT
 
-- SHA: `a022489b9797e37867473c7ab0611fa83dbfa9df`
-- message: `fix: surface save failures and guard purchase dates`
+- SHA: see `git log`
+- message: `feat: add any-day reflections and purchase-date entry`
 
 ## PUSH
 
-- success
+- attempted once
 
 ## ARTIFACTS
 
-- bundle: not produced
-- full-source ZIP: not produced
+- bundle: not produced (push available)
+- full-source ZIP: not produced (push available)
 
 ## NEXT
 
-- Run the required GitHub Actions gates (Debug simulator build, XCTest, Release simulator build) to verify these fixes.
-- The delivered change is bug-fix only: no new files, no schema change, no architecture change.
-- No new tests cover these view-layer fixes; verify save-failure alert and purchase-date limit manually during Iteration 08 runtime QA.
+- Verify CI: Debug build, XCTest (must stay green, now 44 + 6 tests), Release build, unsigned IPA.
+- Record the new verified baseline in `AGENTS.md` §20 and add the feature-batch entry to §21.
+- Runtime QA (Iteration 08): date picker in the Add flow, repeated same-day reflections, the
+  Item Detail timeline with mixed staged and free-form entries, and the category question layout.

@@ -14,6 +14,7 @@ struct AddItemView: View {
     @State private var originalPriceText = ""
     @State private var paidPriceText = ""
     @State private var alreadyBought = false
+    @State private var purchaseDate: Date = .now
     @State private var sourceNote = ""
     @State private var operationError: String?
 
@@ -92,10 +93,15 @@ struct AddItemView: View {
                 .background(WorthlyTheme.surface)
                 .clipShape(RoundedRectangle(cornerRadius: WorthlyTheme.cardRadius, style: .continuous))
 
-            Picker("分类", selection: $category) {
-                ForEach(categories, id: \.self) { Text($0).tag($0) }
+            VStack(alignment: .leading, spacing: 8) {
+                Text("它属于哪一类？")
+                    .font(WorthlyTheme.sectionTitle)
+                    .foregroundStyle(WorthlyTheme.text)
+                Picker("分类", selection: $category) {
+                    ForEach(categories, id: \.self) { Text($0).tag($0) }
+                }
+                .pickerStyle(.menu)
             }
-            .pickerStyle(.menu)
 
             TextField("来自哪里 / 备注（可选）", text: $sourceNote)
                 .textFieldStyle(.roundedBorder)
@@ -191,6 +197,8 @@ struct AddItemView: View {
                     text: $paidPriceText,
                     error: paidPriceError
                 )
+
+                DatePicker("购买日期", selection: $purchaseDate, in: ...Date.now, displayedComponents: .date)
             }
         }
         .foregroundStyle(WorthlyTheme.text)
@@ -237,7 +245,7 @@ struct AddItemView: View {
             desireScore: desireScore,
             originalPrice: originalPrice,
             paidPrice: paidPrice,
-            purchaseDate: alreadyBought ? .now : nil,
+            purchaseDate: alreadyBought ? purchaseDate : nil,
             decisionDate: alreadyBought ? .now : nil
         )
 

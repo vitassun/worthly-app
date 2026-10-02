@@ -11,6 +11,9 @@ struct CheckInDueEntry: Identifiable {
 }
 
 enum CheckInSchedule {
+    /// 随时回访（非 7 / 30 / 90 阶段）在存储中用 0 表示，不占用任何阶段。
+    static let adHocStageDays = 0
+
     static func anchorDate(for item: WorthlyItem) -> Date? {
         guard item.state == .bought else { return nil }
         return item.purchaseDate ?? item.decisionDate
@@ -22,7 +25,16 @@ enum CheckInSchedule {
     }
 
     static func completedStages(for item: WorthlyItem) -> Set<Int> {
-        Set(item.checkIns.map(\.stageDays))
+        Set(item.checkIns.map(\.stageDays)).subtracting([adHocStageDays])
+    }
+
+    /// 按记录时间升序；同一时间的按阶段、再按 id 稳定排序。
+    static func timeline(for item: WorthlyItem) -> [CheckIn] {
+        item.checkIns.sorted { lhs, rhs in
+            if lhs.createdAt != rhs.createdAt { return lhs.createdAt < rhs.createdAt }
+            if lhs.stageDays != rhs.stageDays { return lhs.stageDays < rhs.stageDays }
+            return lhs.id.uuidString < rhs.id.uuidString
+        }
     }
 
     static func nextPendingStage(for item: WorthlyItem) -> CheckInStage? {

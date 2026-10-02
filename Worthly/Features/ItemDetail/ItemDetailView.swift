@@ -10,8 +10,12 @@ struct ItemDetailView: View {
     @State private var showingDeleteConfirmation = false
     @State private var operationError: String?
 
-    private var completedCheckIns: [CheckIn] {
-        item.checkIns.sorted { $0.stageDays < $1.stageDays }
+    private var reflections: [CheckIn] {
+        CheckInSchedule.timeline(for: item)
+    }
+
+    private var hasStagedCheckIns: Bool {
+        item.checkIns.contains { !$0.isAdHoc }
     }
 
     private var nextStage: CheckInStage? {
@@ -217,14 +221,14 @@ struct ItemDetailView: View {
                     .font(WorthlyTheme.overline)
                     .foregroundStyle(WorthlyTheme.background.opacity(0.72))
 
-                if completedCheckIns.isEmpty {
+                if reflections.isEmpty {
                     Text("真正的‘值’，要过一阵子再问。")
                         .font(WorthlyTheme.sectionTitle)
                 } else {
                     Text("期待正在变成真实体验。")
                         .font(WorthlyTheme.sectionTitle)
 
-                    ForEach(completedCheckIns) { checkIn in
+                    ForEach(reflections) { checkIn in
                         checkInRow(checkIn)
                     }
                 }
@@ -259,10 +263,30 @@ struct ItemDetailView: View {
                                 .foregroundStyle(WorthlyTheme.background.opacity(0.72))
                         }
                     }
-                } else if !completedCheckIns.isEmpty {
+                } else if hasStagedCheckIns {
                     Text("7 / 30 / 90 天回访已完成。")
                         .font(.headline)
                 }
+
+                Divider()
+                    .overlay(WorthlyTheme.background.opacity(0.18))
+
+                NavigationLink {
+                    CheckInView(item: item, stage: nil)
+                } label: {
+                    HStack {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("ANYTIME")
+                                .font(WorthlyTheme.overline)
+                            Text("记录现在的感觉")
+                                .font(.headline)
+                        }
+                        Spacer()
+                        Image(systemName: "arrow.right")
+                    }
+                    .foregroundStyle(WorthlyTheme.background)
+                }
+                .buttonStyle(.plain)
             }
             .padding(22)
             .foregroundStyle(WorthlyTheme.background)
@@ -312,9 +336,15 @@ struct ItemDetailView: View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(alignment: .firstTextBaseline, spacing: 12) {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("\(checkIn.stageDays) DAYS")
-                        .font(WorthlyTheme.overline)
-                        .foregroundStyle(WorthlyTheme.background.opacity(0.64))
+                    if checkIn.isAdHoc {
+                        Text("随时回访 · \(checkIn.createdAt.formatted(date: .abbreviated, time: .omitted))")
+                            .font(WorthlyTheme.overline)
+                            .foregroundStyle(WorthlyTheme.background.opacity(0.64))
+                    } else {
+                        Text("\(checkIn.stageDays) DAYS")
+                            .font(WorthlyTheme.overline)
+                            .foregroundStyle(WorthlyTheme.background.opacity(0.64))
+                    }
                     Text(checkIn.usage.displayName)
                         .font(.subheadline)
                         .foregroundStyle(WorthlyTheme.background.opacity(0.72))

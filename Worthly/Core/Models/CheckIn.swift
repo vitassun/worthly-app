@@ -42,7 +42,7 @@ final class CheckIn {
 
     init(
         id: UUID = UUID(),
-        stage: CheckInStage,
+        stage: CheckInStage?,
         satisfactionScore: Int,
         usageFrequency: UsageFrequency,
         note: String? = nil,
@@ -50,7 +50,7 @@ final class CheckIn {
         item: WorthlyItem? = nil
     ) {
         self.id = id
-        self.stageDays = stage.rawValue
+        self.stageDays = stage?.rawValue ?? CheckInSchedule.adHocStageDays
         self.satisfactionScore = satisfactionScore
         self.usageFrequency = usageFrequency.rawValue
         self.note = note
@@ -60,6 +60,10 @@ final class CheckIn {
 
     var stage: CheckInStage? {
         CheckInStage(rawValue: stageDays)
+    }
+
+    var isAdHoc: Bool {
+        stageDays == CheckInSchedule.adHocStageDays
     }
 
     var usage: UsageFrequency {
