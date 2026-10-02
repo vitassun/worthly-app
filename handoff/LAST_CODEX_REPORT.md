@@ -2,7 +2,7 @@
 
 ## RESULT
 
-PARTIAL — fixes implemented and statically checked; no local Xcode available, so Debug/XCTest/Release have not been run. CI is the runtime gate and has not run yet.
+PASS — CI run #19 green on a022489
 
 ## BASELINE
 
@@ -11,9 +11,10 @@ PARTIAL — fixes implemented and statically checked; no local Xcode available, 
 
 ## BUILD
 
-- Debug: NOT RUN — Windows host, no Xcode
-- XCTest: NOT RUN — Windows host, no Xcode
-- Release: NOT RUN — Windows host, no Xcode
+- Debug: PASS — GitHub Actions "iOS Build and Tests" #19 (not local)
+- XCTest: PASS (44 tests, 0 failures) — GitHub Actions "iOS Build and Tests" #19 (not local)
+- Release: PASS — GitHub Actions "iOS Build and Tests" #19 (not local)
+- Unsigned IPA: PASS — GitHub Actions "iOS Build and Tests" #19 (not local)
 
 ## CHANGES
 
@@ -54,12 +55,12 @@ PARTIAL — fixes implemented and statically checked; no local Xcode available, 
 
 ## COMMIT
 
-- SHA: see git log (fix: surface save failures and guard purchase dates)
-- message: see git log (fix: surface save failures and guard purchase dates)
+- SHA: `a022489b9797e37867473c7ab0611fa83dbfa9df`
+- message: `fix: surface save failures and guard purchase dates`
 
 ## PUSH
 
-- attempted once
+- success
 
 ## ARTIFACTS
 
@@ -70,3 +71,4 @@ PARTIAL — fixes implemented and statically checked; no local Xcode available, 
 
 - Run the required GitHub Actions gates (Debug simulator build, XCTest, Release simulator build) to verify these fixes.
 - The delivered change is bug-fix only: no new files, no schema change, no architecture change.
+- No new tests cover these view-layer fixes; verify save-failure alert and purchase-date limit manually during Iteration 08 runtime QA.

@@ -906,19 +906,19 @@ GitHub `main` is the single source of truth.
 Current verified baseline:
 
 ```text
-30fd3661c6431c23d24f915607852d1ac13f6aef
+a022489b9797e37867473c7ab0611fa83dbfa9df
 ```
 
 Commit:
 
 ```text
-feat: add a warm dark appearance alongside the light palette
+fix: surface save failures and guard purchase dates
 ```
 
 Latest verified GitHub Actions gate:
 
 ```text
-iOS Build and Tests #17
+iOS Build and Tests #19
 ```
 
 Status:
