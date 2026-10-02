@@ -924,25 +924,25 @@ GitHub `main` is the single source of truth.
 Current verified baseline:
 
 ```text
-a022489b9797e37867473c7ab0611fa83dbfa9df
+333c812c32f9dee45bdb07565b93d33ed49a909b
 ```
 
 Commit:
 
 ```text
-fix: surface save failures and guard purchase dates
+feat: allow any-day reflections and past purchase dates
 ```
 
 Latest verified GitHub Actions gate:
 
 ```text
-iOS Build and Tests #19
+iOS Build and Tests #21
 ```
 
 Status:
 
 - Debug Build: PASS
-- XCTest: PASS (44 tests, 0 failures)
+- XCTest: PASS (50 tests, 0 failures)
 - Release Build: PASS
 - Unsigned device app + IPA packaging: PASS (artifact `Worthly-unsigned-ipa`, verified arm64 / `iPhoneOS`, no `UIUserInterfaceStyle` override so the app follows the system appearance)
 
@@ -1114,6 +1114,32 @@ Final verified baseline:
 
 ```text
 f1c63f20778299cb475c5ae625e326a900eb3c23
+```
+
+## Feature batch — Any-day reflections & Add flow polish
+
+Delivered:
+
+- free-form `随时回访` reflections: `CheckIn(stage: nil)` is stored as `stageDays == 0`
+- `CheckIn.isAdHoc`, `CheckInSchedule.adHocStageDays`, `CheckInSchedule.timeline(for:)`
+- Item Detail AFTER card: chronological reflection list plus an always-available `记录现在的感觉` entry
+- Add flow: purchase date selectable when `已经买了`, never in the future
+- Add / Edit: visible `它属于哪一类？` question above the category selector
+- staged 7 / 30 / 90 sequencing, reminders, notification routing and `InsightEngine` semantics unchanged
+- free-form reflections are excluded from satisfaction insights (see §9 / §10)
+- focused tests for ad-hoc stage isolation, timeline ordering and insight exclusion
+- no schema change, no migration, no new files
+
+Feature commit:
+
+```text
+333c812c32f9dee45bdb07565b93d33ed49a909b
+```
+
+Final verified baseline:
+
+```text
+333c812c32f9dee45bdb07565b93d33ed49a909b
 ```
 
 ---

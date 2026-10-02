@@ -2,9 +2,8 @@
 
 ## RESULT
 
-PARTIAL — feature work implemented and statically checked. No local Xcode (Windows host),
-so Debug / XCTest / Release have not been run yet. CI is the runtime gate and has not run
-for this commit.
+PASS — CI run #21 green on `333c812`. Debug build, XCTest (50 tests, 0 failures), Release build and
+the unsigned IPA all passed on GitHub Actions. No local Xcode was available (Windows host).
 
 ## BASELINE
 
@@ -13,9 +12,12 @@ for this commit.
 
 ## BUILD
 
-- Debug: NOT RUN — no Xcode on this host
-- XCTest: NOT RUN — no Xcode on this host
-- Release: NOT RUN — no Xcode on this host
+All results from GitHub Actions "iOS Build and Tests" #21, not from a local build:
+
+- Debug: PASS (iOS Simulator)
+- XCTest: PASS — 50 tests, 0 failures (44 existing + 6 new)
+- Release: PASS (iOS Simulator)
+- Unsigned device app + IPA packaging: PASS (artifact `Worthly-unsigned-ipa`)
 
 ## CHANGES
 
@@ -111,16 +113,18 @@ evaluation), §14 (purchase date selectable when already bought), §15 (AFTER se
 
 - `git diff --check`: passes
 - brace/paren balance spot-checked on every edited file
-- `git diff --stat`: 8 files, +151/-28 before the doc edits
+- CI #21: Debug PASS, XCTest PASS (50 tests, 0 failures), Release PASS, unsigned IPA PASS
+- the 6 new tests all executed on CI, so the ad-hoc stage-isolation and insight-exclusion
+  behaviour is runtime-verified; the UI changes themselves are not covered by tests
 
 ## COMMIT
 
-- SHA: see `git log`
-- message: `feat: add any-day reflections and purchase-date entry`
+- SHA: `333c812c32f9dee45bdb07565b93d33ed49a909b`
+- message: `feat: allow any-day reflections and past purchase dates`
 
 ## PUSH
 
-- attempted once
+- success (single push, no force)
 
 ## ARTIFACTS
 
@@ -129,7 +133,7 @@ evaluation), §14 (purchase date selectable when already bought), §15 (AFTER se
 
 ## NEXT
 
-- Verify CI: Debug build, XCTest (must stay green, now 44 + 6 tests), Release build, unsigned IPA.
-- Record the new verified baseline in `AGENTS.md` §20 and add the feature-batch entry to §21.
 - Runtime QA (Iteration 08): date picker in the Add flow, repeated same-day reflections, the
   Item Detail timeline with mixed staged and free-form entries, and the category question layout.
+- Product decision still open: whether free-form reflections should feed `InsightEngine`
+  (would need an ordering rule, thresholds and tests).
