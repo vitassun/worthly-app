@@ -1,5 +1,5 @@
 import React from "react";
-import { AbsoluteFill, Audio, Sequence, staticFile } from "remotion";
+import { AbsoluteFill, Audio, Sequence, staticFile, useCurrentFrame } from "remotion";
 import { palette } from "./design/tokens";
 import { useWorthlyFonts } from "./components/Fonts";
 import { SCENES } from "./timeline";
@@ -53,6 +53,9 @@ const SCENE_COMPONENTS: Record<string, React.FC> = {
  */
 export const WorthlyPromo: React.FC = () => {
   useWorthlyFonts();
+  const frame = useCurrentFrame();
+  const appearance = SCENES.find(scene => scene.id === "appearance")!;
+  const nativeReference = frame >= appearance.from && frame < appearance.from + appearance.durationInFrames;
 
   return (
     <AbsoluteFill style={{ background: palette.cream, willChange: "transform" }}>
@@ -72,7 +75,7 @@ export const WorthlyPromo: React.FC = () => {
         );
       })}
       <div style={{ position: "absolute", left: 150, bottom: 24, fontFamily: fontFamily.sans,
-        fontSize: 18, color: palette.muted }}>功能演示 · 示例数据 · 界面依据当前 iOS App 重绘</div>
+        fontSize: 18, color: palette.muted }}>功能演示 · 示例数据 · {nativeReference ? "当前 iOS App 模拟器渲染" : "界面依据当前 iOS App 重绘"}</div>
     </AbsoluteFill>
   );
 };

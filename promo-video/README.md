@@ -1,7 +1,7 @@
 # Worthly v0.2.0 宣发视频 — 2026-10-05
 
 交付：`renders/worthly-promo-v0.2.0.mp4`，1920 × 1080，16:9，30 fps，82 秒，H.264 + AAC。
-中文画面文案，原创钢琴曲《A Little Time》，84 BPM、C 大调，无旁白。真实钢琴采样来源为 Salamander Grand Piano v3 / Alexander Holm（CC BY 3.0），来源、许可和署名保存在 `audio-sources/salamander/` 并在片尾显示。所有功能依据当前 iOS App；界面为重绘，记录为演示数据，成片持续标明。
+中文画面文案，原创钢琴曲《A Little Time》，84 BPM、C 大调，无旁白。真实钢琴采样来源为 Salamander Grand Piano v3 / Alexander Holm（CC BY 3.0），来源、许可和署名保存在 `audio-sources/salamander/` 并在片尾显示。所有功能依据当前 iOS App，记录为演示数据。74–78 秒的深浅外观使用当前 App 的真实 SwiftUI 模拟器视图渲染；其余界面为重绘，成片按段落持续标明。
 
 ## 修正
 
@@ -14,6 +14,8 @@
 - 展示折扣 / 类别 / 长期最高最低购买记忆；指标仍由同一示例数据和本地洞察规则计算。
 - 第一份洞察的 3 件阶段回访门槛，与长期洞察的独立门槛均有交代。
 - 修复深色重绘的强调卡标签对比度。
+- 用户指出深色颜色偏差后，用真实 SwiftUI 视图渲染替换深浅外观段落；同时纠正重绘的状态 / 折扣误用橙色、导航动作颜色及旧回访额外淡化。
+- 片尾加入用户指定的「更多功能，敬请期待」与「尚未正式上架 App Store」。
 - 根据用户反馈重做为有问答旋律、轻柔伴奏和自然结尾的钢琴曲，移除旧合成器铺底与密集提示音；帧提取清单的帧率取自实际合成，不再残留 60 fps。
 
 ## 功能依据
@@ -49,6 +51,7 @@
 npm ci
 npm run typecheck
 npm run verify:data
+npm run verify:native
 npm run score
 npm run qa
 npm run render
@@ -64,11 +67,15 @@ npm run verify:audio
 
 记录库演示包含 10 件已完成阶段回访的购买、4 件待首次回访购买、1 件考虑中、1 件没买。满意度与长期规律来自其中已评估的 10 件购买，平均 6.9；未回访及没买记录不混入满意度。
 
-重绘不能替代 iPhone 实机 QA。Windows 上未运行 Xcode / 模拟器；当前 iOS CI 仅验证仓库 App 构建，不验证视频视觉质量。
+Windows 上没有本地 Xcode，也未做 iPhone 实机 QA。独立手动工作流 `Promo Native Reference` 已在 GitHub macOS 的 iPhone 17 / iOS 26.2 上渲染真实 `ItemDetailView`；主 CI 的 Debug / 63 项 XCTest / Release / 未签名 IPA 门禁保持完整。
+
+原生素材见 `public/native-reference/`。来源提交为 `ec9414296a2c1889fbc4aaece924e7372250325e`，捕获运行为 [37219653303](https://github.com/vitassun/worthly-app/actions/runs/37219653303)。该提交的生产 App 与已验证的 `f4932fa` 一致。工作流仅在一次性 runner 中向既有测试文件追加截图夹具，运行后按原始字节恢复；不提交或改变生产 App、项目及既有测试。4 张原生 PNG、种子记录、系统 / 版本 / 尺寸 / SHA 元数据随素材保存，视频使用两张顶部图，不调色。
+
+捕获是独立 `UIHostingController` 中真实 `ThingsView → NavigationStack → ItemDetailView` 的视图渲染；没有合成整个 `RootTabView`，也不是系统录屏或真机录像。设备外框仍是视频构图，图像缩放至画面内的屏幕尺寸；系统状态栏不在该原生窗口截图中。另两张 AFTER 图用于核对强调卡与回访。`verify:native` 从实际 Swift 主题读取六个颜色，检查原生 PNG 的尺寸与元数据、记录哈希，并验证深浅两组主题颜色均存在。
 
 ## 成片检查
 
-- 19 个屏幕布局检查、42 个关键时刻、70 个画面区域检查均通过。
+- 19 个屏幕布局检查、42 个关键时刻、72 个画面区域检查均通过；原生素材的 12 个主题颜色检查均通过。
 - 2460 帧全片扫描无空白帧；20 个成片解码画面与无损源帧比较通过。
 - 16 项声音检查通过：-16 LUFS、无削波、首尾淡出、左右声级平衡、全片主体无意外静音、AAC 保持源母带响度。
 - 钢琴版含片尾音源署名，已完整重新渲染，再通过画面一致性与声音检查；旧配乐的局部铃声检查仅用于仍声明铃声的旧曲目，新钢琴曲不含铃声或提示音。

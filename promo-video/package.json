@@ -18,6 +18,7 @@
     "sequence": "node scripts/analyze-sequence.mjs",
     "verify:encode": "node scripts/verify-encode.mjs --stills qa/frames-v020",
     "verify:audio": "node scripts/verify-audio.mjs",
+    "verify:native": "node scripts/verify-native-reference.mjs",
     "qa": "npm run screens && npm run frames && npm run analyze && npm run probe && npm run contact-sheet",
     "qa:full": "npm run score && npm run qa && npm run render && npm run sequence && npm run verify:encode && npm run verify:audio",
     "typecheck": "tsc --noEmit",

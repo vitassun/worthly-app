@@ -1093,8 +1093,8 @@
       "maxX": 1588,
       "maxY": 1054
     },
-    "inkShare": 0.0189,
-    "chromaticShare": 0.0008,
+    "inkShare": 0.0213,
+    "chromaticShare": 0.0022,
     "offPaletteShare": 0,
     "offPaletteMeanHue": null,
     "offPaletteMaxHue": null,
@@ -1115,7 +1115,7 @@
       0.024,
       0.005,
       0.04,
-      0.028,
+      0.057,
       0.033
     ],
     "rowRuns": [
@@ -1123,16 +1123,14 @@
       "590-667",
       "753-772",
       "809-852",
-      "936-950",
-      "963-1009",
+      "899-1009",
       "1036-1054"
     ],
     "gaps": [
       99,
       86,
       37,
-      84,
-      13,
+      47,
       27
     ],
     "topColours": [
@@ -1142,11 +1140,15 @@
       },
       {
         "colour": "#505050",
-        "share": 0.0022
+        "share": 0.0024
       },
       {
         "colour": "#606060",
-        "share": 0.001
+        "share": 0.0011
+      },
+      {
+        "colour": "#C06040",
+        "share": 0.0009
       },
       {
         "colour": "#707070",
@@ -1154,10 +1156,6 @@
       },
       {
         "colour": "#A0A090",
-        "share": 0.0006
-      },
-      {
-        "colour": "#606050",
         "share": 0.0006
       }
     ]
@@ -1429,8 +1427,8 @@
       "maxX": 1761,
       "maxY": 1054
     },
-    "inkShare": 0.2263,
-    "chromaticShare": 0.0034,
+    "inkShare": 0.2214,
+    "chromaticShare": 0.0035,
     "offPaletteShare": 0,
     "offPaletteMeanHue": null,
     "offPaletteMaxHue": null,
@@ -1441,18 +1439,18 @@
       "bottom": false
     },
     "bands": [
-      0.145,
-      0.257,
+      0.147,
+      0.26,
       0.24,
       0.276,
-      0.3,
+      0.305,
       0.355,
       0.279,
       0.269,
       0.251,
-      0.217,
-      0.056,
-      0.071
+      0.14,
+      0.062,
+      0.073
     ],
     "rowRuns": [
       "33-1054"
@@ -1461,15 +1459,19 @@
     "topColours": [
       {
         "colour": "#101000",
-        "share": 0.0867
+        "share": 0.1177
       },
       {
         "colour": "#201010",
-        "share": 0.0861
+        "share": 0.0444
       },
       {
         "colour": "#101010",
-        "share": 0.0308
+        "share": 0.0318
+      },
+      {
+        "colour": "#202010",
+        "share": 0.0046
       },
       {
         "colour": "#505050",
@@ -1477,10 +1479,6 @@
       },
       {
         "colour": "#606060",
-        "share": 0.0014
-      },
-      {
-        "colour": "#909080",
         "share": 0.0012
       }
     ]

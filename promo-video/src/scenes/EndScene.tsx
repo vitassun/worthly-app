@@ -96,6 +96,16 @@ export const EndScene: React.FC = () => {
           </div>
         </MaskLine>
       </div>
+      <div style={{ position: "absolute", left: frameLayout.margin, top: 890,
+        fontFamily: fontFamily.sans, fontSize: 30, lineHeight: 1.5,
+        color: palette.orange, opacity: progress(frame, 34, 16) }}>
+        更多功能，敬请期待
+      </div>
+      <div style={{ position: "absolute", left: frameLayout.margin, top: 950,
+        fontFamily: fontFamily.sans, fontSize: 23, lineHeight: 1.5,
+        color: palette.muted, opacity: progress(frame, 34, 16) }}>
+        尚未正式上架 App Store
+      </div>
       <div style={{ position: "absolute", left: 1060, top: 930, width: 710,
         fontFamily: fontFamily.sans, fontSize: 18, lineHeight: 1.5,
         color: palette.muted, opacity: progress(frame, 10, 12) }}>

@@ -1,0 +1,107 @@
+{
+  "bounds" : {
+    "height" : 874,
+    "safeArea" : {
+      "bottom" : 34,
+      "left" : 0,
+      "right" : 0,
+      "top" : 62
+    },
+    "scale" : 3,
+    "width" : 402
+  },
+  "build" : "2",
+  "bundleIdentifier" : "com.vitassun.worthly",
+  "capturedAt" : "2026-10-04T17:18:42Z",
+  "currencyExample" : "¥3,299",
+  "images" : [
+    {
+      "appearance" : "light",
+      "file" : "item-detail-light.png",
+      "hierarchyDrawn" : true,
+      "pixelHeight" : 2622,
+      "pixelWidth" : 1206,
+      "scrollOffsetY" : 0,
+      "section" : "top"
+    },
+    {
+      "appearance" : "light",
+      "file" : "item-detail-light-after.png",
+      "hierarchyDrawn" : true,
+      "pixelHeight" : 2622,
+      "pixelWidth" : 1206,
+      "scrollOffsetY" : 315,
+      "section" : "after"
+    },
+    {
+      "appearance" : "dark",
+      "file" : "item-detail-dark.png",
+      "hierarchyDrawn" : true,
+      "pixelHeight" : 2622,
+      "pixelWidth" : 1206,
+      "scrollOffsetY" : 0,
+      "section" : "top"
+    },
+    {
+      "appearance" : "dark",
+      "file" : "item-detail-dark-after.png",
+      "hierarchyDrawn" : true,
+      "pixelHeight" : 2622,
+      "pixelWidth" : 1206,
+      "scrollOffsetY" : 315,
+      "section" : "after"
+    }
+  ],
+  "locale" : "zh_CN",
+  "modelIdentifier" : "iPhone18,3",
+  "navigationRoute" : "ThingsView -> native NavigationStack push -> ItemDetailView",
+  "referenceKind" : "Native SwiftUI Simulator view rendering; not a physical-device recording",
+  "renderMethod" : "UIHostingController + actual ItemDetailView + UIWindow.drawHierarchy",
+  "seed" : {
+    "category" : "数码",
+    "checkIns" : [
+      {
+        "createdAt" : "2026-03-15T21:05:00",
+        "id" : "10000000-0000-4000-8000-000000000101",
+        "note" : "降噪比想象中更有用。",
+        "satisfactionScore" : 8,
+        "stageDays" : 7,
+        "usageFrequency" : "daily"
+      },
+      {
+        "createdAt" : "2026-04-07T22:40:00",
+        "id" : "10000000-0000-4000-8000-000000000102",
+        "note" : "音质很好，但出门带得比想象中少。",
+        "satisfactionScore" : 7,
+        "stageDays" : 30,
+        "usageFrequency" : "severalTimesWeek"
+      },
+      {
+        "createdAt" : "2026-06-06T20:15:00",
+        "id" : "10000000-0000-4000-8000-000000000103",
+        "note" : "喜欢它，但没有买前想象得那么离不开。",
+        "satisfactionScore" : 7,
+        "stageDays" : 90,
+        "usageFrequency" : "severalTimesWeek"
+      }
+    ],
+    "createdAt" : "2026-03-01T20:10:00",
+    "decisionDate" : "2026-03-08T11:20:00",
+    "desireScore" : 9,
+    "expectedUsage" : "daily",
+    "id" : "00000000-0000-4000-8000-000000000001",
+    "name" : "AirPods Max",
+    "originalPrice" : 3999,
+    "paidPrice" : 3299,
+    "purchaseDate" : "2026-03-08T11:20:00",
+    "reason" : "experience",
+    "sourceNote" : "店里试戴过一次，降噪很安静。",
+    "state" : "bought"
+  },
+  "simulatorName" : "iPhone 17",
+  "simulatorOS" : "26.2",
+  "simulatorUDID" : "25B395EC-01B8-4FB6-8D2A-1C484C360481",
+  "sourceSHA" : "ec9414296a2c1889fbc4aaece924e7372250325e",
+  "timeZone" : "Asia\/Shanghai",
+  "version" : "0.2.0"
+}

@@ -1,11 +1,10 @@
 import React from "react";
-import { useCurrentFrame } from "remotion";
+import { Img, staticFile, useCurrentFrame } from "remotion";
 import { palette } from "../design/tokens";
 import { progress } from "../design/motion";
 import { BodyCopy, MaskLine, Mono, SceneFade, SerifDisplay, Slug } from "../components/Stage";
 import { PhoneFrame } from "../components/WorthlyCard";
 import { AddItemUI, ADD_FORM_MAX_SCROLL_BOUGHT } from "../ui/AddItemUI";
-import { ItemDetailUI } from "../ui/ItemDetailUI";
 import { SettingsUI } from "../ui/SettingsUI";
 import { ReviewQueueUI } from "../ui/ReviewQueueUI";
 import { CheckInUI } from "../ui/CheckInUI";
@@ -119,10 +118,12 @@ export const AppearanceScene: React.FC = () => {
       body={"跟随 iPhone 系统的深浅外观。\n同一段记忆，清晰地留在时间线里。"} />
     <PhoneFrame scale={1.16} appearance="light"
       style={{ ...box, opacity: progress(frame, 1, 15) * (1 - darkP) }}>
-      <ItemDetailUI item={HERO_ITEM} checkIns={HERO_ITEM.checkIns} scrollY={0} allStagesComplete />
+      <Img src={staticFile("native-reference/item-detail-light.png")}
+        style={{ width: "100%", height: "100%" }} />
     </PhoneFrame>
     <PhoneFrame scale={1.16} appearance="dark" style={{ ...box, opacity: darkP }}>
-      <ItemDetailUI item={HERO_ITEM} checkIns={HERO_ITEM.checkIns} scrollY={0} allStagesComplete />
+      <Img src={staticFile("native-reference/item-detail-dark.png")}
+        style={{ width: "100%", height: "100%" }} />
     </PhoneFrame>
     <div style={{ position: "absolute", left: 150, top: 810 }}><Mono size={22} color={palette.orange}>
       {dark ? "深色外观 · 跟随系统" : "浅色外观 · 跟随系统"}</Mono></div>

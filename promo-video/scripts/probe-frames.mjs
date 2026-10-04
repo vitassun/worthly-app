@@ -36,7 +36,11 @@ for(const entry of manifest.frames) {
   if(entry.time === 56) check(png,file,"买前与买后洞察",[900,290,1690,800],50000);
   if(entry.time === 62) for(const y of [370,565,760]) check(png,file,"长期规律指标",[150,y,1770,y+170],2000);
   if(entry.time === 76.5) check(png,file,"深色强调卡文字",[1310,915,1735,990],100);
-  if(entry.time === 80) check(png,file,"钢琴采样署名与许可",[1060,930,1770,1015],1500);
+  if(entry.time === 80) {
+    check(png,file,"更多功能，敬请期待",[150,890,900,950],800,orange);
+    check(png,file,"尚未正式上架 App Store",[150,950,900,1000],500);
+    check(png,file,"钢琴采样署名与许可",[1060,930,1770,1015],1500);
+  }
 }
 const failed = results.filter(r => !r.pass);
 console.log(`${results.length} region checks · ${failed.length} failed`);

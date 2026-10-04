@@ -1,0 +1,105 @@
+{
+  "sourceSHA": "ec9414296a2c1889fbc4aaece924e7372250325e",
+  "simulator": "iPhone 17 / iOS 26.2",
+  "referenceKind": "Native SwiftUI Simulator view rendering; not a physical-device recording",
+  "images": [
+    {
+      "file": "item-detail-light.png",
+      "width": 1206,
+      "height": 2622,
+      "sha256": "a9db89557215fdaecafa5c67a50d21f0e26479a0c770234d1225cd4f619d40f4"
+    },
+    {
+      "file": "item-detail-light-after.png",
+      "width": 1206,
+      "height": 2622,
+      "sha256": "3740df53868b97ecffdcb458cf5097a30e450e54b70ce57bd0b00642812f0bff"
+    },
+    {
+      "file": "item-detail-dark.png",
+      "width": 1206,
+      "height": 2622,
+      "sha256": "7d4d83162972627f349858f90eb50e0a229788689daa16665e60f9b62c19e4af"
+    },
+    {
+      "file": "item-detail-dark-after.png",
+      "width": 1206,
+      "height": 2622,
+      "sha256": "c911e491628c867fffe20ee75e3a285a06857d447641771cb964dec7b0549086"
+    }
+  ],
+  "checks": [
+    {
+      "appearance": "light",
+      "role": "background",
+      "pixels": 2406304,
+      "pass": true
+    },
+    {
+      "appearance": "light",
+      "role": "surface",
+      "pixels": 817230,
+      "pass": true
+    },
+    {
+      "appearance": "light",
+      "role": "text",
+      "pixels": 24828,
+      "pass": true
+    },
+    {
+      "appearance": "light",
+      "role": "muted",
+      "pixels": 29093,
+      "pass": true
+    },
+    {
+      "appearance": "light",
+      "role": "accent",
+      "pixels": 3112,
+      "pass": true
+    },
+    {
+      "appearance": "light",
+      "role": "emphasis",
+      "pixels": 2166739,
+      "pass": true
+    },
+    {
+      "appearance": "dark",
+      "role": "background",
+      "pixels": 2793751,
+      "pass": true
+    },
+    {
+      "appearance": "dark",
+      "role": "surface",
+      "pixels": 822183,
+      "pass": true
+    },
+    {
+      "appearance": "dark",
+      "role": "text",
+      "pixels": 24828,
+      "pass": true
+    },
+    {
+      "appearance": "dark",
+      "role": "muted",
+      "pixels": 29093,
+      "pass": true
+    },
+    {
+      "appearance": "dark",
+      "role": "accent",
+      "pixels": 3112,
+      "pass": true
+    },
+    {
+      "appearance": "dark",
+      "role": "emphasis",
+      "pixels": 2166733,
+      "pass": true
+    }
+  ]
+}

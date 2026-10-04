@@ -28,8 +28,8 @@ export interface NextStageInfo {
   overdue: boolean;
 }
 
-const checkInRow = (checkIn: DemoCheckIn, dim: number) => (
-  <div style={{ opacity: dim }}>
+const checkInRow = (checkIn: DemoCheckIn) => (
+  <div>
     <div
       style={{
         display: "flex",
@@ -69,8 +69,6 @@ export const ItemDetailUI: React.FC<{
   checkIns: DemoCheckIn[];
   nextStage?: NextStageInfo | null;
   allStagesComplete?: boolean;
-  /** The most recently added reflection, emphasised for one beat. */
-  newestIndex?: number;
   scrollY: number;
   tabBar?: TabId | null;
   navHairline?: boolean;
@@ -82,7 +80,6 @@ export const ItemDetailUI: React.FC<{
   checkIns,
   nextStage = null,
   allStagesComplete = false,
-  newestIndex = -1,
   scrollY,
   tabBar = null,
   navHairline = false,
@@ -115,10 +112,14 @@ export const ItemDetailUI: React.FC<{
       <StatusBar />
       <NavBar
         title={item.name}
+        leading={<svg width={22} height={22} viewBox="0 0 22 22" fill="none">
+          <path d="M14 4L7 11L14 18" stroke={palette.orange} strokeWidth={2.2}
+            strokeLinecap="round" strokeLinejoin="round" />
+        </svg>}
         trailing={
           <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-            <NavAction label="编辑" />
-            <EllipsisIcon size={20} color={palette.ink} />
+            <NavAction label="编辑" color={palette.orange} />
+            <EllipsisIcon size={20} color={palette.orange} />
           </div>
         }
         showHairline={navHairline}
@@ -145,7 +146,7 @@ export const ItemDetailUI: React.FC<{
         >
           {/* header */}
           <div>
-            <Overline>{STATE_LABELS[state]}</Overline>
+            <Overline color={palette.muted}>{STATE_LABELS[state]}</Overline>
             <DisplayTitle style={{ marginTop: 10 }}>{item.name}</DisplayTitle>
             <Text size={type.body} color={palette.muted} style={{ marginTop: 10 }}>
               {`${item.category} · ${REASON_LABELS[item.reason]}`}
@@ -208,7 +209,7 @@ export const ItemDetailUI: React.FC<{
                   )}
                 </div>
                 {discount !== undefined && item.originalPrice !== undefined && item.paidPrice !== undefined ? (
-                  <Overline style={{ marginTop: 12 }}>
+                  <Overline color={palette.muted} style={{ marginTop: 12 }}>
                     {`-${formatPercent(discount)} · SAVED ${formatCurrency(item.originalPrice - item.paidPrice)}`}
                   </Overline>
                 ) : null}
@@ -297,9 +298,9 @@ export const ItemDetailUI: React.FC<{
                 ) : (
                   <>
                     <SectionTitle color={palette.cream}>期待正在变成真实体验。</SectionTitle>
-                    {checkIns.map((checkIn, index) => (
+                    {checkIns.map((checkIn) => (
                       <React.Fragment key={checkIn.id}>
-                        {checkInRow(checkIn, index === newestIndex ? 1 : index === checkIns.length - 1 ? 1 : 0.62)}
+                        {checkInRow(checkIn)}
                       </React.Fragment>
                     ))}
                   </>
