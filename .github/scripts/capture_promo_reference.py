@@ -268,6 +268,20 @@ extension NotificationAndDeletionTests {
 
         // Capture the actual four-tab shell as well as the detail route. These are
         // generated references with our demo item, never copies of user screenshots.
+        // Use the App's existing window so system materials retain the normal
+        // window level and compositor attachment; hold its root alive for restore.
+        let homeWindow = try XCTUnwrap(originalKeyWindow, "Actual App key window is missing")
+        let originalRootController = try XCTUnwrap(homeWindow.rootViewController, "Actual App root controller is missing")
+        let originalWindowStyle = homeWindow.overrideUserInterfaceStyle
+        let originalWindowHidden = homeWindow.isHidden
+        let originalWindowWasKey = homeWindow.isKeyWindow
+        let originalWindowMetadata: [String: Any] = [
+            "windowClass": String(describing: type(of: homeWindow)),
+            "rootControllerClass": String(describing: type(of: originalRootController)),
+            "level": Double(homeWindow.windowLevel.rawValue),
+            "isHidden": originalWindowHidden, "isKeyWindow": originalWindowWasKey,
+            "overrideUserInterfaceStyle": originalWindowStyle.rawValue
+        ]
         let defaults = UserDefaults.standard
         let originalOnboarding = defaults.object(forKey: "hasCompletedOnboarding")
         let originalRoute = CheckInNotificationRouter.shared.pendingRoute
@@ -284,7 +298,10 @@ extension NotificationAndDeletionTests {
             }
             NSTimeZone.default = originalDefaultTimeZone
             CheckInNotificationRouter.shared.pendingRoute = originalRoute
-            originalKeyWindow?.makeKey()
+            homeWindow.rootViewController = originalRootController
+            homeWindow.overrideUserInterfaceStyle = originalWindowStyle
+            homeWindow.isHidden = originalWindowHidden
+            if originalWindowWasKey { homeWindow.makeKey() }
         }
 
         let homeConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: true)
@@ -335,17 +352,10 @@ extension NotificationAndDeletionTests {
                     .environment(\.timeZone, homeTimeZone)
                     .tint(WorthlyTheme.accent)
             )
-            let window = UIWindow(windowScene: scene)
-            window.frame = scene.coordinateSpace.bounds
+            let window = homeWindow
             window.overrideUserInterfaceStyle = .unspecified
             window.rootViewController = host
-            window.windowLevel = .normal + 1
             window.makeKeyAndVisible()
-            defer {
-                window.isHidden = true
-                window.rootViewController = nil
-                originalKeyWindow?.makeKey()
-            }
             for _ in 0..<4 {
                 host.view.setNeedsLayout()
                 window.layoutIfNeeded()
@@ -403,6 +413,21 @@ extension NotificationAndDeletionTests {
                 "pixelWidth": ack["pixelWidth"] ?? 0, "pixelHeight": ack["pixelHeight"] ?? 0,
                 "sha256": ack["sha256"] ?? "unknown",
                 "colorHandling": "Unmodified Simulator compositor PNG; no grading or conversion",
+                "accessibility": [
+                    "reduceTransparencyEnabled": UIAccessibility.isReduceTransparencyEnabled,
+                    "darkerSystemColorsEnabled": UIAccessibility.isDarkerSystemColorsEnabled,
+                    "reduceMotionEnabled": UIAccessibility.isReduceMotionEnabled,
+                    "contrast": host.traitCollection.accessibilityContrast.rawValue
+                ],
+                "window": [
+                    "usesOriginalAppWindow": true,
+                    "windowClass": String(describing: type(of: window)),
+                    "rootControllerClass": String(describing: type(of: host)),
+                    "level": Double(window.windowLevel.rawValue),
+                    "isHidden": window.isHidden, "isKeyWindow": window.isKeyWindow,
+                    "overrideUserInterfaceStyle": window.overrideUserInterfaceStyle.rawValue,
+                    "resolvedUserInterfaceStyle": host.traitCollection.userInterfaceStyle.rawValue
+                ],
                 "tabBar": ["x": Double(tabBarFrame.minX), "y": Double(tabBarFrame.minY),
                            "width": Double(tabBarFrame.width), "height": Double(tabBarFrame.height),
                            "items": tabBar.items?.compactMap(\.title) ?? []]
@@ -424,7 +449,8 @@ extension NotificationAndDeletionTests {
             "simulatorName": __SIMULATOR_NAME__, "simulatorUDID": "__SIMULATOR_UDID__",
             "simulatorOS": UIDevice.current.systemVersion,
             "modelIdentifier": ProcessInfo.processInfo.environment["SIMULATOR_MODEL_IDENTIFIER"] ?? "unknown",
-            "renderMethod": "Live actual RootTabView + xcrun simctl io screenshot of the entire system compositor",
+            "renderMethod": "Live actual RootTabView in the original App window + xcrun simctl io screenshot of the entire system compositor",
+            "originalAppWindow": originalWindowMetadata,
             "referenceKind": "Full-screen native Simulator capture; not a user screenshot or physical-device recording",
             "locale": "zh_CN", "timeZone": homeTimeZone.identifier,
             "foundationCurrentTimeZone": TimeZone.current.identifier,
