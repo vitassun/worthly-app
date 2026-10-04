@@ -12,388 +12,28 @@
     "audioDuration": 82,
     "frames": 3936000,
     "seconds": 82,
-    "peakDb": -1.4346665438037238,
-    "rmsDb": -18.24765814006158,
-    "rmsLdb": -17.61007662292986,
-    "rmsRdb": -18.99521935924531,
-    "skewDb": 1.3851427363154514,
-    "dcL": -1.131538453140879e-7,
-    "dcR": -1.2023274491472942e-7,
-    "correlation": 0.8986526962768593,
-    "maxDelta": 0.0665283203125,
-    "maxDeltaAt": 55.220416666666665,
+    "peakDb": -1.7000796770174031,
+    "rmsDb": -18.61980649207782,
+    "rmsLdb": -18.694745762437115,
+    "rmsRdb": -18.54613842503356,
+    "skewDb": -0.14860733740355414,
+    "dcL": 5.946120595544335e-7,
+    "dcR": -2.1748426483898628e-8,
+    "correlation": 0.01359496207219285,
+    "maxDelta": 0.077117919921875,
+    "maxDeltaAt": 17.434083333333334,
     "overThreshold": [],
     "headMax": 0,
     "tailMax": 0,
     "lastSample": 0,
-    "onset": 0.55,
-    "cueMatches": [
-      {
-        "cue": 0.55,
-        "midi": 74,
-        "gainDb": 76.67364193697544,
-        "strike": 0.546,
-        "delta": -0.0040000000000000036
-      },
-      {
-        "cue": 2.05,
-        "midi": 69,
-        "gainDb": 13.275161502430887,
-        "strike": 2.052,
-        "delta": 0.002000000000000224
-      },
-      {
-        "cue": 3.6833333333333336,
-        "midi": 65,
-        "gainDb": 11.045042467107184,
-        "strike": 3.687333333333333,
-        "delta": 0.0039999999999995595
-      },
-      {
-        "cue": 6.166666666666667,
-        "midi": 74,
-        "gainDb": 7.447117810832218,
-        "strike": 6.155666666666667,
-        "delta": -0.01100000000000012
-      },
-      {
-        "cue": 12.3,
-        "midi": 69,
-        "gainDb": 4.252568275731736,
-        "strike": 12.308,
-        "delta": 0.007999999999999119
-      },
-      {
-        "cue": 16.166666666666668,
-        "midi": 74,
-        "gainDb": 7.519845739937946,
-        "strike": 16.172666666666668,
-        "delta": 0.006000000000000227
-      },
-      {
-        "cue": 19.166666666666668,
-        "midi": 69,
-        "gainDb": 3.8077678862175084,
-        "strike": 19.180666666666667,
-        "delta": 0.013999999999999346
-      },
-      {
-        "cue": 23.45,
-        "midi": 74,
-        "gainDb": 6.157163750522233,
-        "strike": 23.454,
-        "delta": 0.004000000000001336
-      },
-      {
-        "cue": 27.166666666666668,
-        "midi": 74,
-        "gainDb": 6.484787079928353,
-        "strike": 27.172666666666668,
-        "delta": 0.006000000000000227
-      },
-      {
-        "cue": 27.666666666666668,
-        "midi": 74,
-        "gainDb": 3.8843246948451053,
-        "strike": 27.677666666666667,
-        "delta": 0.010999999999999233
-      },
-      {
-        "cue": 29.663333333333334,
-        "midi": 76,
-        "gainDb": 8.953091907059836,
-        "strike": 29.666333333333334,
-        "delta": 0.0030000000000001137
-      },
-      {
-        "cue": 31.669999999999998,
-        "midi": 77,
-        "gainDb": 8.144329982513309,
-        "strike": 31.674,
-        "delta": 0.004000000000001336
-      },
-      {
-        "cue": 35.45,
-        "midi": 74,
-        "gainDb": 9.696569944109683,
-        "strike": 35.444,
-        "delta": -0.006000000000000227
-      },
-      {
-        "cue": 40.2,
-        "midi": 76,
-        "gainDb": 6.4424123464178535,
-        "strike": 40.205,
-        "delta": 0.0049999999999954525
-      },
-      {
-        "cue": 44.45,
-        "midi": 74,
-        "gainDb": 6.371655362135662,
-        "strike": 44.457,
-        "delta": 0.006999999999997897
-      },
-      {
-        "cue": 48.14999999999999,
-        "midi": 69,
-        "gainDb": 7.770671129652641,
-        "strike": 48.156,
-        "delta": 0.006000000000007333
-      },
-      {
-        "cue": 53.400000000000006,
-        "midi": 81,
-        "gainDb": 13.32822651264203,
-        "strike": 53.401,
-        "delta": 0.0009999999999976694
-      },
-      {
-        "cue": 54.3,
-        "midi": 77,
-        "gainDb": 5.759990892592164,
-        "strike": 54.306,
-        "delta": 0.006000000000000227
-      },
-      {
-        "cue": 55.2,
-        "midi": 74,
-        "gainDb": 3.8274414136416866,
-        "strike": 55.209,
-        "delta": 0.009000000000000341
-      },
-      {
-        "cue": 58.45,
-        "midi": 74,
-        "gainDb": 6.166347008796826,
-        "strike": 58.456,
-        "delta": 0.006000000000000227
-      },
-      {
-        "cue": 64.23333333333333,
-        "midi": 69,
-        "gainDb": 6.163038435220635,
-        "strike": 64.23933333333333,
-        "delta": 0.006000000000000227
-      },
-      {
-        "cue": 68.45,
-        "midi": 74,
-        "gainDb": 8.809632296630657,
-        "strike": 68.454,
-        "delta": 0.003999999999990678
-      },
-      {
-        "cue": 74.45,
-        "midi": 74,
-        "gainDb": 8.462323167263584,
-        "strike": 74.455,
-        "delta": 0.0049999999999954525
-      },
-      {
-        "cue": 78.56666666666666,
-        "midi": 62,
-        "gainDb": 9.390171416383627,
-        "strike": 78.56166666666667,
-        "delta": -0.0049999999999954525
-      }
-    ],
-    "sfxJumps": [
-      {
-        "kind": "breath",
-        "t": 5.466333333333334,
-        "jumpDb": -0.6768395250011139
-      },
-      {
-        "kind": "tick",
-        "t": 7.1336666666666675,
-        "jumpDb": 0.4742606211931317
-      },
-      {
-        "kind": "tick",
-        "t": 7.599666666666667,
-        "jumpDb": -0.126282574936031
-      },
-      {
-        "kind": "tick",
-        "t": 7.966666666666666,
-        "jumpDb": 0.20104302804368857
-      },
-      {
-        "kind": "tick",
-        "t": 9.333666666666666,
-        "jumpDb": -0.07285857109008731
-      },
-      {
-        "kind": "tick",
-        "t": 9.599666666666668,
-        "jumpDb": 0.32286948886210354
-      },
-      {
-        "kind": "paper",
-        "t": 13,
-        "jumpDb": 0.4373848406218812
-      },
-      {
-        "kind": "tone",
-        "t": 13,
-        "jumpDb": 0.4373848406218812
-      },
-      {
-        "kind": "tick",
-        "t": 13.8,
-        "jumpDb": -0.057476447720755885
-      },
-      {
-        "kind": "tick",
-        "t": 17.199666666666666,
-        "jumpDb": 0.2874958538775694
-      },
-      {
-        "kind": "tick",
-        "t": 20.26666666666667,
-        "jumpDb": 1.7869561294826255
-      },
-      {
-        "kind": "breath",
-        "t": 20.999666666666666,
-        "jumpDb": -0.7754698883986322
-      },
-      {
-        "kind": "breath",
-        "t": 23,
-        "jumpDb": -2.1521863635046756
-      },
-      {
-        "kind": "tick",
-        "t": 28.266666666666666,
-        "jumpDb": -0.7365311273497035
-      },
-      {
-        "kind": "tick",
-        "t": 28.466666666666665,
-        "jumpDb": -0.3344813024567017
-      },
-      {
-        "kind": "tick",
-        "t": 30.266333333333336,
-        "jumpDb": 0.07111318034470848
-      },
-      {
-        "kind": "tick",
-        "t": 30.46633333333334,
-        "jumpDb": -0.8323937300185165
-      },
-      {
-        "kind": "tick",
-        "t": 32.267,
-        "jumpDb": 0.08400281545078414
-      },
-      {
-        "kind": "tick",
-        "t": 32.467,
-        "jumpDb": 0.2318156736324788
-      },
-      {
-        "kind": "breath",
-        "t": 35,
-        "jumpDb": -1.049682835176423
-      },
-      {
-        "kind": "stop",
-        "t": 41.266999999999996,
-        "jumpDb": 0.20294666475932033
-      },
-      {
-        "kind": "tick",
-        "t": 41.4,
-        "jumpDb": 0.4878926200466971
-      },
-      {
-        "kind": "breath",
-        "t": 44,
-        "jumpDb": 0.8759504204677668
-      },
-      {
-        "kind": "paper",
-        "t": 48.3,
-        "jumpDb": -1.2461439244097932
-      },
-      {
-        "kind": "stop",
-        "t": 49.43299999999999,
-        "jumpDb": 0.11339176125235184
-      },
-      {
-        "kind": "breath",
-        "t": 53,
-        "jumpDb": -0.08872273379688878
-      },
-      {
-        "kind": "paper",
-        "t": 53.367000000000004,
-        "jumpDb": 0.03931158752538977
-      },
-      {
-        "kind": "tone",
-        "t": 53.367000000000004,
-        "jumpDb": 0.03931158752538977
-      },
-      {
-        "kind": "paper",
-        "t": 54.467,
-        "jumpDb": -0.12473076695735585
-      },
-      {
-        "kind": "paper",
-        "t": 54.733000000000004,
-        "jumpDb": -0.4377494916614353
-      },
-      {
-        "kind": "breath",
-        "t": 58,
-        "jumpDb": -0.30171946542017736
-      },
-      {
-        "kind": "breath",
-        "t": 64.00033333333334,
-        "jumpDb": -0.737012846699777
-      },
-      {
-        "kind": "breath",
-        "t": 65.66633333333334,
-        "jumpDb": 1.0550978489658256
-      },
-      {
-        "kind": "breath",
-        "t": 68,
-        "jumpDb": 0.3276152215161261
-      },
-      {
-        "kind": "breath",
-        "t": 74,
-        "jumpDb": 0.007888538680884238
-      },
-      {
-        "kind": "tick",
-        "t": 78.13366666666667,
-        "jumpDb": -0.21676103677302194
-      },
-      {
-        "kind": "paper",
-        "t": 78.39966666666666,
-        "jumpDb": -0.13399260270990254
-      },
-      {
-        "kind": "tick",
-        "t": 78.73366666666666,
-        "jumpDb": -0.28023563704483934
-      }
-    ],
-    "longestSilence": 0.000020833333333333333,
+    "onset": 0.25,
+    "cueMatches": null,
+    "sfxJumps": null,
+    "longestSilence": 0.000041666666666666665,
     "lufs": {
-      "i": -16,
-      "tp": -1.43,
-      "lra": 6.1
+      "i": -15.99,
+      "tp": -1.7,
+      "lra": 2.7
     }
   },
   "film": {
@@ -405,695 +45,2366 @@
     "audioChannels": 2,
     "audioSampleRate": 48000,
     "videoDuration": 82,
-    "audioDuration": 82,
+    "audioDuration": 82.005,
     "frames": 3936256,
     "seconds": 82.00533333333334,
-    "peakDb": -1.4346665438037238,
-    "rmsDb": -18.250923240862004,
-    "rmsLdb": -17.61344756974004,
-    "rmsRdb": -18.99833885507833,
-    "skewDb": 1.3848912853382913,
-    "dcL": -2.9442585717875056e-7,
-    "dcR": -3.2821319353816163e-7,
-    "correlation": 0.8987795163406324,
-    "maxDelta": 0.06646728515625,
-    "maxDeltaAt": 55.220416666666665,
+    "peakDb": -1.6855846695292185,
+    "rmsDb": -18.6301062458306,
+    "rmsLdb": -18.706280710621577,
+    "rmsRdb": -18.555244869098818,
+    "skewDb": -0.15103584152275928,
+    "dcL": -6.276629593816433e-7,
+    "dcR": -3.2230544908982037e-7,
+    "correlation": 0.013332712180206577,
+    "maxDelta": 0.076324462890625,
+    "maxDeltaAt": 17.434083333333334,
     "overThreshold": [],
     "headMax": 0,
     "tailMax": 0,
     "lastSample": 0,
-    "onset": 0.55,
-    "cueMatches": [
-      {
-        "cue": 0.55,
-        "midi": 74,
-        "gainDb": 76.66947054176926,
-        "strike": 0.546,
-        "delta": -0.0040000000000000036
-      },
-      {
-        "cue": 2.05,
-        "midi": 69,
-        "gainDb": 13.283375114742668,
-        "strike": 2.052,
-        "delta": 0.002000000000000224
-      },
-      {
-        "cue": 3.6833333333333336,
-        "midi": 65,
-        "gainDb": 11.04551979182964,
-        "strike": 3.687333333333333,
-        "delta": 0.0039999999999995595
-      },
-      {
-        "cue": 6.166666666666667,
-        "midi": 74,
-        "gainDb": 7.451232187122827,
-        "strike": 6.155666666666667,
-        "delta": -0.01100000000000012
-      },
-      {
-        "cue": 12.3,
-        "midi": 69,
-        "gainDb": 4.251483085398132,
-        "strike": 12.308,
-        "delta": 0.007999999999999119
-      },
-      {
-        "cue": 16.166666666666668,
-        "midi": 74,
-        "gainDb": 7.542921519081467,
-        "strike": 16.172666666666668,
-        "delta": 0.006000000000000227
-      },
-      {
-        "cue": 19.166666666666668,
-        "midi": 69,
-        "gainDb": 3.819007120515092,
-        "strike": 19.180666666666667,
-        "delta": 0.013999999999999346
-      },
-      {
-        "cue": 23.45,
-        "midi": 74,
-        "gainDb": 6.169316524573659,
-        "strike": 23.454,
-        "delta": 0.004000000000001336
-      },
-      {
-        "cue": 27.166666666666668,
-        "midi": 74,
-        "gainDb": 6.494564835622931,
-        "strike": 27.172666666666668,
-        "delta": 0.006000000000000227
-      },
-      {
-        "cue": 27.666666666666668,
-        "midi": 74,
-        "gainDb": 3.8805829254907174,
-        "strike": 27.677666666666667,
-        "delta": 0.010999999999999233
-      },
-      {
-        "cue": 29.663333333333334,
-        "midi": 76,
-        "gainDb": 8.959034779405588,
-        "strike": 29.666333333333334,
-        "delta": 0.0030000000000001137
-      },
-      {
-        "cue": 31.669999999999998,
-        "midi": 77,
-        "gainDb": 8.156967000704025,
-        "strike": 31.674,
-        "delta": 0.004000000000001336
-      },
-      {
-        "cue": 35.45,
-        "midi": 74,
-        "gainDb": 9.69330510670633,
-        "strike": 35.444,
-        "delta": -0.006000000000000227
-      },
-      {
-        "cue": 40.2,
-        "midi": 76,
-        "gainDb": 6.444038610789757,
-        "strike": 40.205,
-        "delta": 0.0049999999999954525
-      },
-      {
-        "cue": 44.45,
-        "midi": 74,
-        "gainDb": 6.372567665739606,
-        "strike": 44.457,
-        "delta": 0.006999999999997897
-      },
-      {
-        "cue": 48.14999999999999,
-        "midi": 69,
-        "gainDb": 7.767323615870634,
-        "strike": 48.156,
-        "delta": 0.006000000000007333
-      },
-      {
-        "cue": 53.400000000000006,
-        "midi": 81,
-        "gainDb": 13.323550203589367,
-        "strike": 53.401,
-        "delta": 0.0009999999999976694
-      },
-      {
-        "cue": 54.3,
-        "midi": 77,
-        "gainDb": 5.763853027399328,
-        "strike": 54.306,
-        "delta": 0.006000000000000227
-      },
-      {
-        "cue": 55.2,
-        "midi": 74,
-        "gainDb": 3.8352666929955035,
-        "strike": 55.209,
-        "delta": 0.009000000000000341
-      },
-      {
-        "cue": 58.45,
-        "midi": 74,
-        "gainDb": 6.16020527005341,
-        "strike": 58.456,
-        "delta": 0.006000000000000227
-      },
-      {
-        "cue": 64.23333333333333,
-        "midi": 69,
-        "gainDb": 6.156485402512139,
-        "strike": 64.23933333333333,
-        "delta": 0.006000000000000227
-      },
-      {
-        "cue": 68.45,
-        "midi": 74,
-        "gainDb": 8.814923438286886,
-        "strike": 68.454,
-        "delta": 0.003999999999990678
-      },
-      {
-        "cue": 74.45,
-        "midi": 74,
-        "gainDb": 8.469418057486603,
-        "strike": 74.455,
-        "delta": 0.0049999999999954525
-      },
-      {
-        "cue": 78.56666666666666,
-        "midi": 62,
-        "gainDb": 9.39661601471271,
-        "strike": 78.56166666666667,
-        "delta": -0.0049999999999954525
-      }
-    ],
-    "sfxJumps": [
-      {
-        "kind": "breath",
-        "t": 5.466333333333334,
-        "jumpDb": -0.6530001343075504
-      },
-      {
-        "kind": "tick",
-        "t": 7.1336666666666675,
-        "jumpDb": 0.4712940639015315
-      },
-      {
-        "kind": "tick",
-        "t": 7.599666666666667,
-        "jumpDb": -0.1250057570947618
-      },
-      {
-        "kind": "tick",
-        "t": 7.966666666666666,
-        "jumpDb": 0.20050577801012537
-      },
-      {
-        "kind": "tick",
-        "t": 9.333666666666666,
-        "jumpDb": -0.08525489772446093
-      },
-      {
-        "kind": "tick",
-        "t": 9.599666666666668,
-        "jumpDb": 0.3295637598339205
-      },
-      {
-        "kind": "paper",
-        "t": 13,
-        "jumpDb": 0.44297756687910805
-      },
-      {
-        "kind": "tone",
-        "t": 13,
-        "jumpDb": 0.44297756687910805
-      },
-      {
-        "kind": "tick",
-        "t": 13.8,
-        "jumpDb": -0.052690047394403194
-      },
-      {
-        "kind": "tick",
-        "t": 17.199666666666666,
-        "jumpDb": 0.2830642938584731
-      },
-      {
-        "kind": "tick",
-        "t": 20.26666666666667,
-        "jumpDb": 1.7899940173790299
-      },
-      {
-        "kind": "breath",
-        "t": 20.999666666666666,
-        "jumpDb": -0.7709080382329851
-      },
-      {
-        "kind": "breath",
-        "t": 23,
-        "jumpDb": -2.151929184236238
-      },
-      {
-        "kind": "tick",
-        "t": 28.266666666666666,
-        "jumpDb": -0.7349932145755531
-      },
-      {
-        "kind": "tick",
-        "t": 28.466666666666665,
-        "jumpDb": -0.3312567161691149
-      },
-      {
-        "kind": "tick",
-        "t": 30.266333333333336,
-        "jumpDb": 0.07315613988180836
-      },
-      {
-        "kind": "tick",
-        "t": 30.46633333333334,
-        "jumpDb": -0.8354695881901311
-      },
-      {
-        "kind": "tick",
-        "t": 32.267,
-        "jumpDb": 0.07985640967884322
-      },
-      {
-        "kind": "tick",
-        "t": 32.467,
-        "jumpDb": 0.23353830194145786
-      },
-      {
-        "kind": "breath",
-        "t": 35,
-        "jumpDb": -1.0516121160385339
-      },
-      {
-        "kind": "stop",
-        "t": 41.266999999999996,
-        "jumpDb": 0.19932526959192387
-      },
-      {
-        "kind": "tick",
-        "t": 41.4,
-        "jumpDb": 0.48027365425532764
-      },
-      {
-        "kind": "breath",
-        "t": 44,
-        "jumpDb": 0.8725508085725266
-      },
-      {
-        "kind": "paper",
-        "t": 48.3,
-        "jumpDb": -1.2442608145600218
-      },
-      {
-        "kind": "stop",
-        "t": 49.43299999999999,
-        "jumpDb": 0.11447360775855131
-      },
-      {
-        "kind": "breath",
-        "t": 53,
-        "jumpDb": -0.08477223544948131
-      },
-      {
-        "kind": "paper",
-        "t": 53.367000000000004,
-        "jumpDb": 0.036948863631529605
-      },
-      {
-        "kind": "tone",
-        "t": 53.367000000000004,
-        "jumpDb": 0.036948863631529605
-      },
-      {
-        "kind": "paper",
-        "t": 54.467,
-        "jumpDb": -0.126457215688351
-      },
-      {
-        "kind": "paper",
-        "t": 54.733000000000004,
-        "jumpDb": -0.43728656222273443
-      },
-      {
-        "kind": "breath",
-        "t": 58,
-        "jumpDb": -0.2933191899077272
-      },
-      {
-        "kind": "breath",
-        "t": 64.00033333333334,
-        "jumpDb": -0.7366235810095461
-      },
-      {
-        "kind": "breath",
-        "t": 65.66633333333334,
-        "jumpDb": 1.0553950383830895
-      },
-      {
-        "kind": "breath",
-        "t": 68,
-        "jumpDb": 0.3277306961638935
-      },
-      {
-        "kind": "breath",
-        "t": 74,
-        "jumpDb": 0.013784453779177142
-      },
-      {
-        "kind": "tick",
-        "t": 78.13366666666667,
-        "jumpDb": -0.2210745835424106
-      },
-      {
-        "kind": "paper",
-        "t": 78.39966666666666,
-        "jumpDb": -0.1403487103854104
-      },
-      {
-        "kind": "tick",
-        "t": 78.73366666666666,
-        "jumpDb": -0.28027198415484733
-      }
-    ],
-    "longestSilence": 0.000020833333333333333,
+    "onset": 0.25,
+    "cueMatches": null,
+    "sfxJumps": null,
+    "longestSilence": 0.000041666666666666665,
     "lufs": {
       "i": -16,
-      "tp": -1.43,
-      "lra": 6.1
+      "tp": -1.68,
+      "lra": 2.7
     }
   },
   "cueSheet": {
     "duration": 82,
     "sampleRate": 48000,
     "targetLufs": -16,
-    "bells": [
+    "bells": [],
+    "sfx": [],
+    "music": {
+      "title": "A Little Time",
+      "style": "Warm acoustic piano, lyrical melody and restrained moving accompaniment",
+      "bpm": 84,
+      "key": "C major",
+      "timeSignature": "4/4",
+      "bars": 28,
+      "noteCount": 283,
+      "sampleSource": "Salamander Grand Piano v3 — Alexander Holm; sfzinstruments FLAC conversion",
+      "sampleLicense": "CC BY 3.0 Unported",
+      "attribution": "audio-sources/salamander/ATTRIBUTION.md",
+      "composition": "Original melody, harmony, arrangement and programmed performance for Worthly; not an existing song.",
+      "sections": [
+        {
+          "t": 0.25,
+          "name": "Opening question",
+          "bars": [
+            0,
+            1
+          ],
+          "character": "Light introduction with breathing room"
+        },
+        {
+          "t": 5.964,
+          "name": "Remember and decide",
+          "bars": [
+            2,
+            9
+          ],
+          "character": "First melody; thinner during waiting"
+        },
+        {
+          "t": 28.821,
+          "name": "Live with it and revisit",
+          "bars": [
+            10,
+            17
+          ],
+          "character": "Contrasting higher phrase with a gentle answer"
+        },
+        {
+          "t": 51.679,
+          "name": "See personal patterns",
+          "bars": [
+            18,
+            25
+          ],
+          "character": "Opening theme returns with fuller accompaniment"
+        },
+        {
+          "t": 74.536,
+          "name": "Keep the memory",
+          "bars": [
+            26,
+            27
+          ],
+          "character": "Quiet Fmaj7 to Cadd9 cadence, natural fade"
+        }
+      ],
+      "integratedLufs": -15.99,
+      "truePeakDbtp": -1.7,
+      "loudnessRangeLu": 2.7
+    },
+    "notes": [
       {
-        "t": 0.55,
-        "midi": 74,
-        "gain": 0.59,
-        "pan": 0.15
+        "t": 0.2407,
+        "midi": 48,
+        "duration": 2.3571,
+        "strength": 0.44000000000000006,
+        "voice": "bass",
+        "sample": 48
       },
       {
-        "t": 2.05,
+        "t": 0.896,
+        "midi": 55,
+        "duration": 0.8571,
+        "strength": 0.27999999999999997,
+        "voice": "harmony",
+        "sample": 54
+      },
+      {
+        "t": 0.9226,
+        "midi": 60,
+        "duration": 0.8571,
+        "strength": 0.27999999999999997,
+        "voice": "harmony",
+        "sample": 60
+      },
+      {
+        "t": 0.942,
+        "midi": 64,
+        "duration": 0.8571,
+        "strength": 0.27999999999999997,
+        "voice": "harmony",
+        "sample": 63
+      },
+      {
+        "t": 0.2589,
+        "midi": 64,
+        "duration": 0.7143,
+        "strength": 0.528,
+        "voice": "melody",
+        "sample": 63
+      },
+      {
+        "t": 1.1477,
+        "midi": 67,
+        "duration": 0.5,
+        "strength": 0.528,
+        "voice": "melody",
+        "sample": 66
+      },
+      {
+        "t": 1.8554,
+        "midi": 72,
+        "duration": 0.7857,
+        "strength": 0.528,
+        "voice": "melody",
+        "sample": 72
+      },
+      {
+        "t": 3.1037,
+        "midi": 53,
+        "duration": 2.3571,
+        "strength": 0.44000000000000006,
+        "voice": "bass",
+        "sample": 54
+      },
+      {
+        "t": 3.7473,
+        "midi": 57,
+        "duration": 0.8571,
+        "strength": 0.27999999999999997,
+        "voice": "harmony",
+        "sample": 57
+      },
+      {
+        "t": 3.7873,
+        "midi": 60,
+        "duration": 0.8571,
+        "strength": 0.27999999999999997,
+        "voice": "harmony",
+        "sample": 60
+      },
+      {
+        "t": 3.799,
+        "midi": 64,
+        "duration": 0.8571,
+        "strength": 0.27999999999999997,
+        "voice": "harmony",
+        "sample": 63
+      },
+      {
+        "t": 3.4597,
         "midi": 69,
-        "gain": 0.51,
-        "pan": -0.2
+        "duration": 0.7143,
+        "strength": 0.528,
+        "voice": "melody",
+        "sample": 69
       },
       {
-        "t": 3.6833333333333336,
-        "midi": 65,
-        "gain": 0.45,
-        "pan": 0.25
+        "t": 4.5355,
+        "midi": 67,
+        "duration": 0.5714,
+        "strength": 0.528,
+        "voice": "melody",
+        "sample": 66
       },
       {
-        "t": 6.166666666666667,
+        "t": 5.2455,
+        "midi": 64,
+        "duration": 0.4286,
+        "strength": 0.528,
+        "voice": "melody",
+        "sample": 63
+      },
+      {
+        "t": 5.9614,
+        "midi": 48,
+        "duration": 1.2857,
+        "strength": 0.5005000000000001,
+        "voice": "bass",
+        "sample": 48
+      },
+      {
+        "t": 7.3982,
+        "midi": 60,
+        "duration": 1,
+        "strength": 0.36400000000000005,
+        "voice": "bass",
+        "sample": 60
+      },
+      {
+        "t": 6.6172,
+        "midi": 55,
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 54
+      },
+      {
+        "t": 6.6249,
+        "midi": 60,
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 60
+      },
+      {
+        "t": 6.6748,
+        "midi": 64,
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 63
+      },
+      {
+        "t": 8.2229,
+        "midi": 55,
+        "duration": 0.5,
+        "strength": 0.273,
+        "voice": "harmony",
+        "sample": 54
+      },
+      {
+        "t": 8.2443,
+        "midi": 60,
+        "duration": 0.5,
+        "strength": 0.273,
+        "voice": "harmony",
+        "sample": 60
+      },
+      {
+        "t": 8.2598,
+        "midi": 64,
+        "duration": 0.5,
+        "strength": 0.273,
+        "voice": "harmony",
+        "sample": 63
+      },
+      {
+        "t": 5.9749,
+        "midi": 72,
+        "duration": 0.5714,
+        "strength": 0.6916,
+        "voice": "melody",
+        "sample": 72
+      },
+      {
+        "t": 6.6752,
         "midi": 74,
-        "gain": 0.37,
-        "pan": -0.15
+        "duration": 0.3571,
+        "strength": 0.6916,
+        "voice": "melody",
+        "sample": 75
       },
       {
-        "t": 12.3,
-        "midi": 69,
-        "gain": 0.46,
-        "pan": 0.2
-      },
-      {
-        "t": 16.166666666666668,
-        "midi": 74,
-        "gain": 0.37,
-        "pan": -0.2
-      },
-      {
-        "t": 19.166666666666668,
-        "midi": 69,
-        "gain": 0.37,
-        "pan": 0.2
-      },
-      {
-        "t": 23.45,
-        "midi": 74,
-        "gain": 0.56,
-        "pan": 0.15
-      },
-      {
-        "t": 27.166666666666668,
-        "midi": 74,
-        "gain": 0.48,
-        "pan": 0.1
-      },
-      {
-        "t": 27.666666666666668,
-        "midi": 74,
-        "gain": 0.56,
-        "pan": -0.25
-      },
-      {
-        "t": 29.663333333333334,
+        "t": 7.2034,
         "midi": 76,
-        "gain": 0.56,
-        "pan": 0.25
+        "duration": 0.8929,
+        "strength": 0.6916,
+        "voice": "melody",
+        "sample": 75
       },
       {
-        "t": 31.669999999999998,
-        "midi": 77,
-        "gain": 0.56,
-        "pan": -0.25
-      },
-      {
-        "t": 35.45,
+        "t": 8.2931,
         "midi": 74,
-        "gain": 0.56,
-        "pan": 0.15
+        "duration": 0.4286,
+        "strength": 0.6916,
+        "voice": "melody",
+        "sample": 75
       },
       {
-        "t": 40.2,
-        "midi": 76,
-        "gain": 0.42,
-        "pan": 0.2
+        "t": 8.8138,
+        "midi": 52,
+        "duration": 1.2857,
+        "strength": 0.5005000000000001,
+        "voice": "bass",
+        "sample": 51
       },
       {
-        "t": 44.45,
-        "midi": 74,
-        "gain": 0.56,
-        "pan": 0.15
+        "t": 10.2423,
+        "midi": 64,
+        "duration": 1,
+        "strength": 0.36400000000000005,
+        "voice": "bass",
+        "sample": 63
       },
       {
-        "t": 48.14999999999999,
+        "t": 9.4728,
+        "midi": 55,
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 54
+      },
+      {
+        "t": 9.4825,
+        "midi": 60,
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 60
+      },
+      {
+        "t": 9.514,
+        "midi": 64,
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 63
+      },
+      {
+        "t": 11.0797,
+        "midi": 55,
+        "duration": 0.5,
+        "strength": 0.273,
+        "voice": "harmony",
+        "sample": 54
+      },
+      {
+        "t": 11.0968,
+        "midi": 60,
+        "duration": 0.5,
+        "strength": 0.273,
+        "voice": "harmony",
+        "sample": 60
+      },
+      {
+        "t": 11.1191,
+        "midi": 64,
+        "duration": 0.5,
+        "strength": 0.273,
+        "voice": "harmony",
+        "sample": 63
+      },
+      {
+        "t": 8.8167,
+        "midi": 72,
+        "duration": 0.7143,
+        "strength": 0.6916,
+        "voice": "melody",
+        "sample": 72
+      },
+      {
+        "t": 9.8996,
+        "midi": 67,
+        "duration": 0.5714,
+        "strength": 0.6916,
+        "voice": "melody",
+        "sample": 66
+      },
+      {
+        "t": 10.9715,
+        "midi": 64,
+        "duration": 0.5714,
+        "strength": 0.6916,
+        "voice": "melody",
+        "sample": 63
+      },
+      {
+        "t": 11.6892,
+        "midi": 45,
+        "duration": 2.3571,
+        "strength": 0.5005000000000001,
+        "voice": "bass",
+        "sample": 45
+      },
+      {
+        "t": 12.325,
+        "midi": 55,
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 54
+      },
+      {
+        "t": 12.3418,
+        "midi": 60,
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 60
+      },
+      {
+        "t": 12.3863,
+        "midi": 64,
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 63
+      },
+      {
+        "t": 11.8663,
         "midi": 69,
-        "gain": 0.39,
-        "pan": -0.2
+        "duration": 0.8571,
+        "strength": 0.6916,
+        "voice": "melody",
+        "sample": 69
       },
       {
-        "t": 53.400000000000006,
-        "midi": 81,
-        "gain": 0.59,
-        "pan": 0.2
+        "t": 13.0991,
+        "midi": 72,
+        "duration": 1,
+        "strength": 0.6916,
+        "voice": "melody",
+        "sample": 72
       },
       {
-        "t": 54.3,
-        "midi": 77,
-        "gain": 0.59,
-        "pan": -0.2
+        "t": 14.5298,
+        "midi": 43,
+        "duration": 2.3571,
+        "strength": 0.5005000000000001,
+        "voice": "bass",
+        "sample": 45
       },
       {
-        "t": 55.2,
-        "midi": 74,
-        "gain": 0.8,
-        "pan": 0.15
+        "t": 15.1799,
+        "midi": 55,
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 54
       },
       {
-        "t": 58.45,
-        "midi": 74,
-        "gain": 0.56,
-        "pan": 0.15
+        "t": 15.216,
+        "midi": 59,
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 60
       },
       {
-        "t": 64.23333333333333,
-        "midi": 69,
-        "gain": 0.39,
-        "pan": -0.15
-      },
-      {
-        "t": 68.45,
-        "midi": 74,
-        "gain": 0.56,
-        "pan": 0.15
-      },
-      {
-        "t": 74.45,
-        "midi": 74,
-        "gain": 0.56,
-        "pan": 0.15
-      },
-      {
-        "t": 78.56666666666666,
+        "t": 15.2388,
         "midi": 62,
-        "gain": 0.56,
-        "pan": 0
-      }
-    ],
-    "sfx": [
-      {
-        "kind": "breath",
-        "t": 5.466333333333334
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 63
       },
       {
-        "kind": "tick",
-        "t": 7.1336666666666675
+        "t": 14.8829,
+        "midi": 71,
+        "duration": 0.7143,
+        "strength": 0.6916,
+        "voice": "melody",
+        "sample": 72
       },
       {
-        "kind": "tick",
-        "t": 7.599666666666667
+        "t": 15.9601,
+        "midi": 67,
+        "duration": 0.8929,
+        "strength": 0.6916,
+        "voice": "melody",
+        "sample": 66
       },
       {
-        "kind": "tick",
-        "t": 7.966666666666666
+        "t": 17.402,
+        "midi": 53,
+        "duration": 1.2857,
+        "strength": 0.5005000000000001,
+        "voice": "bass",
+        "sample": 54
       },
       {
-        "kind": "tick",
-        "t": 9.333666666666666
+        "t": 18.814,
+        "midi": 65,
+        "duration": 1,
+        "strength": 0.36400000000000005,
+        "voice": "bass",
+        "sample": 66
       },
       {
-        "kind": "tick",
-        "t": 9.599666666666668
+        "t": 18.0348,
+        "midi": 57,
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 57
       },
       {
-        "kind": "paper",
-        "t": 13
+        "t": 18.071,
+        "midi": 60,
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 60
       },
       {
-        "kind": "tone",
-        "t": 13
+        "t": 18.1005,
+        "midi": 64,
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 63
       },
       {
-        "kind": "tick",
-        "t": 13.8
+        "t": 19.6373,
+        "midi": 57,
+        "duration": 0.5,
+        "strength": 0.273,
+        "voice": "harmony",
+        "sample": 57
       },
       {
-        "kind": "tick",
-        "t": 17.199666666666666
+        "t": 19.6738,
+        "midi": 60,
+        "duration": 0.5,
+        "strength": 0.273,
+        "voice": "harmony",
+        "sample": 60
       },
       {
-        "kind": "tick",
-        "t": 20.26666666666667
+        "t": 19.6967,
+        "midi": 64,
+        "duration": 0.5,
+        "strength": 0.273,
+        "voice": "harmony",
+        "sample": 63
       },
       {
-        "kind": "breath",
-        "t": 20.999666666666666
+        "t": 17.3876,
+        "midi": 69,
+        "duration": 0.5714,
+        "strength": 0.6916,
+        "voice": "melody",
+        "sample": 69
       },
       {
-        "kind": "breath",
-        "t": 23
+        "t": 18.098,
+        "midi": 72,
+        "duration": 0.5714,
+        "strength": 0.6916,
+        "voice": "melody",
+        "sample": 72
       },
       {
-        "kind": "tick",
-        "t": 28.266666666666666
+        "t": 18.9945,
+        "midi": 76,
+        "duration": 0.7857,
+        "strength": 0.6916,
+        "voice": "melody",
+        "sample": 75
       },
       {
-        "kind": "tick",
-        "t": 28.466666666666665
+        "t": 20.2513,
+        "midi": 52,
+        "duration": 1.2857,
+        "strength": 0.5005000000000001,
+        "voice": "bass",
+        "sample": 51
       },
       {
-        "kind": "tick",
-        "t": 30.266333333333336
+        "t": 21.6728,
+        "midi": 64,
+        "duration": 1,
+        "strength": 0.36400000000000005,
+        "voice": "bass",
+        "sample": 63
       },
       {
-        "kind": "tick",
-        "t": 30.46633333333334
+        "t": 20.8854,
+        "midi": 55,
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 54
       },
       {
-        "kind": "tick",
-        "t": 32.267
+        "t": 20.9262,
+        "midi": 60,
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 60
       },
       {
-        "kind": "tick",
-        "t": 32.467
+        "t": 20.9564,
+        "midi": 64,
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 63
       },
       {
-        "kind": "breath",
-        "t": 35
+        "t": 22.4938,
+        "midi": 55,
+        "duration": 0.5,
+        "strength": 0.273,
+        "voice": "harmony",
+        "sample": 54
       },
       {
-        "kind": "stop",
-        "t": 41.266999999999996
+        "t": 22.5237,
+        "midi": 60,
+        "duration": 0.5,
+        "strength": 0.273,
+        "voice": "harmony",
+        "sample": 60
       },
       {
-        "kind": "tick",
-        "t": 41.4
+        "t": 22.5431,
+        "midi": 64,
+        "duration": 0.5,
+        "strength": 0.273,
+        "voice": "harmony",
+        "sample": 63
       },
       {
-        "kind": "breath",
-        "t": 44
+        "t": 20.2533,
+        "midi": 74,
+        "duration": 0.7143,
+        "strength": 0.6916,
+        "voice": "melody",
+        "sample": 75
       },
       {
-        "kind": "paper",
-        "t": 48.3
+        "t": 21.3315,
+        "midi": 72,
+        "duration": 0.7857,
+        "strength": 0.6916,
+        "voice": "melody",
+        "sample": 72
       },
       {
-        "kind": "stop",
-        "t": 49.43299999999999
+        "t": 22.3855,
+        "midi": 67,
+        "duration": 0.4286,
+        "strength": 0.6916,
+        "voice": "melody",
+        "sample": 66
       },
       {
-        "kind": "breath",
-        "t": 53
+        "t": 23.1098,
+        "midi": 50,
+        "duration": 1.2857,
+        "strength": 0.5005000000000001,
+        "voice": "bass",
+        "sample": 51
       },
       {
-        "kind": "paper",
-        "t": 53.367000000000004
+        "t": 24.5275,
+        "midi": 62,
+        "duration": 1,
+        "strength": 0.36400000000000005,
+        "voice": "bass",
+        "sample": 63
       },
       {
-        "kind": "tone",
-        "t": 53.367000000000004
+        "t": 23.7506,
+        "midi": 57,
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 57
       },
       {
-        "kind": "paper",
-        "t": 54.467
+        "t": 23.771,
+        "midi": 60,
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 60
       },
       {
-        "kind": "paper",
-        "t": 54.733000000000004
+        "t": 23.8113,
+        "midi": 65,
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 66
       },
       {
-        "kind": "breath",
-        "t": 58
+        "t": 25.353,
+        "midi": 57,
+        "duration": 0.5,
+        "strength": 0.273,
+        "voice": "harmony",
+        "sample": 57
       },
       {
-        "kind": "breath",
-        "t": 64.00033333333334
+        "t": 25.3794,
+        "midi": 60,
+        "duration": 0.5,
+        "strength": 0.273,
+        "voice": "harmony",
+        "sample": 60
       },
       {
-        "kind": "breath",
-        "t": 65.66633333333334
+        "t": 25.4119,
+        "midi": 65,
+        "duration": 0.5,
+        "strength": 0.273,
+        "voice": "harmony",
+        "sample": 66
       },
       {
-        "kind": "breath",
-        "t": 68
+        "t": 23.1097,
+        "midi": 65,
+        "duration": 0.5357,
+        "strength": 0.6916,
+        "voice": "melody",
+        "sample": 66
       },
       {
-        "kind": "breath",
-        "t": 74
+        "t": 23.8173,
+        "midi": 69,
+        "duration": 0.5357,
+        "strength": 0.6916,
+        "voice": "melody",
+        "sample": 69
       },
       {
-        "kind": "tick",
-        "t": 78.13366666666667
+        "t": 24.5347,
+        "midi": 72,
+        "duration": 0.8571,
+        "strength": 0.6916,
+        "voice": "melody",
+        "sample": 72
       },
       {
-        "kind": "paper",
-        "t": 78.39966666666666
+        "t": 25.9554,
+        "midi": 43,
+        "duration": 1.2857,
+        "strength": 0.5005000000000001,
+        "voice": "bass",
+        "sample": 45
       },
       {
-        "kind": "tick",
-        "t": 78.73366666666666
+        "t": 27.3842,
+        "midi": 55,
+        "duration": 1,
+        "strength": 0.36400000000000005,
+        "voice": "bass",
+        "sample": 54
+      },
+      {
+        "t": 26.6124,
+        "midi": 55,
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 54
+      },
+      {
+        "t": 26.634,
+        "midi": 59,
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 60
+      },
+      {
+        "t": 26.6641,
+        "midi": 62,
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 63
+      },
+      {
+        "t": 28.2097,
+        "midi": 55,
+        "duration": 0.5,
+        "strength": 0.273,
+        "voice": "harmony",
+        "sample": 54
+      },
+      {
+        "t": 28.2446,
+        "midi": 59,
+        "duration": 0.5,
+        "strength": 0.273,
+        "voice": "harmony",
+        "sample": 60
+      },
+      {
+        "t": 28.2724,
+        "midi": 62,
+        "duration": 0.5,
+        "strength": 0.273,
+        "voice": "harmony",
+        "sample": 63
+      },
+      {
+        "t": 25.9674,
+        "midi": 74,
+        "duration": 0.7143,
+        "strength": 0.6916,
+        "voice": "melody",
+        "sample": 75
+      },
+      {
+        "t": 27.0418,
+        "midi": 71,
+        "duration": 0.5714,
+        "strength": 0.6916,
+        "voice": "melody",
+        "sample": 72
+      },
+      {
+        "t": 28.1104,
+        "midi": 67,
+        "duration": 0.5,
+        "strength": 0.6916,
+        "voice": "melody",
+        "sample": 66
+      },
+      {
+        "t": 28.825,
+        "midi": 48,
+        "duration": 1.2857,
+        "strength": 0.5005000000000001,
+        "voice": "bass",
+        "sample": 48
+      },
+      {
+        "t": 30.26,
+        "midi": 60,
+        "duration": 1,
+        "strength": 0.36400000000000005,
+        "voice": "bass",
+        "sample": 60
+      },
+      {
+        "t": 29.4697,
+        "midi": 55,
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 54
+      },
+      {
+        "t": 29.4841,
+        "midi": 60,
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 60
+      },
+      {
+        "t": 29.5169,
+        "midi": 64,
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 63
+      },
+      {
+        "t": 31.0656,
+        "midi": 55,
+        "duration": 0.5,
+        "strength": 0.273,
+        "voice": "harmony",
+        "sample": 54
+      },
+      {
+        "t": 31.0874,
+        "midi": 60,
+        "duration": 0.5,
+        "strength": 0.273,
+        "voice": "harmony",
+        "sample": 60
+      },
+      {
+        "t": 31.1289,
+        "midi": 64,
+        "duration": 0.5,
+        "strength": 0.273,
+        "voice": "harmony",
+        "sample": 63
+      },
+      {
+        "t": 28.818,
+        "midi": 76,
+        "duration": 0.8929,
+        "strength": 0.6916,
+        "voice": "melody",
+        "sample": 75
+      },
+      {
+        "t": 30.0809,
+        "midi": 74,
+        "duration": 0.4286,
+        "strength": 0.6916,
+        "voice": "melody",
+        "sample": 75
+      },
+      {
+        "t": 30.7892,
+        "midi": 72,
+        "duration": 0.5714,
+        "strength": 0.6916,
+        "voice": "melody",
+        "sample": 72
+      },
+      {
+        "t": 31.6886,
+        "midi": 52,
+        "duration": 1.2857,
+        "strength": 0.5005000000000001,
+        "voice": "bass",
+        "sample": 51
+      },
+      {
+        "t": 33.1174,
+        "midi": 64,
+        "duration": 1,
+        "strength": 0.36400000000000005,
+        "voice": "bass",
+        "sample": 63
+      },
+      {
+        "t": 32.3317,
+        "midi": 55,
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 54
+      },
+      {
+        "t": 32.3507,
+        "midi": 60,
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 60
+      },
+      {
+        "t": 32.3847,
+        "midi": 64,
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 63
+      },
+      {
+        "t": 33.9279,
+        "midi": 55,
+        "duration": 0.5,
+        "strength": 0.273,
+        "voice": "harmony",
+        "sample": 54
+      },
+      {
+        "t": 33.9459,
+        "midi": 60,
+        "duration": 0.5,
+        "strength": 0.273,
+        "voice": "harmony",
+        "sample": 60
+      },
+      {
+        "t": 33.9755,
+        "midi": 64,
+        "duration": 0.5,
+        "strength": 0.273,
+        "voice": "harmony",
+        "sample": 63
+      },
+      {
+        "t": 32.0311,
+        "midi": 67,
+        "duration": 0.5714,
+        "strength": 0.6916,
+        "voice": "melody",
+        "sample": 66
+      },
+      {
+        "t": 32.9378,
+        "midi": 72,
+        "duration": 0.8929,
+        "strength": 0.6916,
+        "voice": "melody",
+        "sample": 72
+      },
+      {
+        "t": 33.9916,
+        "midi": 74,
+        "duration": 0.4286,
+        "strength": 0.6916,
+        "voice": "melody",
+        "sample": 75
+      },
+      {
+        "t": 34.5419,
+        "midi": 45,
+        "duration": 1.2857,
+        "strength": 0.5005000000000001,
+        "voice": "bass",
+        "sample": 45
+      },
+      {
+        "t": 35.956,
+        "midi": 57,
+        "duration": 1,
+        "strength": 0.36400000000000005,
+        "voice": "bass",
+        "sample": 57
+      },
+      {
+        "t": 35.1863,
+        "midi": 55,
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 54
+      },
+      {
+        "t": 35.2145,
+        "midi": 60,
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 60
+      },
+      {
+        "t": 35.244,
+        "midi": 64,
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 63
+      },
+      {
+        "t": 36.7767,
+        "midi": 55,
+        "duration": 0.5,
+        "strength": 0.273,
+        "voice": "harmony",
+        "sample": 54
+      },
+      {
+        "t": 36.8001,
+        "midi": 60,
+        "duration": 0.5,
+        "strength": 0.273,
+        "voice": "harmony",
+        "sample": 60
+      },
+      {
+        "t": 36.8405,
+        "midi": 64,
+        "duration": 0.5,
+        "strength": 0.273,
+        "voice": "harmony",
+        "sample": 63
+      },
+      {
+        "t": 34.5407,
+        "midi": 76,
+        "duration": 0.5714,
+        "strength": 0.6916,
+        "voice": "melody",
+        "sample": 75
+      },
+      {
+        "t": 35.4245,
+        "midi": 79,
+        "duration": 0.7857,
+        "strength": 0.6916,
+        "voice": "melody",
+        "sample": 78
+      },
+      {
+        "t": 36.4931,
+        "midi": 76,
+        "duration": 0.5714,
+        "strength": 0.6916,
+        "voice": "melody",
+        "sample": 75
+      },
+      {
+        "t": 37.387,
+        "midi": 53,
+        "duration": 1.2857,
+        "strength": 0.5005000000000001,
+        "voice": "bass",
+        "sample": 54
+      },
+      {
+        "t": 38.8323,
+        "midi": 65,
+        "duration": 1,
+        "strength": 0.36400000000000005,
+        "voice": "bass",
+        "sample": 66
+      },
+      {
+        "t": 38.0444,
+        "midi": 57,
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 57
+      },
+      {
+        "t": 38.0541,
+        "midi": 60,
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 60
+      },
+      {
+        "t": 38.0847,
+        "midi": 64,
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 63
+      },
+      {
+        "t": 39.6446,
+        "midi": 57,
+        "duration": 0.5,
+        "strength": 0.273,
+        "voice": "harmony",
+        "sample": 57
+      },
+      {
+        "t": 39.6598,
+        "midi": 60,
+        "duration": 0.5,
+        "strength": 0.273,
+        "voice": "harmony",
+        "sample": 60
+      },
+      {
+        "t": 39.6839,
+        "midi": 64,
+        "duration": 0.5,
+        "strength": 0.273,
+        "voice": "harmony",
+        "sample": 63
+      },
+      {
+        "t": 37.3862,
+        "midi": 77,
+        "duration": 0.7143,
+        "strength": 0.6916,
+        "voice": "melody",
+        "sample": 78
+      },
+      {
+        "t": 38.4609,
+        "midi": 76,
+        "duration": 0.5357,
+        "strength": 0.6916,
+        "voice": "melody",
+        "sample": 75
+      },
+      {
+        "t": 39.354,
+        "midi": 72,
+        "duration": 0.7143,
+        "strength": 0.6916,
+        "voice": "melody",
+        "sample": 72
+      },
+      {
+        "t": 40.2549,
+        "midi": 50,
+        "duration": 1.2857,
+        "strength": 0.5005000000000001,
+        "voice": "bass",
+        "sample": 51
+      },
+      {
+        "t": 41.6807,
+        "midi": 62,
+        "duration": 1,
+        "strength": 0.36400000000000005,
+        "voice": "bass",
+        "sample": 63
+      },
+      {
+        "t": 40.9016,
+        "midi": 57,
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 57
+      },
+      {
+        "t": 40.9161,
+        "midi": 60,
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 60
+      },
+      {
+        "t": 40.9436,
+        "midi": 65,
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 66
+      },
+      {
+        "t": 42.5056,
+        "midi": 57,
+        "duration": 0.5,
+        "strength": 0.273,
+        "voice": "harmony",
+        "sample": 57
+      },
+      {
+        "t": 42.5237,
+        "midi": 60,
+        "duration": 0.5,
+        "strength": 0.273,
+        "voice": "harmony",
+        "sample": 60
+      },
+      {
+        "t": 42.557,
+        "midi": 65,
+        "duration": 0.5,
+        "strength": 0.273,
+        "voice": "harmony",
+        "sample": 66
+      },
+      {
+        "t": 40.2579,
+        "midi": 74,
+        "duration": 0.5714,
+        "strength": 0.6916,
+        "voice": "melody",
+        "sample": 75
+      },
+      {
+        "t": 41.1497,
+        "midi": 72,
+        "duration": 0.5,
+        "strength": 0.6916,
+        "voice": "melody",
+        "sample": 72
+      },
+      {
+        "t": 42.0394,
+        "midi": 69,
+        "duration": 0.7857,
+        "strength": 0.6916,
+        "voice": "melody",
+        "sample": 69
+      },
+      {
+        "t": 43.1142,
+        "midi": 43,
+        "duration": 1.2857,
+        "strength": 0.5005000000000001,
+        "voice": "bass",
+        "sample": 45
+      },
+      {
+        "t": 44.5296,
+        "midi": 55,
+        "duration": 1,
+        "strength": 0.36400000000000005,
+        "voice": "bass",
+        "sample": 54
+      },
+      {
+        "t": 43.7532,
+        "midi": 55,
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 54
+      },
+      {
+        "t": 43.784,
+        "midi": 59,
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 60
+      },
+      {
+        "t": 43.815,
+        "midi": 62,
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 63
+      },
+      {
+        "t": 45.3531,
+        "midi": 55,
+        "duration": 0.5,
+        "strength": 0.273,
+        "voice": "harmony",
+        "sample": 54
+      },
+      {
+        "t": 45.3814,
+        "midi": 59,
+        "duration": 0.5,
+        "strength": 0.273,
+        "voice": "harmony",
+        "sample": 60
+      },
+      {
+        "t": 45.4039,
+        "midi": 62,
+        "duration": 0.5,
+        "strength": 0.273,
+        "voice": "harmony",
+        "sample": 63
+      },
+      {
+        "t": 43.1178,
+        "midi": 71,
+        "duration": 0.7143,
+        "strength": 0.6916,
+        "voice": "melody",
+        "sample": 72
+      },
+      {
+        "t": 44.1886,
+        "midi": 74,
+        "duration": 0.5714,
+        "strength": 0.6916,
+        "voice": "melody",
+        "sample": 75
+      },
+      {
+        "t": 45.2592,
+        "midi": 72,
+        "duration": 0.5,
+        "strength": 0.6916,
+        "voice": "melody",
+        "sample": 72
+      },
+      {
+        "t": 45.9698,
+        "midi": 53,
+        "duration": 1.2857,
+        "strength": 0.5005000000000001,
+        "voice": "bass",
+        "sample": 54
+      },
+      {
+        "t": 47.4009,
+        "midi": 65,
+        "duration": 1,
+        "strength": 0.36400000000000005,
+        "voice": "bass",
+        "sample": 66
+      },
+      {
+        "t": 46.5989,
+        "midi": 57,
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 57
+      },
+      {
+        "t": 46.643,
+        "midi": 60,
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 60
+      },
+      {
+        "t": 46.6747,
+        "midi": 64,
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 63
+      },
+      {
+        "t": 48.2145,
+        "midi": 57,
+        "duration": 0.5,
+        "strength": 0.273,
+        "voice": "harmony",
+        "sample": 57
+      },
+      {
+        "t": 48.2374,
+        "midi": 60,
+        "duration": 0.5,
+        "strength": 0.273,
+        "voice": "harmony",
+        "sample": 60
+      },
+      {
+        "t": 48.2634,
+        "midi": 64,
+        "duration": 0.5,
+        "strength": 0.273,
+        "voice": "harmony",
+        "sample": 63
+      },
+      {
+        "t": 45.9537,
+        "midi": 69,
+        "duration": 1.0714,
+        "strength": 0.6916,
+        "voice": "melody",
+        "sample": 69
+      },
+      {
+        "t": 47.3948,
+        "midi": 67,
+        "duration": 0.5714,
+        "strength": 0.6916,
+        "voice": "melody",
+        "sample": 66
+      },
+      {
+        "t": 48.2864,
+        "midi": 65,
+        "duration": 0.4286,
+        "strength": 0.6916,
+        "voice": "melody",
+        "sample": 66
+      },
+      {
+        "t": 48.8174,
+        "midi": 43,
+        "duration": 1.2857,
+        "strength": 0.5005000000000001,
+        "voice": "bass",
+        "sample": 45
+      },
+      {
+        "t": 50.2425,
+        "midi": 55,
+        "duration": 1,
+        "strength": 0.36400000000000005,
+        "voice": "bass",
+        "sample": 54
+      },
+      {
+        "t": 49.4595,
+        "midi": 55,
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 54
+      },
+      {
+        "t": 49.5007,
+        "midi": 59,
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 60
+      },
+      {
+        "t": 49.523,
+        "midi": 62,
+        "duration": 0.8571,
+        "strength": 0.3185,
+        "voice": "harmony",
+        "sample": 63
+      },
+      {
+        "t": 51.0661,
+        "midi": 55,
+        "duration": 0.5,
+        "strength": 0.273,
+        "voice": "harmony",
+        "sample": 54
+      },
+      {
+        "t": 51.1012,
+        "midi": 59,
+        "duration": 0.5,
+        "strength": 0.273,
+        "voice": "harmony",
+        "sample": 60
+      },
+      {
+        "t": 51.112,
+        "midi": 62,
+        "duration": 0.5,
+        "strength": 0.273,
+        "voice": "harmony",
+        "sample": 63
+      },
+      {
+        "t": 49.1679,
+        "midi": 67,
+        "duration": 1.0714,
+        "strength": 0.6916,
+        "voice": "melody",
+        "sample": 66
+      },
+      {
+        "t": 50.7792,
+        "midi": 71,
+        "duration": 0.5714,
+        "strength": 0.6916,
+        "voice": "melody",
+        "sample": 72
+      },
+      {
+        "t": 51.6879,
+        "midi": 48,
+        "duration": 1.2857,
+        "strength": 0.55,
+        "voice": "bass",
+        "sample": 48
+      },
+      {
+        "t": 53.115,
+        "midi": 60,
+        "duration": 1,
+        "strength": 0.4,
+        "voice": "bass",
+        "sample": 60
+      },
+      {
+        "t": 52.3224,
+        "midi": 55,
+        "duration": 0.8571,
+        "strength": 0.35,
+        "voice": "harmony",
+        "sample": 54
+      },
+      {
+        "t": 52.3472,
+        "midi": 60,
+        "duration": 0.8571,
+        "strength": 0.35,
+        "voice": "harmony",
+        "sample": 60
+      },
+      {
+        "t": 52.377,
+        "midi": 64,
+        "duration": 0.8571,
+        "strength": 0.35,
+        "voice": "harmony",
+        "sample": 63
+      },
+      {
+        "t": 53.9314,
+        "midi": 55,
+        "duration": 0.5,
+        "strength": 0.3,
+        "voice": "harmony",
+        "sample": 54
+      },
+      {
+        "t": 53.9488,
+        "midi": 60,
+        "duration": 0.5,
+        "strength": 0.3,
+        "voice": "harmony",
+        "sample": 60
+      },
+      {
+        "t": 53.9709,
+        "midi": 64,
+        "duration": 0.5,
+        "strength": 0.3,
+        "voice": "harmony",
+        "sample": 63
+      },
+      {
+        "t": 51.6746,
+        "midi": 72,
+        "duration": 0.5714,
+        "strength": 0.76,
+        "voice": "melody",
+        "sample": 72
+      },
+      {
+        "t": 52.3898,
+        "midi": 74,
+        "duration": 0.3571,
+        "strength": 0.76,
+        "voice": "melody",
+        "sample": 75
+      },
+      {
+        "t": 52.9219,
+        "midi": 76,
+        "duration": 0.8571,
+        "strength": 0.76,
+        "voice": "melody",
+        "sample": 75
+      },
+      {
+        "t": 54.001,
+        "midi": 79,
+        "duration": 0.3571,
+        "strength": 0.76,
+        "voice": "melody",
+        "sample": 78
+      },
+      {
+        "t": 54.5457,
+        "midi": 52,
+        "duration": 1.2857,
+        "strength": 0.55,
+        "voice": "bass",
+        "sample": 51
+      },
+      {
+        "t": 55.9637,
+        "midi": 64,
+        "duration": 1,
+        "strength": 0.4,
+        "voice": "bass",
+        "sample": 63
+      },
+      {
+        "t": 55.1743,
+        "midi": 55,
+        "duration": 0.8571,
+        "strength": 0.35,
+        "voice": "harmony",
+        "sample": 54
+      },
+      {
+        "t": 55.2144,
+        "midi": 60,
+        "duration": 0.8571,
+        "strength": 0.35,
+        "voice": "harmony",
+        "sample": 60
+      },
+      {
+        "t": 55.2288,
+        "midi": 64,
+        "duration": 0.8571,
+        "strength": 0.35,
+        "voice": "harmony",
+        "sample": 63
+      },
+      {
+        "t": 56.7914,
+        "midi": 55,
+        "duration": 0.5,
+        "strength": 0.3,
+        "voice": "harmony",
+        "sample": 54
+      },
+      {
+        "t": 56.8098,
+        "midi": 60,
+        "duration": 0.5,
+        "strength": 0.3,
+        "voice": "harmony",
+        "sample": 60
+      },
+      {
+        "t": 56.8308,
+        "midi": 64,
+        "duration": 0.5,
+        "strength": 0.3,
+        "voice": "harmony",
+        "sample": 63
+      },
+      {
+        "t": 54.528,
+        "midi": 76,
+        "duration": 0.7857,
+        "strength": 0.76,
+        "voice": "melody",
+        "sample": 75
+      },
+      {
+        "t": 55.6044,
+        "midi": 74,
+        "duration": 0.5714,
+        "strength": 0.76,
+        "voice": "melody",
+        "sample": 75
+      },
+      {
+        "t": 56.6818,
+        "midi": 72,
+        "duration": 0.5357,
+        "strength": 0.76,
+        "voice": "melody",
+        "sample": 72
+      },
+      {
+        "t": 57.4024,
+        "midi": 45,
+        "duration": 1.2857,
+        "strength": 0.55,
+        "voice": "bass",
+        "sample": 45
+      },
+      {
+        "t": 58.8247,
+        "midi": 57,
+        "duration": 1,
+        "strength": 0.4,
+        "voice": "bass",
+        "sample": 57
+      },
+      {
+        "t": 58.0452,
+        "midi": 55,
+        "duration": 0.8571,
+        "strength": 0.35,
+        "voice": "harmony",
+        "sample": 54
+      },
+      {
+        "t": 58.0735,
+        "midi": 60,
+        "duration": 0.8571,
+        "strength": 0.35,
+        "voice": "harmony",
+        "sample": 60
+      },
+      {
+        "t": 58.0922,
+        "midi": 64,
+        "duration": 0.8571,
+        "strength": 0.35,
+        "voice": "harmony",
+        "sample": 63
+      },
+      {
+        "t": 59.633,
+        "midi": 55,
+        "duration": 0.5,
+        "strength": 0.3,
+        "voice": "harmony",
+        "sample": 54
+      },
+      {
+        "t": 59.6702,
+        "midi": 60,
+        "duration": 0.5,
+        "strength": 0.3,
+        "voice": "harmony",
+        "sample": 60
+      },
+      {
+        "t": 59.6997,
+        "midi": 64,
+        "duration": 0.5,
+        "strength": 0.3,
+        "voice": "harmony",
+        "sample": 63
+      },
+      {
+        "t": 57.3837,
+        "midi": 72,
+        "duration": 0.6429,
+        "strength": 0.76,
+        "voice": "melody",
+        "sample": 72
+      },
+      {
+        "t": 58.2922,
+        "midi": 76,
+        "duration": 0.5714,
+        "strength": 0.76,
+        "voice": "melody",
+        "sample": 75
+      },
+      {
+        "t": 59.175,
+        "midi": 79,
+        "duration": 0.7143,
+        "strength": 0.76,
+        "voice": "melody",
+        "sample": 78
+      },
+      {
+        "t": 60.2477,
+        "midi": 43,
+        "duration": 1.2857,
+        "strength": 0.55,
+        "voice": "bass",
+        "sample": 45
+      },
+      {
+        "t": 61.678,
+        "midi": 55,
+        "duration": 1,
+        "strength": 0.4,
+        "voice": "bass",
+        "sample": 54
+      },
+      {
+        "t": 60.8913,
+        "midi": 55,
+        "duration": 0.8571,
+        "strength": 0.35,
+        "voice": "harmony",
+        "sample": 54
+      },
+      {
+        "t": 60.9117,
+        "midi": 59,
+        "duration": 0.8571,
+        "strength": 0.35,
+        "voice": "harmony",
+        "sample": 60
+      },
+      {
+        "t": 60.9571,
+        "midi": 62,
+        "duration": 0.8571,
+        "strength": 0.35,
+        "voice": "harmony",
+        "sample": 63
+      },
+      {
+        "t": 62.5083,
+        "midi": 55,
+        "duration": 0.5,
+        "strength": 0.3,
+        "voice": "harmony",
+        "sample": 54
+      },
+      {
+        "t": 62.519,
+        "midi": 59,
+        "duration": 0.5,
+        "strength": 0.3,
+        "voice": "harmony",
+        "sample": 60
+      },
+      {
+        "t": 62.54,
+        "midi": 62,
+        "duration": 0.5,
+        "strength": 0.3,
+        "voice": "harmony",
+        "sample": 63
+      },
+      {
+        "t": 60.25,
+        "midi": 74,
+        "duration": 0.7857,
+        "strength": 0.76,
+        "voice": "melody",
+        "sample": 75
+      },
+      {
+        "t": 61.3139,
+        "midi": 71,
+        "duration": 0.5714,
+        "strength": 0.76,
+        "voice": "melody",
+        "sample": 72
+      },
+      {
+        "t": 62.3899,
+        "midi": 67,
+        "duration": 0.5357,
+        "strength": 0.76,
+        "voice": "melody",
+        "sample": 66
+      },
+      {
+        "t": 63.102,
+        "midi": 53,
+        "duration": 1.2857,
+        "strength": 0.55,
+        "voice": "bass",
+        "sample": 54
+      },
+      {
+        "t": 64.5416,
+        "midi": 65,
+        "duration": 1,
+        "strength": 0.4,
+        "voice": "bass",
+        "sample": 66
+      },
+      {
+        "t": 63.7602,
+        "midi": 57,
+        "duration": 0.8571,
+        "strength": 0.35,
+        "voice": "harmony",
+        "sample": 57
+      },
+      {
+        "t": 63.7818,
+        "midi": 60,
+        "duration": 0.8571,
+        "strength": 0.35,
+        "voice": "harmony",
+        "sample": 60
+      },
+      {
+        "t": 63.8144,
+        "midi": 64,
+        "duration": 0.8571,
+        "strength": 0.35,
+        "voice": "harmony",
+        "sample": 63
+      },
+      {
+        "t": 65.3503,
+        "midi": 57,
+        "duration": 0.5,
+        "strength": 0.3,
+        "voice": "harmony",
+        "sample": 57
+      },
+      {
+        "t": 65.3924,
+        "midi": 60,
+        "duration": 0.5,
+        "strength": 0.3,
+        "voice": "harmony",
+        "sample": 60
+      },
+      {
+        "t": 65.414,
+        "midi": 64,
+        "duration": 0.5,
+        "strength": 0.3,
+        "voice": "harmony",
+        "sample": 63
+      },
+      {
+        "t": 63.1069,
+        "midi": 69,
+        "duration": 0.5714,
+        "strength": 0.76,
+        "voice": "melody",
+        "sample": 69
+      },
+      {
+        "t": 63.8185,
+        "midi": 72,
+        "duration": 0.5714,
+        "strength": 0.76,
+        "voice": "melody",
+        "sample": 72
+      },
+      {
+        "t": 64.7057,
+        "midi": 76,
+        "duration": 0.7857,
+        "strength": 0.76,
+        "voice": "melody",
+        "sample": 75
+      },
+      {
+        "t": 65.962,
+        "midi": 52,
+        "duration": 1.2857,
+        "strength": 0.55,
+        "voice": "bass",
+        "sample": 51
+      },
+      {
+        "t": 67.3863,
+        "midi": 64,
+        "duration": 1,
+        "strength": 0.4,
+        "voice": "bass",
+        "sample": 63
+      },
+      {
+        "t": 66.6037,
+        "midi": 55,
+        "duration": 0.8571,
+        "strength": 0.35,
+        "voice": "harmony",
+        "sample": 54
+      },
+      {
+        "t": 66.6465,
+        "midi": 60,
+        "duration": 0.8571,
+        "strength": 0.35,
+        "voice": "harmony",
+        "sample": 60
+      },
+      {
+        "t": 66.6565,
+        "midi": 64,
+        "duration": 0.8571,
+        "strength": 0.35,
+        "voice": "harmony",
+        "sample": 63
+      },
+      {
+        "t": 68.22,
+        "midi": 55,
+        "duration": 0.5,
+        "strength": 0.3,
+        "voice": "harmony",
+        "sample": 54
+      },
+      {
+        "t": 68.2403,
+        "midi": 60,
+        "duration": 0.5,
+        "strength": 0.3,
+        "voice": "harmony",
+        "sample": 60
+      },
+      {
+        "t": 68.2586,
+        "midi": 64,
+        "duration": 0.5,
+        "strength": 0.3,
+        "voice": "harmony",
+        "sample": 63
+      },
+      {
+        "t": 65.9539,
+        "midi": 74,
+        "duration": 0.7143,
+        "strength": 0.76,
+        "voice": "melody",
+        "sample": 75
+      },
+      {
+        "t": 67.0355,
+        "midi": 72,
+        "duration": 0.7857,
+        "strength": 0.76,
+        "voice": "melody",
+        "sample": 72
+      },
+      {
+        "t": 68.1031,
+        "midi": 67,
+        "duration": 0.4286,
+        "strength": 0.76,
+        "voice": "melody",
+        "sample": 66
+      },
+      {
+        "t": 68.8109,
+        "midi": 50,
+        "duration": 1.2857,
+        "strength": 0.55,
+        "voice": "bass",
+        "sample": 51
+      },
+      {
+        "t": 70.2554,
+        "midi": 62,
+        "duration": 1,
+        "strength": 0.4,
+        "voice": "bass",
+        "sample": 63
+      },
+      {
+        "t": 69.4747,
+        "midi": 57,
+        "duration": 0.8571,
+        "strength": 0.35,
+        "voice": "harmony",
+        "sample": 57
+      },
+      {
+        "t": 69.5035,
+        "midi": 60,
+        "duration": 0.8571,
+        "strength": 0.35,
+        "voice": "harmony",
+        "sample": 60
+      },
+      {
+        "t": 69.5221,
+        "midi": 65,
+        "duration": 0.8571,
+        "strength": 0.35,
+        "voice": "harmony",
+        "sample": 66
+      },
+      {
+        "t": 71.0798,
+        "midi": 57,
+        "duration": 0.5,
+        "strength": 0.3,
+        "voice": "harmony",
+        "sample": 57
+      },
+      {
+        "t": 71.1053,
+        "midi": 60,
+        "duration": 0.5,
+        "strength": 0.3,
+        "voice": "harmony",
+        "sample": 60
+      },
+      {
+        "t": 71.1215,
+        "midi": 65,
+        "duration": 0.5,
+        "strength": 0.3,
+        "voice": "harmony",
+        "sample": 66
+      },
+      {
+        "t": 68.824,
+        "midi": 65,
+        "duration": 0.5357,
+        "strength": 0.76,
+        "voice": "melody",
+        "sample": 66
+      },
+      {
+        "t": 69.5366,
+        "midi": 69,
+        "duration": 0.5357,
+        "strength": 0.76,
+        "voice": "melody",
+        "sample": 69
+      },
+      {
+        "t": 70.2592,
+        "midi": 72,
+        "duration": 0.8571,
+        "strength": 0.76,
+        "voice": "melody",
+        "sample": 72
+      },
+      {
+        "t": 71.6824,
+        "midi": 43,
+        "duration": 1.2857,
+        "strength": 0.55,
+        "voice": "bass",
+        "sample": 45
+      },
+      {
+        "t": 73.1059,
+        "midi": 55,
+        "duration": 1,
+        "strength": 0.4,
+        "voice": "bass",
+        "sample": 54
+      },
+      {
+        "t": 72.324,
+        "midi": 55,
+        "duration": 0.8571,
+        "strength": 0.35,
+        "voice": "harmony",
+        "sample": 54
+      },
+      {
+        "t": 72.3518,
+        "midi": 59,
+        "duration": 0.8571,
+        "strength": 0.35,
+        "voice": "harmony",
+        "sample": 60
+      },
+      {
+        "t": 72.3873,
+        "midi": 62,
+        "duration": 0.8571,
+        "strength": 0.35,
+        "voice": "harmony",
+        "sample": 63
+      },
+      {
+        "t": 73.9214,
+        "midi": 55,
+        "duration": 0.5,
+        "strength": 0.3,
+        "voice": "harmony",
+        "sample": 54
+      },
+      {
+        "t": 73.9552,
+        "midi": 59,
+        "duration": 0.5,
+        "strength": 0.3,
+        "voice": "harmony",
+        "sample": 60
+      },
+      {
+        "t": 73.9754,
+        "midi": 62,
+        "duration": 0.5,
+        "strength": 0.3,
+        "voice": "harmony",
+        "sample": 63
+      },
+      {
+        "t": 71.6786,
+        "midi": 74,
+        "duration": 0.7143,
+        "strength": 0.76,
+        "voice": "melody",
+        "sample": 75
+      },
+      {
+        "t": 72.7567,
+        "midi": 71,
+        "duration": 0.5714,
+        "strength": 0.76,
+        "voice": "melody",
+        "sample": 72
+      },
+      {
+        "t": 73.8282,
+        "midi": 67,
+        "duration": 0.5,
+        "strength": 0.76,
+        "voice": "melody",
+        "sample": 66
+      },
+      {
+        "t": 74.5396,
+        "midi": 53,
+        "duration": 2.3571,
+        "strength": 0.41250000000000003,
+        "voice": "bass",
+        "sample": 54
+      },
+      {
+        "t": 75.182,
+        "midi": 57,
+        "duration": 0.8571,
+        "strength": 0.26249999999999996,
+        "voice": "harmony",
+        "sample": 57
+      },
+      {
+        "t": 75.2174,
+        "midi": 60,
+        "duration": 0.8571,
+        "strength": 0.26249999999999996,
+        "voice": "harmony",
+        "sample": 60
+      },
+      {
+        "t": 75.2374,
+        "midi": 64,
+        "duration": 0.8571,
+        "strength": 0.26249999999999996,
+        "voice": "harmony",
+        "sample": 63
+      },
+      {
+        "t": 74.7051,
+        "midi": 69,
+        "duration": 0.7143,
+        "strength": 0.46499999999999997,
+        "voice": "melody",
+        "sample": 69
+      },
+      {
+        "t": 75.7924,
+        "midi": 67,
+        "duration": 0.5714,
+        "strength": 0.46499999999999997,
+        "voice": "melody",
+        "sample": 66
+      },
+      {
+        "t": 76.6866,
+        "midi": 65,
+        "duration": 0.4286,
+        "strength": 0.46499999999999997,
+        "voice": "melody",
+        "sample": 66
+      },
+      {
+        "t": 77.3924,
+        "midi": 48,
+        "duration": 2.3571,
+        "strength": 0.41250000000000003,
+        "voice": "bass",
+        "sample": 48
+      },
+      {
+        "t": 77.3905,
+        "midi": 55,
+        "duration": 2.5,
+        "strength": 0.31,
+        "voice": "harmony",
+        "sample": 54
+      },
+      {
+        "t": 77.4218,
+        "midi": 62,
+        "duration": 2.5,
+        "strength": 0.31,
+        "voice": "harmony",
+        "sample": 63
+      },
+      {
+        "t": 77.4369,
+        "midi": 64,
+        "duration": 2.5,
+        "strength": 0.31,
+        "voice": "harmony",
+        "sample": 63
+      },
+      {
+        "t": 77.3933,
+        "midi": 64,
+        "duration": 2.5,
+        "strength": 0.46499999999999997,
+        "voice": "melody",
+        "sample": 63
+      },
+      {
+        "t": 77.4213,
+        "midi": 67,
+        "duration": 2.5,
+        "strength": 0.46499999999999997,
+        "voice": "melody",
+        "sample": 66
+      },
+      {
+        "t": 77.4376,
+        "midi": 72,
+        "duration": 2.5,
+        "strength": 0.46499999999999997,
+        "voice": "melody",
+        "sample": 72
       }
     ]
   },
@@ -1106,17 +2417,17 @@
     {
       "name": "audio length matches the picture",
       "ok": true,
-      "detail": "video 82.000s · audio 82.000s · decoded 82.005s"
+      "detail": "video 82.000s · audio 82.005s · decoded 82.005s"
     },
     {
       "name": "audio is not silent",
       "ok": true,
-      "detail": "RMS -18.25 dBFS"
+      "detail": "RMS -18.63 dBFS"
     },
     {
       "name": "no clipping",
       "ok": true,
-      "detail": "peak -1.43 dBFS (ceiling −1.0)"
+      "detail": "peak -1.69 dBFS (ceiling −1.0)"
     },
     {
       "name": "integrated loudness is on target",
@@ -1126,27 +2437,27 @@
     {
       "name": "true peak is under the codec headroom",
       "ok": true,
-      "detail": "-1.43 dBTP"
+      "detail": "-1.68 dBTP"
     },
     {
       "name": "stereo image is real, not duplicated mono",
       "ok": true,
-      "detail": "correlation 0.899"
+      "detail": "correlation 0.013"
     },
     {
       "name": "left and right are balanced",
       "ok": true,
-      "detail": "1.38 dB"
+      "detail": "-0.15 dB"
     },
     {
       "name": "no DC offset",
       "ok": true,
-      "detail": "L -2.94e-7 · R -3.28e-7"
+      "detail": "L -6.28e-7 · R -3.22e-7"
     },
     {
       "name": "no clicks or pops",
       "ok": true,
-      "detail": "max sample step 0.0665 at 55.22s"
+      "detail": "max sample step 0.0763 at 17.43s"
     },
     {
       "name": "starts and ends in true silence",
@@ -1156,7 +2467,7 @@
     {
       "name": "audio is aligned with the score",
       "ok": true,
-      "detail": "score 0.550s · film 0.550s"
+      "detail": "score 0.250s · film 0.250s"
     },
     {
       "name": "no dead air in the body of the film",
@@ -1164,34 +2475,19 @@
       "detail": "longest 0.000s"
     },
     {
+      "name": "encoded music preserves the source level",
+      "ok": true,
+      "detail": "source -15.99 LUFS · delivered -16.00 LUFS"
+    },
+    {
       "name": "cue sheet length matches the film",
       "ok": true,
       "detail": "82s vs 82.000s"
     },
     {
-      "name": "every score cue lifts the high band where it is declared",
+      "name": "musical arrangement and source are documented",
       "ok": true,
-      "detail": "24/24 cues ≥ 3 dB · worst 3.8 dB"
-    },
-    {
-      "name": "every score cue strikes on its declared time",
-      "ok": true,
-      "detail": "worst 14 ms of ±20 ms"
-    },
-    {
-      "name": "the 7 / 30 / 90 motif lands on the check-in rows",
-      "ok": true,
-      "detail": "7-day check-in exact · 30-day check-in exact · 90-day check-in exact"
-    },
-    {
-      "name": "the cue sheet declares the sound design",
-      "ok": true,
-      "detail": "38 cues across 5 kinds"
-    },
-    {
-      "name": "no sound-design cue draws attention to itself",
-      "ok": true,
-      "detail": "largest lift 1.79 dB (tick at 20.27s) · limit 2.5 dB"
+      "detail": "Warm acoustic piano, lyrical melody and restrained moving accompaniment · 84 BPM"
     }
   ]
 }

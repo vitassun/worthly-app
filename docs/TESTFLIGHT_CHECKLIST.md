@@ -9,7 +9,7 @@ Use this list before creating each candidate build. A checked source/configurati
 - [x] A 1024 × 1024 AppIcon asset is present. This is a restrained geometric W mark; replace or approve it as final brand artwork before public release.
 - [x] Privacy manifest is bundled; it declares app-only UserDefaults access and no tracking or collected data.
 - [ ] Confirm the archive contains no secrets, signing certificates, provisioning profiles, or private keys.
-- [ ] Build the Release simulator configuration on macOS/Xcode.
+- [x] Build the Release simulator configuration on macOS/Xcode — GitHub Actions #24, v0.2.0 (2).
 - [ ] Create and inspect a signed device archive using the account’s own Apple Developer team in Xcode.
 
 ## Functional checks

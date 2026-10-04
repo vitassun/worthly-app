@@ -481,5 +481,12 @@
     "pixels": 20394,
     "min": 1500,
     "pass": true
+  },
+  {
+    "file": "frame-0080.png",
+    "label": "钢琴采样署名与许可",
+    "pixels": 7298,
+    "min": 1500,
+    "pass": true
   }
 ]

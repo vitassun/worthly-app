@@ -143,6 +143,7 @@ Worthly/
 │   │   └── InsightEngine.swift
 │   ├── Services/
 │   │   ├── CheckInReminderService.swift
+│   │   ├── CheckInRecordService.swift
 │   │   └── WorthlyDataDeletion.swift
 │   └── Utilities/
 │       ├── CheckInSchedule.swift
@@ -475,10 +476,12 @@ Rules:
 - 100 days old with no check-ins still starts at 7d
 - once 7d is complete and 30d is overdue, 30d becomes immediately due
 - once 30d is complete and 90d is overdue, 90d becomes due
-- completed stages never repeat
+- completed stages never repeat while their saved review exists; confirming deletion of that review makes the stage pending again
 - considering / passed / archived items are excluded
 - `purchaseDate` is the primary anchor
 - existing `decisionDate` fallback must remain unless explicitly changed
+
+A staged review is eligible on its due calendar day, including the morning reminder. Its stored purchase anchor and computed `dueDate` retain their original time.
 
 Never skip stages simply because an item is old.
 
@@ -575,6 +578,8 @@ Rules:
 - pending routes may wait for SwiftData readiness
 - foreground notifications use system banner/sound
 
+Queued notification additions are serialized and invalidated per item or globally after cancellation. Routes wait while onboarding or an existing root sheet is active. Old delivered routes for a future or non-current stage open detail instead of a check-in form.
+
 Single-item deletion order:
 
 1. delete from model context
@@ -633,6 +638,8 @@ Current responsibilities:
 - insight teaser
 - still-considering items
 - recently bought items
+
+Due review and decision sections preview at most three cards. When more are waiting, their `查看全部` entries open complete live queues. Due states refresh on foreground return and while visible.
 
 Home must not become a dense dashboard.
 
@@ -773,6 +780,8 @@ For passed:
 - do not pretend passed records contribute satisfaction analytics
 
 Single-item destructive delete belongs here and requires confirmation.
+
+Saved staged reviews and any-day reflections can be edited or confirm-deleted from AFTER. Edits change satisfaction, usage and note only, preserving identity, original date and stage. A new feeling uses a new reflection. Staged deletion recomputes pending stages and insights, and refreshes only that item's reminders after a successful save; any-day edits/deletion have no reminder side effects. Failed writes roll back and stay on screen.
 
 ---
 
@@ -921,28 +930,28 @@ before handoff.
 
 GitHub `main` is the single source of truth.
 
-Current verified baseline:
+Current verified App baseline (v0.2.0 / build 2):
 
 ```text
-333c812c32f9dee45bdb07565b93d33ed49a909b
+f4932fa2ba7b570e3a21a548408e846598d204f6
 ```
 
 Commit:
 
 ```text
-feat: allow any-day reflections and past purchase dates
+fix: restore review values when saving corrections fails
 ```
 
 Latest verified GitHub Actions gate:
 
 ```text
-iOS Build and Tests #21
+iOS Build and Tests #24 — run 37217081979
 ```
 
 Status:
 
 - Debug Build: PASS
-- XCTest: PASS (50 tests, 0 failures)
+- XCTest: PASS (63 tests, 0 failures)
 - Release Build: PASS
 - Unsigned device app + IPA packaging: PASS (artifact `Worthly-unsigned-ipa`, verified arm64 / `iPhoneOS`, no `UIUserInterfaceStyle` override so the app follows the system appearance)
 
@@ -1141,6 +1150,25 @@ Final verified baseline:
 ```text
 333c812c32f9dee45bdb07565b93d33ed49a909b
 ```
+
+---
+
+## Release batch — v0.2.0 experience polish
+
+Delivered under the user's explicit App-and-promo task:
+
+- edit and confirm-delete saved staged and any-day reflections, preserving stage/date/identity on edit
+- complete live Home review and decision queues beyond the three-card preview
+- calendar-day review availability, safe delayed/stale notification routing, serialized reminder invalidation
+- no reminder side effects for any-day reflections
+- keyboard dismissal/completion, native usage menu, wrapping notes, scalable choices and readable metadata
+- scrolling export sheet, notification authorization progress and settings entry
+- price edit precision and failed-review-save restoration
+- 13 new regression cases, 63 total; no persistent-model or export-version change
+- 82-second promo with current functional demonstrations and a real sampled piano arrangement
+
+Implementation: `2edb6333b1609064924aebfba73a0daa3a3cd493`; verified corrective App baseline: `f4932fa2ba7b570e3a21a548408e846598d204f6`.
+Later promo/handoff-only commits do not change this App source. See `docs/V0_2_0_RELEASE_NOTES.md`, `docs/V0_2_0_AUDIT_GUIDE.md` and the handoff report. Physical-device QA remains outstanding.
 
 ---
 

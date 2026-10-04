@@ -96,6 +96,13 @@ export const EndScene: React.FC = () => {
           </div>
         </MaskLine>
       </div>
+      <div style={{ position: "absolute", left: 1060, top: 930, width: 710,
+        fontFamily: fontFamily.sans, fontSize: 18, lineHeight: 1.5,
+        color: palette.muted, opacity: progress(frame, 10, 12) }}>
+        <div>Piano samples: Salamander Grand Piano v3 · Alexander Holm</div>
+        <div>CC BY 3.0 · creativecommons.org/licenses/by/3.0</div>
+        <div>github.com/sfzinstruments/SalamanderGrandPiano · adapted</div>
+      </div>
     </SceneFade>
   );
 };

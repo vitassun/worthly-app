@@ -18,6 +18,7 @@ qa/_*.html
 qa/frames*/
 qa/contact-sheets/*.png
 renders/*.mp4
+renders/*.mp3
 !renders/worthly-promo-v0.2.0.mp4
 
 # Preserve earlier local audit reports without including them in this release.

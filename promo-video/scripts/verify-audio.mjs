@@ -404,7 +404,7 @@ function analyse(file, { video, label, cues, sfxCues }) {
   let longestSilence = 0;
   let silenceStart = -1;
   const from = Math.round(3 * SR);
-  const to = Math.round(30 * SR);
+  const to = Math.max(from, frames - Math.round(3 * SR));
   for (let i = from; i < Math.min(to, frames); i++) {
     const quiet = Math.abs(pcm[i * 2]) < silenceFloor && Math.abs(pcm[i * 2 + 1]) < silenceFloor;
     if (quiet && silenceStart < 0) silenceStart = i;
@@ -416,9 +416,9 @@ function analyse(file, { video, label, cues, sfxCues }) {
   if (silenceStart >= 0) longestSilence = Math.max(longestSilence, (to - silenceStart) / SR);
 
   const loud = loudness(file, { video });
-  const band = cues || sfxCues ? highPassed(pcm, frames) : null;
-  const cueMatches = cues ? matchCues(band, cues) : null;
-  const sfxJumps = sfxCues ? matchSfx(monoBuffer(pcm, frames), sfxCues) : null;
+  const band = cues?.length ? highPassed(pcm, frames) : null;
+  const cueMatches = cues?.length ? matchCues(band, cues) : null;
+  const sfxJumps = sfxCues?.length ? matchSfx(monoBuffer(pcm, frames), sfxCues) : null;
 
   const db = (value) => (value > 0 ? 20 * Math.log10(value) : -Infinity);
 
@@ -503,7 +503,7 @@ for (const s of [score, film]) {
   say(
     `  cue lift       ${s.cueMatches === null ? "—" : `${s.cueMatches.filter((m) => m.gainDb >= CUE_MIN_GAIN_DB).length}/${s.cueMatches.length} cues lift the high band ≥ ${CUE_MIN_GAIN_DB} dB`}`,
   );
-  say(`  dead air       longest silent stretch 3s–30s: ${f(s.longestSilence, 3)}s`);
+  say(`  dead air       longest silent stretch excluding 3s edges: ${f(s.longestSilence, 3)}s`);
 }
 
 // ---------------------------------------------------------------------------
@@ -578,6 +578,12 @@ record(
   film.longestSilence < 3,
   `longest ${f(film.longestSilence, 3)}s`,
 );
+record(
+  "encoded music preserves the source level",
+  score.lufs.i !== null && film.lufs.i !== null &&
+    Math.abs(film.lufs.i - score.lufs.i) < 0.5 && Math.abs(film.rmsDb - score.rmsDb) < 1,
+  `source ${f(score.lufs.i)} LUFS · delivered ${f(film.lufs.i)} LUFS`,
+);
 
 // ---------------------------------------------------------------------------
 // Does the score actually follow the cut?
@@ -606,6 +612,23 @@ if (!cueSheet) {
     Math.abs(cueSheet.duration - film.videoDuration) < 0.001,
     `${cueSheet.duration}s vs ${f(film.videoDuration, 3)}s`,
   );
+
+  if (cueSheet.music) {
+    say(`  music          ${cueSheet.music.style}`);
+    say(`  tempo / key    ${cueSheet.music.bpm} BPM · ${cueSheet.music.key}`);
+    say(`  source         ${cueSheet.music.sampleSource} · ${cueSheet.music.sampleLicense}`);
+    record("musical arrangement and source are documented",
+      Number.isFinite(cueSheet.music.bpm) && cueSheet.music.bpm > 0 &&
+      typeof cueSheet.music.style === "string" &&
+      typeof cueSheet.music.sampleSource === "string" &&
+      typeof cueSheet.music.sampleLicense === "string",
+      `${cueSheet.music.style} · ${cueSheet.music.bpm} BPM`,
+    );
+  }
+
+  // The new piano arrangement has no illustrative bells. Bell timing and
+  // high-band prominence apply only to scores that actually declare bells.
+  if (cueSheet.bells?.length) {
 
   const matches = film.cueMatches;
   const worstGain = matches.reduce((min, m) => Math.min(min, m.gainDb), Infinity);
@@ -692,6 +715,7 @@ if (!cueSheet) {
       worst.jumpDb <= SFX_JUMP_LIMIT_DB,
       `largest lift ${f(worst.jumpDb, 2)} dB (${worst.kind} at ${worst.t.toFixed(2)}s) · limit ${SFX_JUMP_LIMIT_DB} dB`,
     );
+  }
   }
 }
 

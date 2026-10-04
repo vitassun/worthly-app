@@ -1,0 +1,12 @@
+{
+  "instrument": "Salamander Grand Piano v3",
+  "author": "Alexander Holm",
+  "mapping": "kinwie / sfzinstruments (FLAC conversion)",
+  "license": "Creative Commons Attribution 3.0 Unported",
+  "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+  "source": "https://github.com/sfzinstruments/SalamanderGrandPiano",
+  "originalSource": "https://archive.org/details/SalamanderGrandPianoV3",
+  "revision": "3382bf9496bba2486f5ab0de55a264d1dfc38404",
+  "subset": "A2\u2013A5, minor-third sampling, velocity layer 6",
+  "modifications": "Pitch-shifted within two semitones, shorter performance releases, stereo room return and mastering."
+}
