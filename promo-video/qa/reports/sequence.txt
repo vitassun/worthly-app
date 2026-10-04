@@ -2,30 +2,30 @@ sequence pass · renders/worthly-promo-v0.2.0.mp4
 proxy 480×270 · 2460 frames · 82.00s
 ====================================================================================================
 
-coverage         mean 6.71%   min 0.23%   max 26.73%
-ink mass         mean 4.36%   peak 17.93%
+coverage         mean 6.80%   min 0.23%   max 26.60%
+ink mass         mean 4.77%   peak 20.07%
 blank frames     0 (mass < 0.06%)
-off-palette      128 frames above 0.05% → worst 0.148% at 56.10s   (fail floor 0.5%)
-largest step     -6.34pp at 77.93s (out)
-largest drop     -6.34pp at 77.93s
+off-palette      230 frames above 0.05% → worst 0.284% at 75.73s   (fail floor 0.5%)
+largest step     -6.99pp at 77.97s (out)
+largest drop     -6.99pp at 77.97s
 
 per-scene ink mass (sampled every 0.5s)
 ----------------------------------------------------------------------------------------------------
-opening      0.0s   .:::::                 peak 2.0%
-thesis       3.5s   .:::                   peak 1.8%
-before       6.0s   =++++++++++            peak 4.9%
-wait        12.0s   ..:::::                peak 2.1%
-decide      16.0s   .----                  peak 3.1%
-purchase    19.0s   +++++++                peak 4.8%
-past        23.0s   +******                peak 5.1%
-time        27.0s   .....::::::::::        peak 1.9%
-queue       35.0s   =++++++++              peak 4.2%
-anytime     40.0s   +*+****                peak 5.1%
-correction  44.0s   +******                peak 5.4%
-zoomout     48.0s   -++++====              peak 4.2%
-insight     53.0s   -@@@@@@@@              peak 16.1%
-patterns    58.0s   .:-=+++++++            peak 4.1%
-philosophy  64.0s   :::::::                peak 2.1%
-privacy     68.0s   =++++++++++            peak 4.3%
-appearance  74.0s   %%@@@@@                peak 17.9%
-end         78.0s   .::::::                peak 1.6%
+opening      0.0s  .:-----                 peak 2.4%
+thesis       3.5s  .::::                   peak 2.2%
+before       6.0s  .+++++******            peak 5.3%
+wait        12.0s  .::-----                peak 2.5%
+decide      16.0s  .:====                  peak 3.5%
+purchase    19.0s  .*******                peak 5.2%
+past        23.0s  .*******                peak 5.5%
+time        27.0s  ..::::::::::----        peak 2.3%
+queue       35.0s  .+++++++++              peak 4.6%
+anytime     40.0s  .*******                peak 5.5%
+correction  44.0s  .*******                peak 5.8%
+zoomout     48.0s  .=++++++++              peak 4.6%
+insight     53.0s  .=@@@@@@@@              peak 16.5%
+patterns    58.0s  .:-==+++++++            peak 4.4%
+philosophy  64.0s  .:------                peak 2.5%
+privacy     68.0s  .+++++++++++            peak 4.7%
+appearance  74.0s  .**@@@@@                peak 20.1%
+end         78.0s  .:::::::                peak 2.0%

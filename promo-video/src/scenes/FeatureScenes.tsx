@@ -112,17 +112,19 @@ export const AppearanceScene: React.FC = () => {
   const frame = useCurrentFrame();
   const darkP = progress(frame, 42, 12);
   const dark = frame >= 48;
+  const homeBox = { left: 1521 - 424 * 1.13 / 2, top: 540 - 896 * 1.13 / 2 };
   return <SceneFade frame={frame} duration={sceneById("appearance").durationInFrames}>
     <Slug label="NATIVE iOS · 日与夜" opacity={progress(frame, 2, 12)} />
     <Copy frame={frame} lines={["白天，或夜里。", "都能安静地回看。"]}
-      body={"跟随 iPhone 系统的深浅外观。\n同一段记忆，清晰地留在时间线里。"} />
-    <PhoneFrame scale={1.16} appearance="light"
-      style={{ ...box, opacity: progress(frame, 1, 15) * (1 - darkP) }}>
-      <Img src={staticFile("native-reference/item-detail-light.png")}
+      body={"跟随 iPhone 系统的深浅外观。\n从记下想要到回来看看，都清晰可读。"} />
+    <PhoneFrame scale={1.13} appearance="light" screenWidth={402} screenHeight={874} showHomeIndicator={false} showIsland={false}
+      style={{ ...homeBox, opacity: progress(frame, 1, 15) * (1 - darkP) }}>
+      <Img src={staticFile("native-reference/home-light.png")}
         style={{ width: "100%", height: "100%" }} />
     </PhoneFrame>
-    <PhoneFrame scale={1.16} appearance="dark" style={{ ...box, opacity: darkP }}>
-      <Img src={staticFile("native-reference/item-detail-dark.png")}
+    <PhoneFrame scale={1.13} appearance="dark" screenWidth={402} screenHeight={874} showHomeIndicator={false} showIsland={false}
+      style={{ ...homeBox, opacity: darkP }}>
+      <Img src={staticFile("native-reference/home-dark.png")}
         style={{ width: "100%", height: "100%" }} />
     </PhoneFrame>
     <div style={{ position: "absolute", left: 150, top: 810 }}><Mono size={22} color={palette.orange}>

@@ -443,29 +443,36 @@
   {
     "file": "frame-76.5.png",
     "label": "主标题可见",
-    "pixels": 38865,
+    "pixels": 39439,
     "min": 1500,
     "pass": true
   },
   {
     "file": "frame-76.5.png",
     "label": "完整设备与屏幕",
-    "pixels": 409960,
+    "pixels": 451754,
     "min": 10000,
     "pass": true
   },
   {
     "file": "frame-76.5.png",
-    "label": "屏幕导航标题",
-    "pixels": 19362,
-    "min": 60,
+    "label": "原生首页主标题",
+    "pixels": 4819,
+    "min": 500,
     "pass": true
   },
   {
     "file": "frame-76.5.png",
-    "label": "深色强调卡文字",
-    "pixels": 4575,
-    "min": 100,
+    "label": "深色首页主按钮反转",
+    "pixels": 20916,
+    "min": 8000,
+    "pass": true
+  },
+  {
+    "file": "frame-76.5.png",
+    "label": "原生首页浮动导航",
+    "pixels": 865,
+    "min": 500,
     "pass": true
   },
   {

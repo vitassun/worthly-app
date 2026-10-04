@@ -72,7 +72,7 @@ const probe = spawnSync(
     "-select_streams",
     "v:0",
     "-show_entries",
-    "stream=width,height,nb_frames,r_frame_rate",
+    "stream=width,height,nb_frames,r_frame_rate,color_space,color_primaries,color_transfer,color_range",
     "-of",
     "json",
     video,
@@ -82,6 +82,11 @@ const probe = spawnSync(
 
 if (probe.status !== 0) throw new Error(`Could not probe ${video}: ${probe.stderr}`);
 const stream = JSON.parse(probe.stdout).streams?.[0];
+if (stream.color_space !== "bt709" || stream.color_primaries !== "bt709"
+    || stream.color_transfer !== "bt709" || stream.color_range !== "tv") {
+  throw new Error("Expected explicitly converted/tagged BT.709 video with limited range");
+}
+say("Video color metadata: BT.709 matrix / primaries / transfer, limited range · PASS");
 const nbFrames = stream?.nb_frames ?? "unavailable";
 const rate = stream?.r_frame_rate;
 const W = Number(stream?.width);
@@ -246,7 +251,9 @@ fs.mkdirSync(reportDir, { recursive: true });
 fs.writeFileSync(path.join(reportDir, "encode-fidelity.txt"), `${lines.join("\n")}\n`);
 fs.writeFileSync(
   path.join(reportDir, "encode-fidelity.json"),
-  `${JSON.stringify({ video: path.relative(root, video), width: W, height: H, tolerance, results }, null, 2)}\n`,
+  `${JSON.stringify({ video: path.relative(root, video), width: W, height: H,
+    colorMetadata: { matrix: stream.color_space, primaries: stream.color_primaries,
+      transfer: stream.color_transfer, range: stream.color_range }, tolerance, results }, null, 2)}\n`,
 );
 
 process.exit(failures === 0 ? 0 : 1);

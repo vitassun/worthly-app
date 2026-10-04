@@ -29,13 +29,20 @@ for(const entry of manifest.frames) {
   check(png, file, "主标题可见", [150,180,1180,680], 1500);
   if([9,21,25,38,42,46,50,52,72,76.5].includes(entry.time)) {
     check(png, file, "完整设备与屏幕", [1280,35,1770,1048], 10000);
-    check(png, file, "屏幕导航标题", [1400,115,1700,180], 60);
+    if(entry.time !== 76.5) check(png, file, "屏幕导航标题", [1400,115,1700,180], 60);
   }
   if(entry.time === 25) check(png,file,"已经买了开关",[1650,745,1730,800],300,orange);
   if(entry.time === 33.5) for(const y of [326,544,762]) check(png,file,"阶段回访及感受",[150,y,1770,y+195],1200);
   if(entry.time === 56) check(png,file,"买前与买后洞察",[900,290,1690,800],50000);
   if(entry.time === 62) for(const y of [370,565,760]) check(png,file,"长期规律指标",[150,y,1770,y+170],2000);
-  if(entry.time === 76.5) check(png,file,"深色强调卡文字",[1310,915,1735,990],100);
+  if(entry.time === 76.5) {
+    check(png,file,"原生首页主标题",[1310,180,1740,300],500,
+      (r,g,b) => r > 210 && g > 205 && b > 195);
+    check(png,file,"深色首页主按钮反转",[1310,305,1740,370],8000,
+      (r,g,b) => Math.abs(r-239)<3 && Math.abs(g-234)<3 && Math.abs(b-224)<3);
+    check(png,file,"原生首页浮动导航",[1310,940,1740,1020],500,
+      (r,g,b) => r > 220 && g > 220 && b > 215);
+  }
   if(entry.time === 80) {
     check(png,file,"更多功能，敬请期待",[150,890,900,950],800,orange);
     check(png,file,"尚未正式上架 App Store",[150,950,900,1000],500);

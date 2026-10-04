@@ -2,6 +2,19 @@
   "sourceSHA": "ec9414296a2c1889fbc4aaece924e7372250325e",
   "simulator": "iPhone 17 / iOS 26.2",
   "referenceKind": "Native SwiftUI Simulator view rendering; not a physical-device recording",
+  "homeSourceSHA": "3ccc8112582927c79908545962065a2e04cf0ff7",
+  "homeReferenceKind": "Full-screen native Simulator capture; not a user screenshot or physical-device recording",
+  "homeBounds": {
+    "height": 874,
+    "safeArea": {
+      "bottom": 34,
+      "left": 0,
+      "right": 0,
+      "top": 62
+    },
+    "scale": 3,
+    "width": 402
+  },
   "images": [
     {
       "file": "item-detail-light.png",
@@ -26,79 +39,201 @@
       "width": 1206,
       "height": 2622,
       "sha256": "c911e491628c867fffe20ee75e3a285a06857d447641771cb964dec7b0549086"
+    },
+    {
+      "file": "home-light.png",
+      "width": 1206,
+      "height": 2622,
+      "sha256": "c550f8eac38f68a8e677d7257185805e5e26669cba1ec2d6f82d9c83b4c6aecb",
+      "colorEvaluation": {
+        "profileName": "unprofiled / assumed sRGB",
+        "counts": {
+          "background": 1922285,
+          "surface": 583719,
+          "text": 218093,
+          "muted": 15984,
+          "accent": 0,
+          "emphasis": 38
+        },
+        "systemTabTint": 3683,
+        "comparisonTolerance": 2,
+        "colorEvaluation": "ICC-to-sRGB in memory; original PNG unchanged"
+      }
+    },
+    {
+      "file": "home-dark.png",
+      "width": 1206,
+      "height": 2622,
+      "sha256": "7323bfecbc262252b13b5155163ed8616eaaff0342360bd2138c0bd305c2bcdf",
+      "colorEvaluation": {
+        "profileName": "unprofiled / assumed sRGB",
+        "counts": {
+          "background": 2071941,
+          "surface": 582930,
+          "text": 218065,
+          "muted": 15971,
+          "accent": 0,
+          "emphasis": 0
+        },
+        "systemTabTint": 3565,
+        "comparisonTolerance": 2,
+        "colorEvaluation": "ICC-to-sRGB in memory; original PNG unchanged"
+      }
     }
   ],
   "checks": [
     {
+      "view": "detail",
       "appearance": "light",
       "role": "background",
       "pixels": 2406304,
       "pass": true
     },
     {
+      "view": "detail",
       "appearance": "light",
       "role": "surface",
       "pixels": 817230,
       "pass": true
     },
     {
+      "view": "detail",
       "appearance": "light",
       "role": "text",
       "pixels": 24828,
       "pass": true
     },
     {
+      "view": "detail",
       "appearance": "light",
       "role": "muted",
       "pixels": 29093,
       "pass": true
     },
     {
+      "view": "detail",
       "appearance": "light",
       "role": "accent",
       "pixels": 3112,
       "pass": true
     },
     {
+      "view": "detail",
       "appearance": "light",
       "role": "emphasis",
       "pixels": 2166739,
       "pass": true
     },
     {
+      "view": "detail",
       "appearance": "dark",
       "role": "background",
       "pixels": 2793751,
       "pass": true
     },
     {
+      "view": "detail",
       "appearance": "dark",
       "role": "surface",
       "pixels": 822183,
       "pass": true
     },
     {
+      "view": "detail",
       "appearance": "dark",
       "role": "text",
       "pixels": 24828,
       "pass": true
     },
     {
+      "view": "detail",
       "appearance": "dark",
       "role": "muted",
       "pixels": 29093,
       "pass": true
     },
     {
+      "view": "detail",
       "appearance": "dark",
       "role": "accent",
       "pixels": 3112,
       "pass": true
     },
     {
+      "view": "detail",
       "appearance": "dark",
       "role": "emphasis",
       "pixels": 2166733,
+      "pass": true
+    },
+    {
+      "view": "home",
+      "appearance": "light",
+      "role": "background",
+      "pixels": 1922285,
+      "pass": true
+    },
+    {
+      "view": "home",
+      "appearance": "light",
+      "role": "surface",
+      "pixels": 583719,
+      "pass": true
+    },
+    {
+      "view": "home",
+      "appearance": "light",
+      "role": "text",
+      "pixels": 218093,
+      "pass": true
+    },
+    {
+      "view": "home",
+      "appearance": "light",
+      "role": "muted",
+      "pixels": 15984,
+      "pass": true
+    },
+    {
+      "view": "home",
+      "appearance": "dark",
+      "role": "background",
+      "pixels": 2071941,
+      "pass": true
+    },
+    {
+      "view": "home",
+      "appearance": "dark",
+      "role": "surface",
+      "pixels": 582930,
+      "pass": true
+    },
+    {
+      "view": "home",
+      "appearance": "dark",
+      "role": "text",
+      "pixels": 218065,
+      "pass": true
+    },
+    {
+      "view": "home",
+      "appearance": "dark",
+      "role": "muted",
+      "pixels": 15971,
+      "pass": true
+    },
+    {
+      "view": "home",
+      "appearance": "light",
+      "role": "systemTabTint",
+      "pixels": 3683,
+      "pass": true
+    },
+    {
+      "view": "home",
+      "appearance": "dark",
+      "role": "systemTabTint",
+      "pixels": 3565,
       "pass": true
     }
   ]

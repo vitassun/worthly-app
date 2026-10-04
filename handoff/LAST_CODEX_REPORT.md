@@ -1,7 +1,7 @@
 # LAST CODEX REPORT
 
 ## RESULT
-PASS — Worthly v0.2.0 (2) App passed Debug, 63 XCTest cases, Release and unsigned iPhoneOS IPA verification on GitHub Actions #26. The 82-second piano promo passed visual, encode and audio QA; its appearance scene now uses actual SwiftUI Simulator view renders. No local Xcode or physical-device QA was claimed.
+PASS — Worthly v0.2.0 (2) App passed Debug, 63 XCTest cases, Release and unsigned iPhoneOS IPA verification on GitHub Actions #31. The 82-second piano promo passed final visual, encode and audio QA; the appearance scene uses full-screen native Home captures with demo data. User screenshots are reference only and are absent from assets and video. No local Xcode or physical-device QA was claimed.
 
 ## BASELINE
 - expected / actual starting SHA: a5047447600f16dd121064df99f94f50ec8317da
@@ -10,10 +10,12 @@ PASS — Worthly v0.2.0 (2) App passed Debug, 63 XCTest cases, Release and unsig
 - Verified App SHA: f4932fa2ba7b570e3a21a548408e846598d204f6
 - The final music/handoff follow-up changes no App code.
 - Appearance follow-up started from a108441d1d2c9518d51d7b9dbb998ba03b3f5fbe, fetched and confirmed equal to origin/main. Native capture commit ec9414296a2c1889fbc4aaece924e7372250325e adds an isolated manual workflow; production App/tests/project/main CI remain identical to f4932fa.
+- Phone-reference follow-up started from 39e0c353e26493812b2e483b57b562d08f1626c7, confirmed equal to origin/main. Home capture source c21a892f48b49ffa287f2867e0193815bfc9afb0 preserves production sources.
+- Final full-screen Home source: 3ccc8112582927c79908545962065a2e04cf0ff7; actual App keyWindow at level 0, resolved system appearance, public accessibility settings recorded.
 
 ## BUILD
-Actual GitHub Actions iOS Build and Tests #26, run 37219643574:
-https://github.com/vitassun/worthly-app/actions/runs/37219643574
+Actual GitHub Actions iOS Build and Tests #31, run 37225670799:
+https://github.com/vitassun/worthly-app/actions/runs/37225670799
 - Debug: PASS (iOS Simulator)
 - XCTest: PASS — 63 tests, 0 failures (50 existing + 13 new)
 - Release: PASS (iOS Simulator)
@@ -35,6 +37,10 @@ https://github.com/vitassun/worthly-app/actions/runs/37219643574
 - User flagged dark appearance colors: replaced 74–78s mock screens with native ItemDetailView renders from iPhone 17 / iOS 26.2. Source metadata and four reference PNGs committed. Separate workflow captures a real SwiftUI view with in-memory demo data, restores its temporary test byte-for-byte, and verifies production source is unchanged.
 - Corrected reconstructed detail state/discount text to muted, toolbar actions to accent, restored full opacity for older reviews, and added a return arrow.
 - Added requested end-card wording: 更多功能，敬请期待 / 尚未正式上架 App Store.
+- Replaced appearance scene with actual RootTabView/HomeView at 402×874pt, including one due card, one recent purchase, empty space and the four-tab system bar. Seed remains the promo AirPods Max example, not the user's personal record.
+- Full-screen simctl capture preserves original PNG bytes/profiles; nonce/appearance/sourceSHA/PNG SHA handshake holds the live window through capture. Observer restores system state only after xcodebuild completes; temporary tests restore byte for byte. Removed static drawHierarchy capture for Home.
+- Read the user's Display P3 screenshots only to compare normalized colors and page composition; none were copied to the repo or film. Native color QA converts ICC to sRGB in memory only.
+- Export uses lossless PNG intermediates and explicit BT.709 matrix/primaries/transfer with limited range. Codec QA checks these metadata and actual decoded pixels.
 
 ## TARGET MEMBERSHIP
 26 App sources and 6 test sources verified. New CheckInRecordService.swift is app-only; existing tests remain outside App target.
@@ -46,13 +52,14 @@ Unchanged: no persistent-model fields, migration, archive activation or export-v
 - Independent read-only App audit: no blocking static findings.
 - First CI #23 caught one regression case with 3 assertions: SwiftData rollback alone did not restore synchronous live-model edits on failure. Corrected by preserving and restoring original fields alongside persistence rollback; kept the test unchanged. #24 reran all 63 tests successfully.
 - git diff --check: PASS before handoff.
-- Promo TypeScript / demo-insight calculations PASS; 19 screen layout checks; 42 frame checkpoints; 72 region checks; all 2460 decoded frames without blanks; 20 encode checkpoints PASS.
-- Native capture run 37219653303 PASS (one isolated capture test, zero failures); light/dark native PNGs contain all six actual theme roles, 12 color checks PASS. This is separate from the unchanged 63-test main gate.
+- Promo TypeScript / demo-insight calculations PASS; 19 screen layout checks; 42 frame checkpoints; 73 region checks; all 2460 decoded frames without blanks; 20 encode checkpoints PASS, including explicit BT.709 matrix/primaries/transfer and limited range. No claim of pixel-identical display across devices.
+- Native Home capture run 37225675514 PASS (one isolated capture test, zero failures); six retained PNGs pass 22 color checks (12 detail roles, eight Home foundation roles, two system tab tint checks). Original keyWindow level 0, Home hashes, true four-tab presence and raw full-screen method are verified separately from the unchanged 63-test main gate.
+- The first original-window attempt, run 37225162868, failed because simctl container discovery timed out while installing; its observer exited before the light ACK. Added bounded startup retry/cache and a 60-second capture handshake; rerun passed. Main business-test assertions are unchanged.
 - Final piano MP4: 16 audio checks PASS, -16.00 LUFS, -1.68 dBTP, balanced stereo, clean fades and source/AAC level fidelity.
 - Local downloaded IPA plist verifies 0.2.0 (2), iPhoneOS and no appearance override.
 
 ## DEVIATIONS / LIMITS
-User expanded promo-only work into autonomous App improvements and necessary small features, then requested a new soundtrack, corrected dark colors and added end-card notices. No device wait. Video uses labeled reconstructions except the appearance scene's native SwiftUI view references. These were rendered in a standalone NavigationStack fixture, without RootTabView or system status bar; they are not physical-device or full-App recordings. Physical-device notification, VoiceOver, Dynamic Type and export checks remain in the audit checklist.
+User expanded promo-only work into autonomous App improvements and necessary small features, then requested a new soundtrack, corrected dark colors and added end-card notices. No device wait. Video uses labeled reconstructions except the appearance scene's full-screen Simulator Home captures. These run the actual RootTabView with an in-memory model fixture; they are not physical-device recordings. System material may vary with OS/device settings; the captured system bar is kept as rendered rather than painted to match a photograph. Physical-device notification, VoiceOver, Dynamic Type and export checks remain in the audit checklist.
 
 ## BLOCKERS
 None for this delivery.
@@ -62,14 +69,20 @@ None for this delivery.
 - f4932fa2ba7b570e3a21a548408e846598d204f6 — fix: restore review values when saving corrections fails (CI verified)
 - a108441d1d2c9518d51d7b9dbb998ba03b3f5fbe — finalize piano promo and verified v0.2.0 handoff (CI #25 PASS).
 - ec9414296a2c1889fbc4aaece924e7372250325e — capture native iOS appearance references for promo (CI #26 PASS).
-- Final appearance/end-card/promo/docs follow-up: this commit; App source remains identical to f4932fa.
+- 39e0c353e26493812b2e483b57b562d08f1626c7 — native detail references and end-card notices (CI #27 PASS).
+- 3e61195d2d48a9ad6e6db21182d299dff2ac54bb — complete Home reference fixture (CI #28 PASS; its static PNGs were superseded).
+- c21a892f48b49ffa287f2867e0193815bfc9afb0 — live system compositor Home capture (CI #29 PASS).
+- 21eb7d6003f48dfd8c46cc74f75d82fe8c40275f — preserve normal App window composition (CI #30 PASS).
+- 3ccc8112582927c79908545962065a2e04cf0ff7 — tolerate Simulator installation startup; final Home captures originate here (CI #31 PASS).
+- Final Home/color/export/promo/docs follow-up: this commit; App source remains identical to f4932fa.
 
 ## PUSH
 Initial implementation and corrective commit successfully pushed without force. Final piano/docs follow-up submitted separately; its own required CI gates are checked before final user handoff. No pull request or App Store upload was created.
 
 ## ARTIFACTS
-- promo-video/renders/worthly-promo-v0.2.0.mp4 — 12,502,469 bytes; SHA256 146058f2c2a414e2f0df0b77809dc5b53163b980dd7942ad9fb3cbfb8a3d0707
-- promo-video/public/native-reference/ — 4 native PNGs and metadata for actual v0.2.0 (2) SwiftUI view colors.
+- promo-video/renders/worthly-promo-v0.2.0.mp4 — 9,076,915 bytes; SHA256 51648bd1e61c5579bcdc7762b4a6f9b601eb4bd59e49cbbdf6127f3e1d69a673
+- promo-video/renders/worthly-promo-v0.2.0-phone-reference.mp4 — local playback alias of the same final bytes, avoiding stale player cache.
+- promo-video/public/native-reference/ — 2 full-screen native Home PNGs and 4 retained detail references, with separate provenance metadata.
 - release-artifacts/v0.2.0/Worthly-unsigned-f4932fa.ipa — downloaded verified App candidate, unsigned; 663,801 bytes
 - release-artifacts/v0.2.0/delivery-manifest.json — local hashes/provenance (ignored)
 - docs/V0_2_0_AUDIT_GUIDE.md — Chinese morning audit guide

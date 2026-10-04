@@ -33,11 +33,15 @@ export const ScaledUI: React.FC<{
 export const PhoneFrame: React.FC<{
   scale: number;
   appearance?: "light" | "dark";
+  screenWidth?: number;
+  screenHeight?: number;
+  showHomeIndicator?: boolean;
+  showIsland?: boolean;
   style?: CSSProperties;
   children: ReactNode;
-}> = ({ scale, appearance = "light", style, children }) => {
-  const outerWidth = device.width + device.bezel * 2;
-  const outerHeight = device.height + device.bezel * 2;
+}> = ({ scale, appearance = "light", screenWidth = device.width, screenHeight = device.height, showHomeIndicator = true, showIsland = true, style, children }) => {
+  const outerWidth = screenWidth + device.bezel * 2;
+  const outerHeight = screenHeight + device.bezel * 2;
 
   return (
     <div
@@ -73,8 +77,8 @@ export const PhoneFrame: React.FC<{
           position: "absolute",
           left: device.bezel,
           top: device.bezel,
-          width: device.width,
-          height: device.height,
+          width: screenWidth,
+          height: screenHeight,
           borderRadius: device.screenRadius,
           overflow: "hidden",
           background: palette.cream,
@@ -84,30 +88,30 @@ export const PhoneFrame: React.FC<{
       </div>
 
       {/* Dynamic Island */}
-      <div
+      {showIsland && <div
         style={{
           position: "absolute",
-          left: device.bezel + (device.width - device.island.width) / 2,
+          left: device.bezel + (screenWidth - device.island.width) / 2,
           top: device.bezel + device.island.top,
           width: device.island.width,
           height: device.island.height,
           borderRadius: device.island.height / 2,
           background: device.bezelColour,
         }}
-      />
+      />}
 
       {/* Home indicator */}
-      <div
+      {showHomeIndicator && <div
         style={{
           position: "absolute",
-          left: device.bezel + (device.width - device.homeIndicator.width) / 2,
-          top: device.bezel + device.height - device.homeIndicator.bottom - device.homeIndicator.height,
+          left: device.bezel + (screenWidth - device.homeIndicator.width) / 2,
+          top: device.bezel + screenHeight - device.homeIndicator.bottom - device.homeIndicator.height,
           width: device.homeIndicator.width,
           height: device.homeIndicator.height,
           borderRadius: device.homeIndicator.height / 2,
           background: palette.muted,
         }}
-      />
+      />}
     </div>
   );
 };

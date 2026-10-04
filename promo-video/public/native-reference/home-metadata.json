@@ -1,0 +1,153 @@
+{
+  "bounds": {
+    "height": 874,
+    "safeArea": {
+      "bottom": 34,
+      "left": 0,
+      "right": 0,
+      "top": 62
+    },
+    "scale": 3,
+    "width": 402
+  },
+  "build": "2",
+  "bundleIdentifier": "com.vitassun.worthly",
+  "capturedAt": "2026-10-04T18:50:29Z",
+  "foundationCurrentTimeZone": "GMT",
+  "foundationDefaultTimeZone": "Asia/Shanghai",
+  "homeDateText": "Sunday, Oct 4",
+  "images": [
+    {
+      "accessibility": {
+        "contrast": 0,
+        "darkerSystemColorsEnabled": false,
+        "reduceMotionEnabled": false,
+        "reduceTransparencyEnabled": false
+      },
+      "appearance": "light",
+      "captureMethod": "simctl-io-full-screen",
+      "colorHandling": "Unmodified Simulator compositor PNG; no grading or conversion",
+      "file": "home-light.png",
+      "nonce": "3FBE5BFD-2C58-4855-AAB2-61E31A8551EE",
+      "pixelHeight": 2622,
+      "pixelWidth": 1206,
+      "section": "home",
+      "sha256": "c550f8eac38f68a8e677d7257185805e5e26669cba1ec2d6f82d9c83b4c6aecb",
+      "tabBar": {
+        "height": 83,
+        "items": [
+          "首页",
+          "记录",
+          "洞察",
+          "我的"
+        ],
+        "width": 402,
+        "x": 0,
+        "y": 791
+      },
+      "window": {
+        "isHidden": false,
+        "isKeyWindow": true,
+        "level": 0,
+        "overrideUserInterfaceStyle": 0,
+        "resolvedUserInterfaceStyle": 1,
+        "rootControllerClass": "UIHostingController<ModifiedContent<ModifiedContent<ModifiedContent<ModifiedContent<ModifiedContent<RootTabView, PassthroughModelContainerViewModifier>, _EnvironmentKeyWritingModifier<Locale>>, _EnvironmentKeyWritingModifier<Calendar>>, _EnvironmentKeyWritingModifier<TimeZone>>, _EnvironmentKeyWritingModifier<Optional<AnyShapeStyle>>>>",
+        "usesOriginalAppWindow": true,
+        "windowClass": "UIWindow"
+      },
+      "pngColorProfiles": [
+        {
+          "chunk": "sRGB",
+          "payloadHex": "00"
+        }
+      ],
+      "bitsPerComponent": 8
+    },
+    {
+      "accessibility": {
+        "contrast": 0,
+        "darkerSystemColorsEnabled": false,
+        "reduceMotionEnabled": false,
+        "reduceTransparencyEnabled": false
+      },
+      "appearance": "dark",
+      "captureMethod": "simctl-io-full-screen",
+      "colorHandling": "Unmodified Simulator compositor PNG; no grading or conversion",
+      "file": "home-dark.png",
+      "nonce": "0FE468B6-CC7E-46C9-BE85-00B1A8BB6A21",
+      "pixelHeight": 2622,
+      "pixelWidth": 1206,
+      "section": "home",
+      "sha256": "7323bfecbc262252b13b5155163ed8616eaaff0342360bd2138c0bd305c2bcdf",
+      "tabBar": {
+        "height": 83,
+        "items": [
+          "首页",
+          "记录",
+          "洞察",
+          "我的"
+        ],
+        "width": 402,
+        "x": 0,
+        "y": 791
+      },
+      "window": {
+        "isHidden": false,
+        "isKeyWindow": true,
+        "level": 0,
+        "overrideUserInterfaceStyle": 0,
+        "resolvedUserInterfaceStyle": 2,
+        "rootControllerClass": "UIHostingController<ModifiedContent<ModifiedContent<ModifiedContent<ModifiedContent<ModifiedContent<RootTabView, PassthroughModelContainerViewModifier>, _EnvironmentKeyWritingModifier<Locale>>, _EnvironmentKeyWritingModifier<Calendar>>, _EnvironmentKeyWritingModifier<TimeZone>>, _EnvironmentKeyWritingModifier<Optional<AnyShapeStyle>>>>",
+        "usesOriginalAppWindow": true,
+        "windowClass": "UIWindow"
+      },
+      "pngColorProfiles": [
+        {
+          "chunk": "sRGB",
+          "payloadHex": "00"
+        }
+      ],
+      "bitsPerComponent": 8
+    }
+  ],
+  "locale": "zh_CN",
+  "modelIdentifier": "iPhone18,3",
+  "originalAppWindow": {
+    "isHidden": false,
+    "isKeyWindow": true,
+    "level": 0,
+    "overrideUserInterfaceStyle": 0,
+    "rootControllerClass": "UIHostingController<ModifiedContent<AnyView, RootModifier>>",
+    "windowClass": "UIWindow"
+  },
+  "referenceKind": "Full-screen native Simulator capture; not a user screenshot or physical-device recording",
+  "renderMethod": "Live actual RootTabView in the original App window + xcrun simctl io screenshot of the entire system compositor",
+  "seed": {
+    "category": "数码",
+    "checkIns": [
+      {
+        "satisfactionScore": 8,
+        "stageDays": 7
+      }
+    ],
+    "consideringCards": 0,
+    "desireScore": 9,
+    "dueCards": 1,
+    "dueStage": 30,
+    "expectedUsage": "daily",
+    "insightCards": 0,
+    "name": "AirPods Max",
+    "originalPrice": 3999,
+    "paidPrice": 3299,
+    "purchaseDate": "2026-08-25T18:49:46Z",
+    "purchaseDaysBeforeCapture": 40,
+    "reason": "experience",
+    "recentBoughtCards": 1
+  },
+  "simulatorName": "iPhone 17",
+  "simulatorOS": "26.2",
+  "simulatorUDID": "25B395EC-01B8-4FB6-8D2A-1C484C360481",
+  "sourceSHA": "3ccc8112582927c79908545962065a2e04cf0ff7",
+  "timeZone": "Asia/Shanghai",
+  "version": "0.2.0"
+}
