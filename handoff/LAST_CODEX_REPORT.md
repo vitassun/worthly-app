@@ -1,139 +1,60 @@
 # LAST CODEX REPORT
 
 ## RESULT
-
-PASS — CI run #21 green on `333c812`. Debug build, XCTest (50 tests, 0 failures), Release build and
-the unsigned IPA all passed on GitHub Actions. No local Xcode was available (Windows host).
+PARTIAL — v0.2.0 (2) App and 82-second promo implemented and statically reviewed. GitHub Actions runtime gates will run after this commit is pushed. Windows has no local Xcode; physical-device QA is deferred as requested.
 
 ## BASELINE
-
-- expected SHA: `a022489b9797e37867473c7ab0611fa83dbfa9df`
-- actual SHA: `a022489b9797e37867473c7ab0611fa83dbfa9df` (matched before editing; tree clean)
+- expected SHA: a5047447600f16dd121064df99f94f50ec8317da
+- actual SHA: a5047447600f16dd121064df99f94f50ec8317da
+- User approved current main instead of the older documented 333c812 baseline; App source was identical.
+- Existing untracked promo-video/ was explicitly included in the task and preserved/revised.
 
 ## BUILD
-
-All results from GitHub Actions "iOS Build and Tests" #21, not from a local build:
-
-- Debug: PASS (iOS Simulator)
-- XCTest: PASS — 50 tests, 0 failures (44 existing + 6 new)
-- Release: PASS (iOS Simulator)
-- Unsigned device app + IPA packaging: PASS (artifact `Worthly-unsigned-ipa`)
+- Debug: awaiting GitHub Actions
+- XCTest: awaiting GitHub Actions; 63 test methods (50 existing + 13 new)
+- Release: awaiting GitHub Actions
+- Unsigned device app / IPA: awaiting GitHub Actions
+- Local simulator/device verification: not run (Windows).
 
 ## CHANGES
-
-Three requested product changes. No new files; `Worthly.xcodeproj` untouched.
-
-### 1. Add flow can record a real purchase date
-
-`Worthly/Features/AddItem/AddItemView.swift`
-
-- The Add flow hardcoded `purchaseDate: .now` and had no date picker at all, so an item
-  marked `已经买了` could only ever be dated today.
-- Added `@State private var purchaseDate: Date = .now`, a
-  `DatePicker("购买日期", selection: $purchaseDate, in: ...Date.now, displayedComponents: .date)`
-  inside the existing `if alreadyBought` block, and `purchaseDate: alreadyBought ? purchaseDate : nil`
-  in `save()`. `decisionDate` is still `.now` (it records when the decision was entered, matching
-  `PurchaseDecisionView`).
-
-### 2. Any-day reflections (随时回访)
-
-A bought item can now take a reflection on any day, in addition to the staged 7 / 30 / 90 reviews.
-Stored as `stageDays == 0` so there is **no schema change and no migration**.
-
-- `Worthly/Core/Utilities/CheckInSchedule.swift`
-  - new documented constant `adHocStageDays = 0`
-  - `completedStages(for:)` now subtracts it, so a free-form reflection can never satisfy a stage
-  - new pure, testable `timeline(for:)` (createdAt → stageDays → id, deterministic)
-- `Worthly/Core/Models/CheckIn.swift`
-  - initializer takes `stage: CheckInStage?`; `stageDays = stage?.rawValue ?? CheckInSchedule.adHocStageDays`
-  - new `isAdHoc`
-- `Worthly/Features/CheckIn/CheckInView.swift`
-  - `stage` is now `CheckInStage?`; for `nil` the form is submittable any day, any number of times,
-    with no due-date gate and no duplicate guard; staged behaviour is unchanged
-  - header / navigation title fall back to `ANYTIME · 随时回访`
-- `Worthly/Features/ItemDetail/ItemDetailView.swift`
-  - reflection list now uses `CheckInSchedule.timeline(for:)`; added `hasStagedCheckIns`
-  - the AFTER card for bought items gained an always-available `ANYTIME · 记录现在的感觉` entry point
-  - `checkInRow` labels a free-form reflection by date (`随时回访 · <date>`)
-
-Unchanged on purpose: staged sequencing, `nextPendingStage`, the reminder service, notification
-routing, and `InsightEngine` logic. `InsightEngine.latestCheckIn` already filters on
-`CheckInStage(rawValue:) != nil`, so free-form reflections are ignored without an engine change.
-
-### 3. The category selector now has a visible question
-
-`Worthly/Features/AddItem/AddItemView.swift`, `Worthly/Features/ItemDetail/EditItemView.swift`
-
-The category `Picker` sat bare in a `VStack` with only its own `分类` label. Both are now wrapped in
-a labelled `VStack` with the visible heading `它属于哪一类？`, matching the existing
-`为什么想买？` / `预计多久用一次？` sections. The Picker keeps its `分类` label for VoiceOver.
-
-### Tests
-
-New methods in existing test files only:
-
-- `WorthlyTests/CheckInScheduleTests.swift`: `testAdHocCheckInDoesNotCompleteOrAdvanceAnyStage`,
-  `testAdHocCheckInDoesNotBlockSequentialStages`, `testAdHocCheckInIsStoredAsZeroAndMarked`,
-  `testTimelineOrdersChronologicallyThenByStage`
-- `WorthlyTests/InsightEngineTests.swift`: `testAdHocReflectionsDoNotCreateEvaluations`,
-  `testAdHocReflectionDoesNotOverrideLatestStage`; private `makeItem` helper gained a defaulted
-  `adHocScores: [Int] = []` parameter
-
-### Docs
-
-`AGENTS.md` §9 (new "Free-form reflections" subsection), §10 (free-form reflections are never an
-evaluation), §14 (purchase date selectable when already bought), §15 (AFTER section).
+- Correct or confirm-delete saved staged reviews and any-day reflections; preserve stage, identity and original date.
+- Complete live Home review/decision queues beyond the three-card preview.
+- Keyboard completion, scroll dismissal, wrapping notes, native expected-usage menu, Dynamic Type choices, readable metadata and export sheet.
+- Morning calendar-day review eligibility; safe stale notification routing and sheet deferral; serialized reminder invalidation; no reminder side effects for any-day reflections.
+- Preserve stored price precision when editing unrelated details.
+- Notification authorization progress, repeat-request protection and system-settings entry after denial.
+- Debug and Release version 0.2.0, build 2. No future roadmap architecture activated.
+- Required Debug/XCTest/Release gates preserved. Replace the device-verification placeholder with real plist/arm64/system-appearance checks after those gates.
+- Promo rebuilt to 82 seconds / 1080p / 30 fps, using current App behavior and disclosed reconstructed UI/demo data. Adds past purchases, complete queues, editable reviews, local export/privacy, light/dark appearance and all implemented insight families.
+- Video source, original instrumental score, font licenses and final MP4 included. Historical 32-second render remains locally under its original filename.
 
 ## TARGET MEMBERSHIP
-
-- app sources: every edited file is an existing member of the `Worthly` target; no files added
-- test sources: methods added to existing `WorthlyTests` files; no files added
-- `Worthly.xcodeproj/project.pbxproj` not modified
+- 26 app sources, 6 test sources verified. New CheckInRecordService.swift is app-only.
+- Existing test files remain outside the app target.
 
 ## SCHEMA
-
-- unchanged. No new stored properties. `CheckIn.stageDays` is already `Int`; free-form reflections
-  use `0`, which the stage enum cannot represent.
-
-## DEVIATIONS
-
-- Free-form reflections are intentionally **excluded from `InsightEngine`**, so daily reflections
-  appear in an item's timeline but do not move the insight cards yet. This preserves the §10
-  "latest stage wins / one evaluation per purchase" invariant. Letting them feed insights needs a
-  separate product decision (ordering + thresholds + tests).
-- JSON export format is unchanged (`exportVersion = 1`); a free-form reflection is exported with
-  `"stage": 0`. Making it explicit would be an export-format change.
-- `HomeView` gained no new entry point; reflections are reached through Item Detail.
-
-## BLOCKERS
-
-- None. Local build/test verification is impossible on this host.
+Unchanged: no persistent-model fields, migration, archive activation or export-version change. Any-day reflections stay excluded from staged scheduling and satisfaction insights.
 
 ## VERIFICATION
+- Independent read-only App audit: no blocking findings.
+- git diff --check: PASS before commit.
+- Promo: TypeScript and demo-insight calculations PASS; 19 screen layout checks, 42 frame checkpoints, 69 region checks, all 2460 decoded frames without blank frames, 20 encode checkpoints and 19 audio checks pass.
+- Original music calibrated to -16 LUFS, no clipping, synchronized 7/30/90 cues.
+- Video QA reports in promo-video/qa/reports/. See docs/V0_2_0_RELEASE_NOTES.md for exact semantics and docs/TESTFLIGHT_CHECKLIST.md for physical-device audit.
 
-- `git diff --check`: passes
-- brace/paren balance spot-checked on every edited file
-- CI #21: Debug PASS, XCTest PASS (50 tests, 0 failures), Release PASS, unsigned IPA PASS
-- the 6 new tests all executed on CI, so the ad-hoc stage-isolation and insight-exclusion
-  behaviour is runtime-verified; the UI changes themselves are not covered by tests
+## DEVIATIONS
+User expanded the promo-only request into autonomous App v0.2.0 UX fixes and necessary small features. No device wait required. Video is a labeled reconstruction, not a simulator recording.
 
-## COMMIT
+## BLOCKERS
+None for submission to CI. Physical-device notification/accessibility/export QA remains unverified and is not a claim of this delivery.
 
-- SHA: `333c812c32f9dee45bdb07565b93d33ed49a909b`
-- message: `feat: allow any-day reflections and past purchase dates`
-
-## PUSH
-
-- success (single push, no force)
+## COMMIT / PUSH
+Implementation commit and single code push pending when this report is written. Actual verified commit/run will be recorded after CI.
 
 ## ARTIFACTS
-
-- bundle: not produced (push available)
-- full-source ZIP: not produced (push available)
+- promo-video/renders/worthly-promo-v0.2.0.mp4
+- Unsigned IPA will be downloaded under ignored release-artifacts/v0.2.0/ after successful CI.
+- Bundle/full-source ZIP not needed when push succeeds.
 
 ## NEXT
-
-- Runtime QA (Iteration 08): date picker in the Add flow, repeated same-day reflections, the
-  Item Detail timeline with mixed staged and free-form entries, and the category question layout.
-- Product decision still open: whether free-form reflections should feed `InsightEngine`
-  (would need an ordering rule, thresholds and tests).
+Run the full CI gates, record exact results, download the unsigned IPA and deliver both App candidate and final promo for the user's morning audit.

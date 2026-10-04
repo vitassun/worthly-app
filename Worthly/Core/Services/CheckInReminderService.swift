@@ -3,12 +3,16 @@ import UIKit
 import UserNotifications
 import Combine
 
+@MainActor
 final class CheckInReminderService {
     static let shared = CheckInReminderService()
-    static let enabledKey = "worthly.checkInRemindersEnabled"
+    nonisolated static let enabledKey = "worthly.checkInRemindersEnabled"
 
     private let center = UNUserNotificationCenter.current()
     private let calendar = Calendar.current
+    private var generations = WorthlyReminderGeneration()
+    private var schedulingTask: Task<Void, Never>?
+    private var permissionRequestID: UUID?
 
     private init() {}
 
@@ -17,8 +21,12 @@ final class CheckInReminderService {
     }
 
     func enable(for items: [WorthlyItem]) async -> Bool {
+        let requestID = UUID()
+        permissionRequestID = requestID
         do {
             let granted = try await center.requestAuthorization(options: [.alert, .sound, .badge])
+            guard permissionRequestID == requestID else { return false }
+            permissionRequestID = nil
             UserDefaults.standard.set(granted, forKey: Self.enabledKey)
 
             if granted {
@@ -29,28 +37,35 @@ final class CheckInReminderService {
 
             return granted
         } catch {
+            guard permissionRequestID == requestID else { return false }
+            permissionRequestID = nil
             UserDefaults.standard.set(false, forKey: Self.enabledKey)
             return false
         }
     }
 
     func disable() {
+        permissionRequestID = nil
         UserDefaults.standard.set(false, forKey: Self.enabledKey)
         cancelAllReminders()
     }
 
     func cancelAllReminders() {
-        center.getPendingNotificationRequests { requests in
+        generations.invalidateAll()
+        let previousTask = schedulingTask
+        schedulingTask = Task {
+            await previousTask?.value
+            let requests = await center.pendingNotificationRequests()
             let identifiers = WorthlyReminderIdentifiers.matching(requests.map(\.identifier))
-            self.center.removePendingNotificationRequests(withIdentifiers: identifiers)
-        }
-        center.getDeliveredNotifications { notifications in
-            let identifiers = WorthlyReminderIdentifiers.matching(notifications.map { $0.request.identifier })
-            self.center.removeDeliveredNotifications(withIdentifiers: identifiers)
+            center.removePendingNotificationRequests(withIdentifiers: identifiers)
+            let notifications = await center.deliveredNotifications()
+            let deliveredIdentifiers = WorthlyReminderIdentifiers.matching(notifications.map { $0.request.identifier })
+            center.removeDeliveredNotifications(withIdentifiers: deliveredIdentifiers)
         }
     }
 
     func reschedule(for item: WorthlyItem) {
+        generations.invalidate(for: item.id)
         let identifiers = CheckInStage.allCases.map { identifier(for: item.id, stage: $0) }
         center.removePendingNotificationRequests(withIdentifiers: identifiers)
 
@@ -69,10 +84,12 @@ final class CheckInReminderService {
     }
 
     func cancel(item: WorthlyItem, stage: CheckInStage) {
+        generations.invalidate(for: item.id)
         center.removePendingNotificationRequests(withIdentifiers: [identifier(for: item.id, stage: stage)])
     }
 
     func cancelReminders(for itemID: UUID) {
+        generations.invalidate(for: itemID)
         let identifiers = CheckInStage.allCases.map { identifier(for: itemID, stage: $0) }
         center.removePendingNotificationRequests(withIdentifiers: identifiers)
         center.removeDeliveredNotifications(withIdentifiers: identifiers)
@@ -100,8 +117,19 @@ final class CheckInReminderService {
             trigger: trigger
         )
 
-        Task {
-            try? await center.add(request)
+        // Snapshot identifiers before awaiting; never carry a SwiftData object across this task.
+        let itemID = item.id
+        let token = generations.token(for: itemID)
+        let previousTask = schedulingTask
+        schedulingTask = Task {
+            await previousTask?.value
+            guard isEnabled, generations.isCurrent(token, for: itemID) else { return }
+            do {
+                try await center.add(request)
+            } catch { return }
+            if !isEnabled || !generations.isCurrent(token, for: itemID) {
+                center.removePendingNotificationRequests(withIdentifiers: [request.identifier])
+            }
         }
     }
 

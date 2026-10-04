@@ -1,0 +1,401 @@
+[
+  {
+    "id": "settings",
+    "maxBottom": 852,
+    "maxRight": 393,
+    "minLeft": 0,
+    "deepest": [
+      {
+        "bottom": 852,
+        "text": "9:41我的数据导出我的数据删除所有数据提醒7 / 30 / 9"
+      },
+      {
+        "bottom": 852,
+        "text": "首页记录洞察我的"
+      },
+      {
+        "bottom": 818,
+        "text": "首页记录洞察我的"
+      }
+    ],
+    "overflows": []
+  },
+  {
+    "id": "review-queue",
+    "maxBottom": 852,
+    "maxRight": 393,
+    "minLeft": 0,
+    "deepest": [
+      {
+        "bottom": 852,
+        "text": "9:41首页待回访7 DAYS LATER帆布包现在还觉得它值吗"
+      },
+      {
+        "bottom": 852,
+        "text": "首页记录洞察我的"
+      },
+      {
+        "bottom": 818,
+        "text": "首页记录洞察我的"
+      }
+    ],
+    "overflows": []
+  },
+  {
+    "id": "edit-review",
+    "maxBottom": 858,
+    "maxRight": 393,
+    "minLeft": 0,
+    "deepest": [
+      {
+        "bottom": 858,
+        "text": "30 DAYS LATER修正这次回访。AirPods Max更"
+      },
+      {
+        "bottom": 852,
+        "text": "9:41返回编辑回访30 DAYS LATER修正这次回访。Ai"
+      },
+      {
+        "bottom": 852,
+        "text": "30 DAYS LATER修正这次回访。AirPods Max更"
+      }
+    ],
+    "overflows": []
+  },
+  {
+    "id": "add-empty",
+    "maxBottom": 1089,
+    "maxRight": 393,
+    "minLeft": 0,
+    "deepest": [
+      {
+        "bottom": 1089,
+        "text": "BEFORE先记下现在的感觉。不用写得很完整，20 秒内完成就够"
+      },
+      {
+        "bottom": 1053,
+        "text": "保存"
+      },
+      {
+        "bottom": 1041,
+        "text": "保存"
+      }
+    ],
+    "overflows": []
+  },
+  {
+    "id": "add-filled-top",
+    "maxBottom": 1089,
+    "maxRight": 393,
+    "minLeft": 0,
+    "deepest": [
+      {
+        "bottom": 1089,
+        "text": "BEFORE先记下现在的感觉。不用写得很完整，20 秒内完成就够"
+      },
+      {
+        "bottom": 1053,
+        "text": "保存"
+      },
+      {
+        "bottom": 1041,
+        "text": "保存"
+      }
+    ],
+    "overflows": []
+  },
+  {
+    "id": "add-filled-bottom",
+    "maxBottom": 855,
+    "maxRight": 393,
+    "minLeft": 0,
+    "deepest": [
+      {
+        "bottom": 855,
+        "text": "BEFORE先记下现在的感觉。不用写得很完整，20 秒内完成就够"
+      },
+      {
+        "bottom": 852,
+        "text": "9:41取消记下一件BEFORE先记下现在的感觉。不用写得很完整"
+      },
+      {
+        "bottom": 852,
+        "text": "BEFORE先记下现在的感觉。不用写得很完整，20 秒内完成就够"
+      }
+    ],
+    "overflows": []
+  },
+  {
+    "id": "add-bought-bottom",
+    "maxBottom": 856,
+    "maxRight": 393,
+    "minLeft": 0,
+    "deepest": [
+      {
+        "bottom": 856,
+        "text": "BEFORE先记下现在的感觉。不用写得很完整，20 秒内完成就够"
+      },
+      {
+        "bottom": 852,
+        "text": "9:41取消记下一件BEFORE先记下现在的感觉。不用写得很完整"
+      },
+      {
+        "bottom": 852,
+        "text": "BEFORE先记下现在的感觉。不用写得很完整，20 秒内完成就够"
+      }
+    ],
+    "overflows": []
+  },
+  {
+    "id": "detail-considering",
+    "maxBottom": 882,
+    "maxRight": 393,
+    "minLeft": 0,
+    "deepest": [
+      {
+        "bottom": 882,
+        "text": "考虑中AirPods Max数码 · 提升体验BEFORE当时有"
+      },
+      {
+        "bottom": 858,
+        "text": "AFTER做出购买决定后，这里会开始记录结果。"
+      },
+      {
+        "bottom": 852,
+        "text": "9:41AirPods Max编辑考虑中AirPods Max数"
+      }
+    ],
+    "overflows": []
+  },
+  {
+    "id": "detail-bought-top",
+    "maxBottom": 1345,
+    "maxRight": 393,
+    "minLeft": 0,
+    "deepest": [
+      {
+        "bottom": 1345,
+        "text": "已购买AirPods Max数码 · 提升体验BEFORE当时有"
+      },
+      {
+        "bottom": 1238,
+        "text": "AFTER期待正在变成真实体验。7 DAYS几乎每天8/10降噪"
+      },
+      {
+        "bottom": 1216,
+        "text": "期待正在变成真实体验。7 DAYS几乎每天8/10降噪比想象中更"
+      }
+    ],
+    "overflows": []
+  },
+  {
+    "id": "detail-bought-bottom",
+    "maxBottom": 865,
+    "maxRight": 393,
+    "minLeft": 0,
+    "deepest": [
+      {
+        "bottom": 865,
+        "text": "已购买AirPods Max数码 · 提升体验BEFORE当时有"
+      },
+      {
+        "bottom": 852,
+        "text": "9:41AirPods Max编辑已购买AirPods Max数"
+      },
+      {
+        "bottom": 852,
+        "text": "已购买AirPods Max数码 · 提升体验BEFORE当时有"
+      }
+    ],
+    "overflows": []
+  },
+  {
+    "id": "detail-considering-decide",
+    "maxBottom": 852,
+    "maxRight": 393,
+    "minLeft": 0,
+    "deepest": [
+      {
+        "bottom": 852,
+        "text": "9:41AirPods Max编辑考虑中AirPods Max数"
+      },
+      {
+        "bottom": 852,
+        "text": "考虑中AirPods Max数码 · 提升体验BEFORE当时有"
+      },
+      {
+        "bottom": 282,
+        "text": "考虑中AirPods Max数码 · 提升体验BEFORE当时有"
+      }
+    ],
+    "overflows": []
+  },
+  {
+    "id": "checkin-7",
+    "maxBottom": 932,
+    "maxRight": 393,
+    "minLeft": 0,
+    "deepest": [
+      {
+        "bottom": 932,
+        "text": "7 DAYS LATER现在还觉得\n它值吗？AirPods Ma"
+      },
+      {
+        "bottom": 892,
+        "text": "记下现在的感觉"
+      },
+      {
+        "bottom": 880,
+        "text": "记下现在的感觉"
+      }
+    ],
+    "overflows": []
+  },
+  {
+    "id": "checkin-anytime",
+    "maxBottom": 932,
+    "maxRight": 393,
+    "minLeft": 0,
+    "deepest": [
+      {
+        "bottom": 932,
+        "text": "ANYTIME · 随时回访现在还觉得\n它值吗？AirPods "
+      },
+      {
+        "bottom": 892,
+        "text": "记下现在的感觉"
+      },
+      {
+        "bottom": 880,
+        "text": "记下现在的感觉"
+      }
+    ],
+    "overflows": []
+  },
+  {
+    "id": "home",
+    "maxBottom": 1154,
+    "maxRight": 393,
+    "minLeft": 0,
+    "deepest": [
+      {
+        "bottom": 1154,
+        "text": "3月1日星期日最近有什么\n让你觉得「值得」？记下一件还想买吗？放"
+      },
+      {
+        "bottom": 1047,
+        "text": "最近买了AirPods Max已购买·提升体验¥3,299跑鞋已"
+      },
+      {
+        "bottom": 1047,
+        "text": "AirPods Max已购买·提升体验¥3,299跑鞋已购买·需"
+      }
+    ],
+    "overflows": []
+  },
+  {
+    "id": "home-scrolled",
+    "maxBottom": 1124,
+    "maxRight": 393,
+    "minLeft": 0,
+    "deepest": [
+      {
+        "bottom": 1124,
+        "text": "3月1日星期日最近有什么\n让你觉得「值得」？记下一件还想买吗？放"
+      },
+      {
+        "bottom": 1017,
+        "text": "最近买了AirPods Max已购买·提升体验¥3,299跑鞋已"
+      },
+      {
+        "bottom": 1017,
+        "text": "AirPods Max已购买·提升体验¥3,299跑鞋已购买·需"
+      }
+    ],
+    "overflows": []
+  },
+  {
+    "id": "insights",
+    "maxBottom": 1942,
+    "maxRight": 393,
+    "minLeft": 0,
+    "deepest": [
+      {
+        "bottom": 1942,
+        "text": "YOUR WORTH MEMORY你真正觉得\n值得的是什么？CU"
+      },
+      {
+        "bottom": 1835,
+        "text": "DATA CONFIDENCE让结论慢一点出现。10已回访购买1"
+      },
+      {
+        "bottom": 1815,
+        "text": "折扣、类别和长期最值/最不值只使用 30 / 90 天回访，并设"
+      }
+    ],
+    "overflows": []
+  },
+  {
+    "id": "insights-bottom",
+    "maxBottom": 852,
+    "maxRight": 393,
+    "minLeft": 0,
+    "deepest": [
+      {
+        "bottom": 852,
+        "text": "9:41洞察YOUR WORTH MEMORY你真正觉得\n值得的"
+      },
+      {
+        "bottom": 852,
+        "text": "YOUR WORTH MEMORY你真正觉得\n值得的是什么？CU"
+      },
+      {
+        "bottom": 852,
+        "text": "首页记录洞察我的"
+      }
+    ],
+    "overflows": []
+  },
+  {
+    "id": "things",
+    "maxBottom": 1504,
+    "maxRight": 393,
+    "minLeft": 0,
+    "deepest": [
+      {
+        "bottom": 1504,
+        "text": "你的消费记忆搜索名称、分类或备注全部考虑中已购买没买全部分类最近"
+      },
+      {
+        "bottom": 1397,
+        "text": "AirPods Max已购买·提升体验¥3,299跑鞋已购买·需"
+      },
+      {
+        "bottom": 1397,
+        "text": "线上课程已购买·奖励自己¥699"
+      }
+    ],
+    "overflows": []
+  },
+  {
+    "id": "purchase",
+    "maxBottom": 852,
+    "maxRight": 393,
+    "minLeft": 0,
+    "deepest": [
+      {
+        "bottom": 852,
+        "text": "9:41取消标记已买PURCHASEAirPods Max记录真"
+      },
+      {
+        "bottom": 852,
+        "text": "PURCHASEAirPods Max记录真实成交，而不是记忆里"
+      },
+      {
+        "bottom": 509,
+        "text": "PURCHASEAirPods Max记录真实成交，而不是记忆里"
+      }
+    ],
+    "overflows": []
+  }
+]

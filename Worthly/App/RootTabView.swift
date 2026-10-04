@@ -58,13 +58,17 @@ struct RootTabView: View {
                 )
             }
         }
-        .sheet(isPresented: $isAddingItem) {
+        .sheet(isPresented: $isAddingItem, onDismiss: {
+            Task { await consumePendingNotificationRoute() }
+        }) {
             NavigationStack {
                 AddItemView()
             }
             .presentationDetents([.large])
         }
-        .sheet(item: $notificationDestination) { destination in
+        .sheet(item: $notificationDestination, onDismiss: {
+            Task { await consumePendingNotificationRoute() }
+        }) { destination in
             NavigationStack {
                 if destination.stageIsCompleted {
                     ItemDetailView(item: destination.item)
@@ -73,18 +77,24 @@ struct RootTabView: View {
                 }
             }
         }
-        .task(id: notificationRouter.pendingRoute) {
+        .task(id: notificationRoutingState) {
             await consumePendingNotificationRoute()
         }
     }
 
+    private var notificationRoutingState: String {
+        "\(notificationRouter.pendingRoute?.id ?? "none")-\(hasCompletedOnboarding)"
+    }
+
     private func consumePendingNotificationRoute() async {
-        guard let route = notificationRouter.pendingRoute else { return }
+        guard hasCompletedOnboarding, !isAddingItem, notificationDestination == nil,
+              let route = notificationRouter.pendingRoute else { return }
 
         while !Task.isCancelled {
             do {
                 let items = try modelContext.fetch(FetchDescriptor<WorthlyItem>())
-                guard notificationRouter.pendingRoute == route else { return }
+                guard notificationRouter.pendingRoute == route, hasCompletedOnboarding,
+                      !isAddingItem, notificationDestination == nil else { return }
 
                 let destination = route.destination(in: items)
                 notificationRouter.consume(route)

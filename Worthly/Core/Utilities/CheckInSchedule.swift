@@ -24,6 +24,13 @@ enum CheckInSchedule {
         return Calendar.current.date(byAdding: .day, value: stage.rawValue, to: anchor)
     }
 
+    /// Purchase capture records a calendar day; the entire review day is available,
+    /// including the morning notification, regardless of the anchor's clock time.
+    static func isDue(_ stage: CheckInStage, for item: WorthlyItem, now: Date = .now) -> Bool {
+        guard let dueDate = dueDate(for: item, stage: stage) else { return false }
+        return Calendar.current.startOfDay(for: dueDate) <= Calendar.current.startOfDay(for: now)
+    }
+
     static func completedStages(for item: WorthlyItem) -> Set<Int> {
         Set(item.checkIns.map(\.stageDays)).subtracting([adHocStageDays])
     }
@@ -50,7 +57,7 @@ enum CheckInSchedule {
         guard
             let stage = nextPendingStage(for: item),
             let dueDate = dueDate(for: item, stage: stage),
-            dueDate <= now
+            isDue(stage, for: item, now: now)
         else {
             return nil
         }
@@ -62,10 +69,9 @@ enum CheckInSchedule {
         items
             .compactMap { dueEntry(for: $0, now: now) }
             .sorted { lhs, rhs in
-                if lhs.dueDate == rhs.dueDate {
-                    return lhs.item.createdAt < rhs.item.createdAt
-                }
-                return lhs.dueDate < rhs.dueDate
+                if lhs.dueDate != rhs.dueDate { return lhs.dueDate < rhs.dueDate }
+                if lhs.item.createdAt != rhs.item.createdAt { return lhs.item.createdAt < rhs.item.createdAt }
+                return lhs.item.id.uuidString < rhs.item.id.uuidString
             }
     }
 

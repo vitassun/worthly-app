@@ -108,6 +108,32 @@ final class CheckInScheduleTests: XCTestCase {
         Date(timeIntervalSince1970: 1_735_689_600)
     }
 
+    func testReviewIsAvailableOnDueMorningForAnAfternoonPurchase() throws {
+        let calendar = Calendar.current
+        let day = calendar.startOfDay(for: fixedDate)
+        let purchase = try XCTUnwrap(calendar.date(bySettingHour: 17, minute: 30, second: 0, of: day))
+        let dueDay = try XCTUnwrap(calendar.date(byAdding: .day, value: 7, to: day))
+        let morning = try XCTUnwrap(calendar.date(bySettingHour: 10, minute: 0, second: 0, of: dueDay))
+        let previousDay = try XCTUnwrap(calendar.date(byAdding: .day, value: -1, to: morning))
+        let item = makeBoughtItem(purchaseDate: purchase)
+
+        XCTAssertTrue(CheckInSchedule.isDue(.day7, for: item, now: morning))
+        XCTAssertEqual(CheckInSchedule.dueEntry(for: item, now: morning)?.stage, .day7)
+        XCTAssertFalse(CheckInSchedule.isDue(.day7, for: item, now: previousDay))
+        XCTAssertNil(CheckInSchedule.dueEntry(for: item, now: previousDay))
+    }
+
+    func testDueQueueIncludesEveryItemAndBreaksDateTiesByIdentifier() {
+        let ids = (1...5).map { UUID(uuidString: String(format: "00000000-0000-0000-0000-%012d", $0))! }
+        let items = ids.reversed().map {
+            WorthlyItem(id: $0, name: "Queue", createdAt: fixedDate, state: .bought, purchaseDate: fixedDate)
+        }
+        let entries = CheckInSchedule.dueEntries(for: items, now: .distantFuture)
+        XCTAssertEqual(entries.count, 5)
+        XCTAssertEqual(entries.map(\.item.id), ids)
+        XCTAssertTrue(entries.allSatisfy { $0.stage == .day7 })
+    }
+
     private func makeBoughtItem(purchaseDate: Date, completed: [CheckInStage] = []) -> WorthlyItem {
         let item = WorthlyItem(name: "Bought", state: .bought, purchaseDate: purchaseDate)
         for stage in completed {

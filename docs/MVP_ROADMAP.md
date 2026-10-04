@@ -1,5 +1,19 @@
 # Worthly — MVP Roadmap
 
+## Current release candidate — v0.2.0
+
+The user authorized a bounded experience/bug-fix release after the delivered any-day reflections
+batch, alongside a promo video based on the updated implementation. Version is `0.2.0` (build `2`).
+
+Delivered changes: correct/delete existing reflections, complete Home review/decision queues,
+calendar-day staged eligibility, safe queued reminder invalidation, stale-notification routing,
+keyboard/form accessibility improvements, and accurate sparse-data/passed-decision copy.
+Schema, local-first storage, staged insight thresholds and the global Add ownership are unchanged.
+
+See [v0.2.0 release notes](V0_2_0_RELEASE_NOTES.md) for exact behavior and verification limits.
+The historical iteration entries below remain as implementation history; they do not authorize
+monetization, archive semantics or other deferred features.
+
 ## Iteration 00 — Foundation
 
 Goal:

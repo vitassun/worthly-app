@@ -17,6 +17,8 @@ struct AddItemView: View {
     @State private var purchaseDate: Date = .now
     @State private var sourceNote = ""
     @State private var operationError: String?
+    @FocusState private var inputIsFocused: Bool
+    @ScaledMetric(relativeTo: .body) private var reasonMinimumWidth: CGFloat = 92
 
     private let categories = ["服饰", "数码", "美妆", "娱乐", "旅行", "家居", "学习", "其他"]
 
@@ -52,12 +54,17 @@ struct AddItemView: View {
                 .padding(.horizontal, WorthlyTheme.pagePadding)
                 .padding(.bottom, 36)
             }
+            .scrollDismissesKeyboard(.interactively)
         }
         .navigationTitle("记下一件")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
                 Button("取消") { dismiss() }
+            }
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                Button("完成") { inputIsFocused = false }
             }
         }
         .alert("保存失败", isPresented: Binding(
@@ -74,7 +81,7 @@ struct AddItemView: View {
         VStack(alignment: .leading, spacing: 8) {
             Text("BEFORE")
                 .font(WorthlyTheme.overline)
-                .foregroundStyle(WorthlyTheme.accent)
+                .foregroundStyle(WorthlyTheme.muted)
             Text("先记下现在的感觉。")
                 .font(WorthlyTheme.displayTitle)
                 .foregroundStyle(WorthlyTheme.text)
@@ -87,6 +94,7 @@ struct AddItemView: View {
     private var itemSection: some View {
         VStack(alignment: .leading, spacing: 14) {
             TextField("想买什么？", text: $name)
+                .focused($inputIsFocused)
                 .font(.title3.weight(.semibold))
                 .textFieldStyle(.plain)
                 .padding(18)
@@ -103,7 +111,9 @@ struct AddItemView: View {
                 .pickerStyle(.menu)
             }
 
-            TextField("来自哪里 / 备注（可选）", text: $sourceNote)
+            TextField("来自哪里 / 备注（可选）", text: $sourceNote, axis: .vertical)
+                .focused($inputIsFocused)
+                .lineLimit(1...4)
                 .textFieldStyle(.roundedBorder)
         }
     }
@@ -114,7 +124,7 @@ struct AddItemView: View {
                 .font(WorthlyTheme.sectionTitle)
                 .foregroundStyle(WorthlyTheme.text)
 
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 92), spacing: 10)], spacing: 10) {
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: min(reasonMinimumWidth, 280)), spacing: 10)], spacing: 10) {
                 ForEach(PurchaseReason.allCases) { option in
                     Button {
                         reason = option
@@ -152,7 +162,8 @@ struct AddItemView: View {
                     Spacer()
                     Text("\(desireScore)/10")
                         .font(.system(.subheadline, design: .monospaced, weight: .semibold))
-                        .foregroundStyle(WorthlyTheme.accent)
+                        .foregroundStyle(WorthlyTheme.text)
+                        .fixedSize()
                 }
                 Slider(value: Binding(
                     get: { Double(desireScore) },
@@ -172,7 +183,7 @@ struct AddItemView: View {
                         Text(option.displayName).tag(option)
                     }
                 }
-                .pickerStyle(.segmented)
+                .pickerStyle(.menu)
             }
         }
     }
@@ -207,13 +218,14 @@ struct AddItemView: View {
     private func priceField(title: String, text: Binding<String>, error: String?) -> some View {
         VStack(alignment: .leading, spacing: 6) {
             TextField(title, text: text)
+                .focused($inputIsFocused)
                 .keyboardType(.decimalPad)
                 .textFieldStyle(.roundedBorder)
 
             if let error {
                 Text(error)
                     .font(.caption)
-                    .foregroundStyle(WorthlyTheme.accent)
+                    .foregroundStyle(WorthlyTheme.text)
             }
         }
     }

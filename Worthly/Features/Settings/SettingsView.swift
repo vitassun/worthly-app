@@ -1,6 +1,7 @@
 import SwiftUI
 import SwiftData
 import UniformTypeIdentifiers
+import UIKit
 
 struct SettingsView: View {
     var onDataDeleted: () -> Void = {}
@@ -12,6 +13,8 @@ struct SettingsView: View {
     @State private var showingExportSheet = false
     @State private var exportPayload: WorthlyJSONTransfer?
     @State private var operationError: String?
+    @State private var isRequestingNotificationPermission = false
+    @Environment(\.openURL) private var openURL
 
     var body: some View {
         ZStack {
@@ -37,6 +40,11 @@ struct SettingsView: View {
                 Section("提醒") {
                     Toggle("7 / 30 / 90 天回访提醒", isOn: reminderBinding)
                         .tint(WorthlyTheme.accent)
+                        .disabled(isRequestingNotificationPermission)
+
+                    if isRequestingNotificationPermission {
+                        ProgressView("正在确认通知权限…")
+                    }
 
                     Text("开启后，Worthly 会在回访当天上午提醒一次。不会发送营销通知。拒绝通知权限后，App 内的回访队列仍然可用。")
                         .font(.caption)
@@ -74,29 +82,29 @@ struct SettingsView: View {
         }
         .sheet(isPresented: $showingExportSheet) {
             NavigationStack {
-                VStack(alignment: .leading, spacing: 18) {
-                    Text("你的 Worthly 数据已准备好。")
-                        .font(WorthlyTheme.sectionTitle)
-                        .foregroundStyle(WorthlyTheme.text)
-                    Text("JSON 文件只会通过系统分享面板交给你选择的目标，不会上传到 Worthly 服务器。")
-                        .foregroundStyle(WorthlyTheme.muted)
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 18) {
+                        Text("你的 Worthly 数据已准备好。")
+                            .font(WorthlyTheme.sectionTitle)
+                            .foregroundStyle(WorthlyTheme.text)
+                        Text("JSON 文件只会通过系统分享面板交给你选择的目标，不会上传到 Worthly 服务器。")
+                            .foregroundStyle(WorthlyTheme.muted)
 
-                    if let exportPayload {
-                        ShareLink(
-                            item: exportPayload,
-                            preview: SharePreview("Worthly 数据导出", image: Image(systemName: "doc.text"))
-                        ) {
-                            Label("分享 JSON 文件", systemImage: "square.and.arrow.up")
-                                .fixedSize(horizontal: false, vertical: true)
+                        if let exportPayload {
+                            ShareLink(
+                                item: exportPayload,
+                                preview: SharePreview("Worthly 数据导出", image: Image(systemName: "doc.text"))
+                            ) {
+                                Label("分享 JSON 文件", systemImage: "square.and.arrow.up")
+                                    .fixedSize(horizontal: false, vertical: true)
+                            }
+                            .buttonStyle(WorthlyPrimaryButtonStyle())
+                            .accessibilityLabel("分享 Worthly JSON 数据文件")
                         }
-                        .buttonStyle(WorthlyPrimaryButtonStyle())
-                        .accessibilityLabel("分享 Worthly JSON 数据文件")
                     }
-
-                    Spacer()
+                    .padding(WorthlyTheme.pagePadding)
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 }
-                .padding(WorthlyTheme.pagePadding)
-                .frame(maxWidth: .infinity, alignment: .leading)
                 .background(WorthlyTheme.background.ignoresSafeArea())
                 .navigationTitle("导出数据")
                 .navigationBarTitleDisplayMode(.inline)
@@ -106,10 +114,13 @@ struct SettingsView: View {
                     }
                 }
             }
-            .presentationDetents([.medium])
+            .presentationDetents([.medium, .large])
         }
         .alert("通知没有开启", isPresented: $notificationDenied) {
-            Button("好", role: .cancel) {}
+            Button("打开系统设置") {
+                if let url = URL(string: UIApplication.openSettingsURLString) { openURL(url) }
+            }
+            Button("稍后", role: .cancel) {}
         } message: {
             Text("你仍然可以在首页看到到期回访；需要通知时可稍后在系统设置中允许。")
         }
@@ -134,12 +145,15 @@ struct SettingsView: View {
         Binding(
             get: { remindersEnabled },
             set: { newValue in
+                guard !isRequestingNotificationPermission else { return }
                 if newValue {
+                    isRequestingNotificationPermission = true
                     Task {
                         let granted = await CheckInReminderService.shared.enable(for: items)
                         await MainActor.run {
                             remindersEnabled = granted
                             notificationDenied = !granted
+                            isRequestingNotificationPermission = false
                         }
                     }
                 } else {

@@ -17,6 +17,7 @@ struct EditItemView: View {
     @State private var sourceNote: String
     @State private var purchaseDate: Date
     @State private var operationError: String?
+    @FocusState private var inputIsFocused: Bool
 
     private let categories = ["服饰", "数码", "美妆", "娱乐", "旅行", "家居", "学习", "其他"]
 
@@ -69,7 +70,7 @@ struct EditItemView: View {
                     VStack(alignment: .leading, spacing: 8) {
                         Text("EDIT")
                             .font(WorthlyTheme.overline)
-                            .foregroundStyle(WorthlyTheme.accent)
+                            .foregroundStyle(WorthlyTheme.muted)
                         Text("改的是记录，不是过去。")
                             .font(WorthlyTheme.displayTitle)
                             .foregroundStyle(WorthlyTheme.text)
@@ -77,6 +78,7 @@ struct EditItemView: View {
 
                     VStack(alignment: .leading, spacing: 14) {
                         TextField("名称", text: $name)
+                            .focused($inputIsFocused)
                             .font(.title3.weight(.semibold))
                             .textFieldStyle(.plain)
                             .padding(18)
@@ -93,7 +95,9 @@ struct EditItemView: View {
                             .pickerStyle(.menu)
                         }
 
-                        TextField("来自哪里 / 备注（可选）", text: $sourceNote)
+                        TextField("来自哪里 / 备注（可选）", text: $sourceNote, axis: .vertical)
+                            .focused($inputIsFocused)
+                            .lineLimit(1...4)
                             .textFieldStyle(.roundedBorder)
                     }
 
@@ -113,7 +117,8 @@ struct EditItemView: View {
                             Spacer()
                             Text("\(desireScore)/10")
                                 .font(.system(.subheadline, design: .monospaced, weight: .semibold))
-                                .foregroundStyle(WorthlyTheme.accent)
+                                .foregroundStyle(WorthlyTheme.text)
+                                .fixedSize()
                         }
 
                         Slider(value: Binding(
@@ -130,7 +135,7 @@ struct EditItemView: View {
                                 Text(option.displayName).tag(option)
                             }
                         }
-                        .pickerStyle(.segmented)
+                        .pickerStyle(.menu)
                     }
 
                     VStack(alignment: .leading, spacing: 14) {
@@ -164,12 +169,17 @@ struct EditItemView: View {
                 .padding(.horizontal, WorthlyTheme.pagePadding)
                 .padding(.vertical, 24)
             }
+            .scrollDismissesKeyboard(.interactively)
         }
         .navigationTitle("编辑记录")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
                 Button("取消") { dismiss() }
+            }
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                Button("完成") { inputIsFocused = false }
             }
         }
         .alert("保存失败", isPresented: Binding(
@@ -185,13 +195,14 @@ struct EditItemView: View {
     private func priceField(title: String, text: Binding<String>, error: String?) -> some View {
         VStack(alignment: .leading, spacing: 6) {
             TextField(title, text: text)
+                .focused($inputIsFocused)
                 .keyboardType(.decimalPad)
                 .textFieldStyle(.roundedBorder)
 
             if let error {
                 Text(error)
                     .font(.caption)
-                    .foregroundStyle(WorthlyTheme.accent)
+                    .foregroundStyle(WorthlyTheme.text)
             }
         }
     }

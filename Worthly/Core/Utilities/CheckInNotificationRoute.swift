@@ -23,7 +23,7 @@ struct CheckInNotificationRoute: Equatable, Identifiable {
         return CheckInNotificationRoute(itemID: itemID, stage: stage)
     }
 
-    func destination(in items: [WorthlyItem]) -> CheckInNotificationDestination {
+    func destination(in items: [WorthlyItem], now: Date = .now) -> CheckInNotificationDestination {
         guard let item = items.first(where: { $0.id == itemID }), item.state == .bought else {
             return .home
         }
@@ -32,7 +32,8 @@ struct CheckInNotificationRoute: Equatable, Identifiable {
             return .itemDetail(itemID: itemID)
         }
 
-        guard CheckInSchedule.nextPendingStage(for: item) == stage else {
+        guard CheckInSchedule.nextPendingStage(for: item) == stage,
+              CheckInSchedule.isDue(stage, for: item, now: now) else {
             return .itemDetail(itemID: itemID)
         }
 

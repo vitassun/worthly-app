@@ -1,0 +1,1484 @@
+[
+  {
+    "file": "frame-0002.png",
+    "seconds": 2,
+    "width": 1920,
+    "height": 1080,
+    "paper": "#EFEAE0",
+    "bounds": {
+      "minX": 150,
+      "minY": 414,
+      "maxX": 784,
+      "maxY": 1054
+    },
+    "inkShare": 0.0232,
+    "chromaticShare": 0.0012,
+    "offPaletteShare": 0,
+    "offPaletteMeanHue": null,
+    "offPaletteMaxHue": null,
+    "edgeBleed": {
+      "left": false,
+      "right": false,
+      "top": false,
+      "bottom": false
+    },
+    "bands": [
+      0,
+      0,
+      0,
+      0,
+      0.031,
+      0.068,
+      0.099,
+      0.057,
+      0,
+      0,
+      0.008,
+      0.016
+    ],
+    "rowRuns": [
+      "414-537",
+      "562-671",
+      "945-963",
+      "1036-1054"
+    ],
+    "gaps": [
+      25,
+      274,
+      73
+    ],
+    "topColours": [
+      {
+        "colour": "#101010",
+        "share": 0.016
+      },
+      {
+        "colour": "#606060",
+        "share": 0.0007
+      },
+      {
+        "colour": "#303030",
+        "share": 0.0007
+      },
+      {
+        "colour": "#C06040",
+        "share": 0.0005
+      },
+      {
+        "colour": "#202020",
+        "share": 0.0004
+      },
+      {
+        "colour": "#E0B0A0",
+        "share": 0.0004
+      }
+    ]
+  },
+  {
+    "file": "frame-0005.png",
+    "seconds": 5,
+    "width": 1920,
+    "height": 1080,
+    "paper": "#EFEAE0",
+    "bounds": {
+      "minX": 150,
+      "minY": 433,
+      "maxX": 866,
+      "maxY": 1054
+    },
+    "inkShare": 0.0231,
+    "chromaticShare": 0,
+    "offPaletteShare": 0,
+    "offPaletteMeanHue": null,
+    "offPaletteMaxHue": null,
+    "edgeBleed": {
+      "left": false,
+      "right": false,
+      "top": false,
+      "bottom": false
+    },
+    "bands": [
+      0,
+      0,
+      0,
+      0,
+      0.017,
+      0.109,
+      0.11,
+      0.024,
+      0,
+      0,
+      0,
+      0.016
+    ],
+    "rowRuns": [
+      "433-534",
+      "559-649",
+      "1036-1054"
+    ],
+    "gaps": [
+      25,
+      387
+    ],
+    "topColours": [
+      {
+        "colour": "#101010",
+        "share": 0.0082
+      },
+      {
+        "colour": "#505050",
+        "share": 0.0081
+      },
+      {
+        "colour": "#606060",
+        "share": 0.0008
+      },
+      {
+        "colour": "#808080",
+        "share": 0.0005
+      },
+      {
+        "colour": "#A0A090",
+        "share": 0.0005
+      },
+      {
+        "colour": "#303030",
+        "share": 0.0004
+      }
+    ]
+  },
+  {
+    "file": "frame-0009.png",
+    "seconds": 9,
+    "width": 1920,
+    "height": 1080,
+    "paper": "#EFEAE0",
+    "bounds": {
+      "minX": 150,
+      "minY": 33,
+      "maxX": 1761,
+      "maxY": 1054
+    },
+    "inkShare": 0.0661,
+    "chromaticShare": 0.002,
+    "offPaletteShare": 0,
+    "offPaletteMeanHue": null,
+    "offPaletteMaxHue": null,
+    "edgeBleed": {
+      "left": false,
+      "right": false,
+      "top": false,
+      "bottom": false
+    },
+    "bands": [
+      0.067,
+      0.036,
+      0.027,
+      0.032,
+      0.159,
+      0.076,
+      0.059,
+      0.072,
+      0.019,
+      0.032,
+      0.13,
+      0.086
+    ],
+    "rowRuns": [
+      "33-1054"
+    ],
+    "gaps": [],
+    "topColours": [
+      {
+        "colour": "#101010",
+        "share": 0.0417
+      },
+      {
+        "colour": "#505050",
+        "share": 0.0024
+      },
+      {
+        "colour": "#606060",
+        "share": 0.0015
+      },
+      {
+        "colour": "#303030",
+        "share": 0.0015
+      },
+      {
+        "colour": "#C06040",
+        "share": 0.001
+      },
+      {
+        "colour": "#A0A090",
+        "share": 0.0009
+      }
+    ]
+  },
+  {
+    "file": "frame-0021.png",
+    "seconds": 21,
+    "width": 1920,
+    "height": 1080,
+    "paper": "#EFEAE0",
+    "bounds": {
+      "minX": 150,
+      "minY": 33,
+      "maxX": 1761,
+      "maxY": 1054
+    },
+    "inkShare": 0.063,
+    "chromaticShare": 0.0007,
+    "offPaletteShare": 0,
+    "offPaletteMeanHue": null,
+    "offPaletteMaxHue": null,
+    "edgeBleed": {
+      "left": false,
+      "right": false,
+      "top": false,
+      "bottom": false
+    },
+    "bands": [
+      0.067,
+      0.031,
+      0.035,
+      0.028,
+      0.108,
+      0.133,
+      0.191,
+      0.059,
+      0.014,
+      0.014,
+      0.014,
+      0.062
+    ],
+    "rowRuns": [
+      "33-1054"
+    ],
+    "gaps": [],
+    "topColours": [
+      {
+        "colour": "#101010",
+        "share": 0.0418
+      },
+      {
+        "colour": "#505050",
+        "share": 0.0023
+      },
+      {
+        "colour": "#606060",
+        "share": 0.0014
+      },
+      {
+        "colour": "#303030",
+        "share": 0.0011
+      },
+      {
+        "colour": "#808080",
+        "share": 0.0008
+      },
+      {
+        "colour": "#A0A090",
+        "share": 0.0008
+      }
+    ]
+  },
+  {
+    "file": "frame-0025.png",
+    "seconds": 25,
+    "width": 1920,
+    "height": 1080,
+    "paper": "#EFEAE0",
+    "bounds": {
+      "minX": 150,
+      "minY": 33,
+      "maxX": 1761,
+      "maxY": 1054
+    },
+    "inkShare": 0.0692,
+    "chromaticShare": 0.0028,
+    "offPaletteShare": 0,
+    "offPaletteMeanHue": null,
+    "offPaletteMaxHue": null,
+    "edgeBleed": {
+      "left": false,
+      "right": false,
+      "top": false,
+      "bottom": false
+    },
+    "bands": [
+      0.067,
+      0.046,
+      0.033,
+      0.102,
+      0.097,
+      0.12,
+      0.042,
+      0.045,
+      0.031,
+      0.036,
+      0.132,
+      0.078
+    ],
+    "rowRuns": [
+      "33-1054"
+    ],
+    "gaps": [],
+    "topColours": [
+      {
+        "colour": "#101010",
+        "share": 0.0438
+      },
+      {
+        "colour": "#505050",
+        "share": 0.002
+      },
+      {
+        "colour": "#303030",
+        "share": 0.0016
+      },
+      {
+        "colour": "#C06040",
+        "share": 0.0015
+      },
+      {
+        "colour": "#606060",
+        "share": 0.0015
+      },
+      {
+        "colour": "#202020",
+        "share": 0.0011
+      }
+    ]
+  },
+  {
+    "file": "frame-0029.png",
+    "seconds": 29,
+    "width": 1920,
+    "height": 1080,
+    "paper": "#EFEAE0",
+    "bounds": {
+      "minX": 150,
+      "minY": 101,
+      "maxX": 1769,
+      "maxY": 1054
+    },
+    "inkShare": 0.0146,
+    "chromaticShare": 0.0007,
+    "offPaletteShare": 0,
+    "offPaletteMeanHue": null,
+    "offPaletteMaxHue": null,
+    "edgeBleed": {
+      "left": false,
+      "right": false,
+      "top": false,
+      "bottom": false
+    },
+    "bands": [
+      0,
+      0.013,
+      0.076,
+      0.002,
+      0.024,
+      0.044,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0.016
+    ],
+    "rowRuns": [
+      "101-115",
+      "151-165",
+      "197-252",
+      "344-409",
+      "452-494",
+      "537-537",
+      "1036-1054"
+    ],
+    "gaps": [
+      36,
+      32,
+      92,
+      43,
+      43,
+      499
+    ],
+    "topColours": [
+      {
+        "colour": "#101010",
+        "share": 0.0056
+      },
+      {
+        "colour": "#606060",
+        "share": 0.0008
+      },
+      {
+        "colour": "#505050",
+        "share": 0.0007
+      },
+      {
+        "colour": "#A0A090",
+        "share": 0.0006
+      },
+      {
+        "colour": "#303030",
+        "share": 0.0005
+      },
+      {
+        "colour": "#202020",
+        "share": 0.0005
+      }
+    ]
+  },
+  {
+    "file": "frame-0038.png",
+    "seconds": 38,
+    "width": 1920,
+    "height": 1080,
+    "paper": "#EFEAE0",
+    "bounds": {
+      "minX": 150,
+      "minY": 33,
+      "maxX": 1761,
+      "maxY": 1054
+    },
+    "inkShare": 0.0504,
+    "chromaticShare": 0.002,
+    "offPaletteShare": 0,
+    "offPaletteMeanHue": null,
+    "offPaletteMaxHue": null,
+    "edgeBleed": {
+      "left": false,
+      "right": false,
+      "top": false,
+      "bottom": false
+    },
+    "bands": [
+      0.067,
+      0.035,
+      0.022,
+      0.054,
+      0.083,
+      0.102,
+      0.049,
+      0.072,
+      0.02,
+      0.014,
+      0.026,
+      0.062
+    ],
+    "rowRuns": [
+      "33-1054"
+    ],
+    "gaps": [],
+    "topColours": [
+      {
+        "colour": "#101010",
+        "share": 0.0286
+      },
+      {
+        "colour": "#505050",
+        "share": 0.0031
+      },
+      {
+        "colour": "#606060",
+        "share": 0.0017
+      },
+      {
+        "colour": "#303030",
+        "share": 0.0011
+      },
+      {
+        "colour": "#B0B0A0",
+        "share": 0.001
+      },
+      {
+        "colour": "#706060",
+        "share": 0.0008
+      }
+    ]
+  },
+  {
+    "file": "frame-0042.png",
+    "seconds": 42,
+    "width": 1920,
+    "height": 1080,
+    "paper": "#EFEAE0",
+    "bounds": {
+      "minX": 150,
+      "minY": 33,
+      "maxX": 1761,
+      "maxY": 1054
+    },
+    "inkShare": 0.0648,
+    "chromaticShare": 0.0019,
+    "offPaletteShare": 0,
+    "offPaletteMeanHue": null,
+    "offPaletteMaxHue": null,
+    "edgeBleed": {
+      "left": false,
+      "right": false,
+      "top": false,
+      "bottom": false
+    },
+    "bands": [
+      0.067,
+      0.036,
+      0.039,
+      0.033,
+      0.098,
+      0.07,
+      0.065,
+      0.104,
+      0.027,
+      0.03,
+      0.147,
+      0.062
+    ],
+    "rowRuns": [
+      "33-1054"
+    ],
+    "gaps": [],
+    "topColours": [
+      {
+        "colour": "#101010",
+        "share": 0.0414
+      },
+      {
+        "colour": "#505050",
+        "share": 0.0022
+      },
+      {
+        "colour": "#606060",
+        "share": 0.0017
+      },
+      {
+        "colour": "#303030",
+        "share": 0.0013
+      },
+      {
+        "colour": "#202020",
+        "share": 0.001
+      },
+      {
+        "colour": "#C06040",
+        "share": 0.0009
+      }
+    ]
+  },
+  {
+    "file": "frame-0046.png",
+    "seconds": 46,
+    "width": 1920,
+    "height": 1080,
+    "paper": "#EFEAE0",
+    "bounds": {
+      "minX": 150,
+      "minY": 33,
+      "maxX": 1761,
+      "maxY": 1054
+    },
+    "inkShare": 0.0703,
+    "chromaticShare": 0.0024,
+    "offPaletteShare": 0,
+    "offPaletteMeanHue": null,
+    "offPaletteMaxHue": null,
+    "edgeBleed": {
+      "left": false,
+      "right": false,
+      "top": false,
+      "bottom": false
+    },
+    "bands": [
+      0.067,
+      0.045,
+      0.039,
+      0.058,
+      0.082,
+      0.126,
+      0.09,
+      0.074,
+      0.031,
+      0.149,
+      0.021,
+      0.062
+    ],
+    "rowRuns": [
+      "33-1054"
+    ],
+    "gaps": [],
+    "topColours": [
+      {
+        "colour": "#101010",
+        "share": 0.0425
+      },
+      {
+        "colour": "#505050",
+        "share": 0.0033
+      },
+      {
+        "colour": "#606060",
+        "share": 0.0023
+      },
+      {
+        "colour": "#303030",
+        "share": 0.0013
+      },
+      {
+        "colour": "#808080",
+        "share": 0.0011
+      },
+      {
+        "colour": "#A0A090",
+        "share": 0.0011
+      }
+    ]
+  },
+  {
+    "file": "frame-0050.png",
+    "seconds": 50,
+    "width": 1920,
+    "height": 1080,
+    "paper": "#EFEAE0",
+    "bounds": {
+      "minX": 150,
+      "minY": 51,
+      "maxX": 1769,
+      "maxY": 1054
+    },
+    "inkShare": 0.0525,
+    "chromaticShare": 0.0008,
+    "offPaletteShare": 0,
+    "offPaletteMeanHue": null,
+    "offPaletteMaxHue": null,
+    "edgeBleed": {
+      "left": false,
+      "right": false,
+      "top": false,
+      "bottom": false
+    },
+    "bands": [
+      0.046,
+      0.04,
+      0.036,
+      0.028,
+      0.126,
+      0.088,
+      0.065,
+      0.073,
+      0.021,
+      0.022,
+      0.029,
+      0.058
+    ],
+    "rowRuns": [
+      "51-1054"
+    ],
+    "gaps": [],
+    "topColours": [
+      {
+        "colour": "#101010",
+        "share": 0.0307
+      },
+      {
+        "colour": "#505050",
+        "share": 0.0023
+      },
+      {
+        "colour": "#606060",
+        "share": 0.0014
+      },
+      {
+        "colour": "#B0B0A0",
+        "share": 0.0013
+      },
+      {
+        "colour": "#202020",
+        "share": 0.0011
+      },
+      {
+        "colour": "#A0A090",
+        "share": 0.001
+      }
+    ]
+  },
+  {
+    "file": "frame-0052.png",
+    "seconds": 52,
+    "width": 1920,
+    "height": 1080,
+    "paper": "#EFEAE0",
+    "bounds": {
+      "minX": 150,
+      "minY": 51,
+      "maxX": 1769,
+      "maxY": 1054
+    },
+    "inkShare": 0.0497,
+    "chromaticShare": 0.0008,
+    "offPaletteShare": 0,
+    "offPaletteMeanHue": null,
+    "offPaletteMaxHue": null,
+    "edgeBleed": {
+      "left": false,
+      "right": false,
+      "top": false,
+      "bottom": false
+    },
+    "bands": [
+      0.046,
+      0.04,
+      0.036,
+      0.028,
+      0.126,
+      0.087,
+      0.062,
+      0.062,
+      0.014,
+      0.014,
+      0.025,
+      0.058
+    ],
+    "rowRuns": [
+      "51-1054"
+    ],
+    "gaps": [],
+    "topColours": [
+      {
+        "colour": "#101010",
+        "share": 0.0304
+      },
+      {
+        "colour": "#505050",
+        "share": 0.0023
+      },
+      {
+        "colour": "#606060",
+        "share": 0.0013
+      },
+      {
+        "colour": "#B0B0A0",
+        "share": 0.0011
+      },
+      {
+        "colour": "#A0A090",
+        "share": 0.0009
+      },
+      {
+        "colour": "#303030",
+        "share": 0.0008
+      }
+    ]
+  },
+  {
+    "file": "frame-0056.png",
+    "seconds": 56,
+    "width": 1920,
+    "height": 1080,
+    "paper": "#EFEAE0",
+    "bounds": {
+      "minX": 150,
+      "minY": 101,
+      "maxX": 1685,
+      "maxY": 1054
+    },
+    "inkShare": 0.1846,
+    "chromaticShare": 0.0023,
+    "offPaletteShare": 0,
+    "offPaletteMeanHue": null,
+    "offPaletteMaxHue": null,
+    "edgeBleed": {
+      "left": false,
+      "right": false,
+      "top": false,
+      "bottom": false
+    },
+    "bands": [
+      0,
+      0.007,
+      0.012,
+      0.355,
+      0.448,
+      0.401,
+      0.421,
+      0.447,
+      0.108,
+      0,
+      0,
+      0.016
+    ],
+    "rowRuns": [
+      "101-116",
+      "205-220",
+      "264-747",
+      "1036-1054"
+    ],
+    "gaps": [
+      89,
+      44,
+      289
+    ],
+    "topColours": [
+      {
+        "colour": "#000000",
+        "share": 0.154
+      },
+      {
+        "colour": "#101010",
+        "share": 0.0076
+      },
+      {
+        "colour": "#A0A0A0",
+        "share": 0.0026
+      },
+      {
+        "colour": "#505050",
+        "share": 0.0021
+      },
+      {
+        "colour": "#606060",
+        "share": 0.0014
+      },
+      {
+        "colour": "#404040",
+        "share": 0.0012
+      }
+    ]
+  },
+  {
+    "file": "frame-0062.png",
+    "seconds": 62,
+    "width": 1920,
+    "height": 1080,
+    "paper": "#EFEAE0",
+    "bounds": {
+      "minX": 150,
+      "minY": 102,
+      "maxX": 1545,
+      "maxY": 1054
+    },
+    "inkShare": 0.0315,
+    "chromaticShare": 0.0035,
+    "offPaletteShare": 0,
+    "offPaletteMeanHue": null,
+    "offPaletteMaxHue": null,
+    "edgeBleed": {
+      "left": false,
+      "right": false,
+      "top": false,
+      "bottom": false
+    },
+    "bands": [
+      0,
+      0.017,
+      0.114,
+      0.041,
+      0.033,
+      0.034,
+      0.015,
+      0.045,
+      0.005,
+      0.058,
+      0,
+      0.016
+    ],
+    "rowRuns": [
+      "102-120",
+      "192-268",
+      "303-327",
+      "412-453",
+      "474-500",
+      "607-648",
+      "669-695",
+      "802-843",
+      "864-890",
+      "1036-1054"
+    ],
+    "gaps": [
+      72,
+      35,
+      85,
+      21,
+      107,
+      21,
+      107,
+      21,
+      146
+    ],
+    "topColours": [
+      {
+        "colour": "#101010",
+        "share": 0.0085
+      },
+      {
+        "colour": "#505050",
+        "share": 0.0028
+      },
+      {
+        "colour": "#606060",
+        "share": 0.0018
+      },
+      {
+        "colour": "#C06040",
+        "share": 0.0017
+      },
+      {
+        "colour": "#B0B0A0",
+        "share": 0.0013
+      },
+      {
+        "colour": "#606050",
+        "share": 0.0009
+      }
+    ]
+  },
+  {
+    "file": "frame-0066.png",
+    "seconds": 66,
+    "width": 1920,
+    "height": 1080,
+    "paper": "#EFEAE0",
+    "bounds": {
+      "minX": 150,
+      "minY": 325,
+      "maxX": 1769,
+      "maxY": 1054
+    },
+    "inkShare": 0.0278,
+    "chromaticShare": 0.0007,
+    "offPaletteShare": 0,
+    "offPaletteMeanHue": null,
+    "offPaletteMaxHue": null,
+    "edgeBleed": {
+      "left": false,
+      "right": false,
+      "top": false,
+      "bottom": false
+    },
+    "bands": [
+      0,
+      0,
+      0,
+      0.009,
+      0.108,
+      0.093,
+      0.076,
+      0.031,
+      0,
+      0,
+      0,
+      0.016
+    ],
+    "rowRuns": [
+      "325-340",
+      "390-499",
+      "562-591",
+      "614-644",
+      "708-708",
+      "1036-1054"
+    ],
+    "gaps": [
+      50,
+      63,
+      23,
+      64,
+      328
+    ],
+    "topColours": [
+      {
+        "colour": "#101010",
+        "share": 0.0131
+      },
+      {
+        "colour": "#505050",
+        "share": 0.0031
+      },
+      {
+        "colour": "#606060",
+        "share": 0.0013
+      },
+      {
+        "colour": "#808080",
+        "share": 0.0008
+      },
+      {
+        "colour": "#A0A090",
+        "share": 0.0007
+      },
+      {
+        "colour": "#303030",
+        "share": 0.0006
+      }
+    ]
+  },
+  {
+    "file": "frame-0072.png",
+    "seconds": 72,
+    "width": 1920,
+    "height": 1080,
+    "paper": "#EFEAE0",
+    "bounds": {
+      "minX": 150,
+      "minY": 33,
+      "maxX": 1761,
+      "maxY": 1054
+    },
+    "inkShare": 0.0561,
+    "chromaticShare": 0.0017,
+    "offPaletteShare": 0,
+    "offPaletteMeanHue": null,
+    "offPaletteMaxHue": null,
+    "edgeBleed": {
+      "left": false,
+      "right": false,
+      "top": false,
+      "bottom": false
+    },
+    "bands": [
+      0.067,
+      0.033,
+      0.023,
+      0.06,
+      0.093,
+      0.127,
+      0.052,
+      0.073,
+      0.044,
+      0.014,
+      0.026,
+      0.062
+    ],
+    "rowRuns": [
+      "33-1054"
+    ],
+    "gaps": [],
+    "topColours": [
+      {
+        "colour": "#101010",
+        "share": 0.0298
+      },
+      {
+        "colour": "#505050",
+        "share": 0.0035
+      },
+      {
+        "colour": "#606060",
+        "share": 0.002
+      },
+      {
+        "colour": "#B0B0A0",
+        "share": 0.0013
+      },
+      {
+        "colour": "#C0B0B0",
+        "share": 0.0012
+      },
+      {
+        "colour": "#303030",
+        "share": 0.0011
+      }
+    ]
+  },
+  {
+    "file": "frame-0080.png",
+    "seconds": 80,
+    "width": 1920,
+    "height": 1080,
+    "paper": "#EFEAE0",
+    "bounds": {
+      "minX": 150,
+      "minY": 342,
+      "maxX": 824,
+      "maxY": 1054
+    },
+    "inkShare": 0.0152,
+    "chromaticShare": 0.0008,
+    "offPaletteShare": 0,
+    "offPaletteMeanHue": null,
+    "offPaletteMaxHue": null,
+    "edgeBleed": {
+      "left": false,
+      "right": false,
+      "top": false,
+      "bottom": false
+    },
+    "bands": [
+      0,
+      0,
+      0,
+      0.012,
+      0.039,
+      0.017,
+      0.027,
+      0.024,
+      0.005,
+      0.04,
+      0,
+      0.016
+    ],
+    "rowRuns": [
+      "342-491",
+      "590-667",
+      "753-772",
+      "809-852",
+      "1036-1054"
+    ],
+    "gaps": [
+      99,
+      86,
+      37,
+      184
+    ],
+    "topColours": [
+      {
+        "colour": "#101010",
+        "share": 0.007
+      },
+      {
+        "colour": "#505050",
+        "share": 0.0018
+      },
+      {
+        "colour": "#606060",
+        "share": 0.0006
+      },
+      {
+        "colour": "#C06040",
+        "share": 0.0005
+      },
+      {
+        "colour": "#B0B0A0",
+        "share": 0.0004
+      },
+      {
+        "colour": "#707070",
+        "share": 0.0003
+      }
+    ]
+  },
+  {
+    "file": "frame-14.5.png",
+    "seconds": 14,
+    "width": 1920,
+    "height": 1080,
+    "paper": "#EFEAE0",
+    "bounds": {
+      "minX": 150,
+      "minY": 101,
+      "maxX": 962,
+      "maxY": 1054
+    },
+    "inkShare": 0.0189,
+    "chromaticShare": 0.0019,
+    "offPaletteShare": 0,
+    "offPaletteMeanHue": null,
+    "offPaletteMaxHue": null,
+    "edgeBleed": {
+      "left": false,
+      "right": false,
+      "top": false,
+      "bottom": false
+    },
+    "bands": [
+      0,
+      0.004,
+      0.008,
+      0.043,
+      0.079,
+      0.026,
+      0.015,
+      0.019,
+      0.017,
+      0,
+      0,
+      0.016
+    ],
+    "rowRuns": [
+      "101-115",
+      "255-270",
+      "320-428",
+      "485-512",
+      "608-628",
+      "662-692",
+      "730-760",
+      "1036-1054"
+    ],
+    "gaps": [
+      140,
+      50,
+      57,
+      96,
+      34,
+      38,
+      276
+    ],
+    "topColours": [
+      {
+        "colour": "#101010",
+        "share": 0.0089
+      },
+      {
+        "colour": "#505050",
+        "share": 0.0015
+      },
+      {
+        "colour": "#C06040",
+        "share": 0.0007
+      },
+      {
+        "colour": "#606060",
+        "share": 0.0007
+      },
+      {
+        "colour": "#B0B0A0",
+        "share": 0.0004
+      },
+      {
+        "colour": "#808080",
+        "share": 0.0004
+      }
+    ]
+  },
+  {
+    "file": "frame-17.5.png",
+    "seconds": 17,
+    "width": 1920,
+    "height": 1080,
+    "paper": "#EFEAE0",
+    "bounds": {
+      "minX": 150,
+      "minY": 101,
+      "maxX": 1013,
+      "maxY": 1054
+    },
+    "inkShare": 0.0343,
+    "chromaticShare": 0.0007,
+    "offPaletteShare": 0,
+    "offPaletteMeanHue": null,
+    "offPaletteMaxHue": null,
+    "edgeBleed": {
+      "left": false,
+      "right": false,
+      "top": false,
+      "bottom": false
+    },
+    "bands": [
+      0,
+      0.005,
+      0,
+      0,
+      0.005,
+      0.084,
+      0.023,
+      0.07,
+      0.207,
+      0,
+      0,
+      0.016
+    ],
+    "rowRuns": [
+      "101-116",
+      "378-392",
+      "443-552",
+      "608-635",
+      "693-802",
+      "1036-1054"
+    ],
+    "gaps": [
+      262,
+      51,
+      56,
+      58,
+      234
+    ],
+    "topColours": [
+      {
+        "colour": "#101010",
+        "share": 0.0275
+      },
+      {
+        "colour": "#505050",
+        "share": 0.0009
+      },
+      {
+        "colour": "#606060",
+        "share": 0.0006
+      },
+      {
+        "colour": "#808080",
+        "share": 0.0003
+      },
+      {
+        "colour": "#303030",
+        "share": 0.0003
+      },
+      {
+        "colour": "#B0B0A0",
+        "share": 0.0003
+      }
+    ]
+  },
+  {
+    "file": "frame-33.5.png",
+    "seconds": 33,
+    "width": 1920,
+    "height": 1080,
+    "paper": "#EFEAE0",
+    "bounds": {
+      "minX": 150,
+      "minY": 101,
+      "maxX": 1769,
+      "maxY": 1054
+    },
+    "inkShare": 0.032,
+    "chromaticShare": 0.003,
+    "offPaletteShare": 0,
+    "offPaletteMeanHue": null,
+    "offPaletteMaxHue": null,
+    "edgeBleed": {
+      "left": false,
+      "right": false,
+      "top": false,
+      "bottom": false
+    },
+    "bands": [
+      0,
+      0.013,
+      0.076,
+      0.002,
+      0.024,
+      0.041,
+      0.035,
+      0.046,
+      0.021,
+      0.039,
+      0.065,
+      0.022
+    ],
+    "rowRuns": [
+      "101-115",
+      "151-165",
+      "197-252",
+      "344-409",
+      "452-494",
+      "537-537",
+      "561-627",
+      "670-712",
+      "755-755",
+      "778-845",
+      "888-934",
+      "973-995",
+      "1036-1054"
+    ],
+    "gaps": [
+      36,
+      32,
+      92,
+      43,
+      43,
+      24,
+      43,
+      43,
+      23,
+      43,
+      39,
+      41
+    ],
+    "topColours": [
+      {
+        "colour": "#101010",
+        "share": 0.0062
+      },
+      {
+        "colour": "#706060",
+        "share": 0.0041
+      },
+      {
+        "colour": "#505050",
+        "share": 0.0013
+      },
+      {
+        "colour": "#D0A080",
+        "share": 0.0013
+      },
+      {
+        "colour": "#A0A090",
+        "share": 0.0012
+      },
+      {
+        "colour": "#606060",
+        "share": 0.0011
+      }
+    ]
+  },
+  {
+    "file": "frame-76.5.png",
+    "seconds": 76,
+    "width": 1920,
+    "height": 1080,
+    "paper": "#EFEAE0",
+    "bounds": {
+      "minX": 150,
+      "minY": 33,
+      "maxX": 1761,
+      "maxY": 1054
+    },
+    "inkShare": 0.2263,
+    "chromaticShare": 0.0034,
+    "offPaletteShare": 0,
+    "offPaletteMeanHue": null,
+    "offPaletteMaxHue": null,
+    "edgeBleed": {
+      "left": false,
+      "right": false,
+      "top": false,
+      "bottom": false
+    },
+    "bands": [
+      0.145,
+      0.257,
+      0.24,
+      0.276,
+      0.3,
+      0.355,
+      0.279,
+      0.269,
+      0.251,
+      0.217,
+      0.056,
+      0.071
+    ],
+    "rowRuns": [
+      "33-1054"
+    ],
+    "gaps": [],
+    "topColours": [
+      {
+        "colour": "#101000",
+        "share": 0.0867
+      },
+      {
+        "colour": "#201010",
+        "share": 0.0861
+      },
+      {
+        "colour": "#101010",
+        "share": 0.0308
+      },
+      {
+        "colour": "#505050",
+        "share": 0.0017
+      },
+      {
+        "colour": "#606060",
+        "share": 0.0014
+      },
+      {
+        "colour": "#909080",
+        "share": 0.0012
+      }
+    ]
+  }
+]

@@ -83,9 +83,7 @@ jobs:
 
       - name: Verify IPA is a device build
         run: |
-          # TODO(human): assert the packaged IPA targets a physical device,
-          # not the simulator, before it is uploaded.
-          echo "verification not implemented yet"
+          python3 .github/scripts/verify_device_app.py Payload/Worthly.app
 
       - name: Upload unsigned IPA
         uses: actions/upload-artifact@v4

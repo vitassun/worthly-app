@@ -1,0 +1,25 @@
+device screen layout measurement (393 × 852 pt)
+==============================================================================
+screen                      content   right  issues
+------------------------------------------------------------------------------
+settings                        852     393  ok
+review-queue                    852     393  ok
+edit-review                     858     393  ok
+add-empty                      1089     393  ok
+add-filled-top                 1089     393  ok
+add-filled-bottom               855     393  ok
+add-bought-bottom               856     393  ok
+detail-considering              882     393  ok
+detail-bought-top              1345     393  ok
+detail-bought-bottom            865     393  ok
+detail-considering-decide       852     393  ok
+checkin-7                       932     393  ok
+checkin-anytime                 932     393  ok
+home                           1154     393  ok
+home-scrolled                  1124     393  ok
+insights                       1942     393  ok
+insights-bottom                 852     393  ok
+things                         1504     393  ok
+purchase                        852     393  ok
+------------------------------------------------------------------------------
+19 screens · 0 with issues

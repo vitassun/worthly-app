@@ -18,6 +18,7 @@ struct PurchaseDecisionView: View {
     @State private var paidPriceText: String
     @State private var purchaseDate: Date
     @State private var operationError: String?
+    @FocusState private var inputIsFocused: Bool
 
     init(item: WorthlyItem, mode: PurchaseDecisionMode) {
         self.item = item
@@ -32,7 +33,7 @@ struct PurchaseDecisionView: View {
     }
 
     private var canConfirm: Bool {
-        paidPriceError == nil
+        item.state == .considering && paidPriceError == nil
     }
 
     var body: some View {
@@ -54,12 +55,17 @@ struct PurchaseDecisionView: View {
                 .padding(.horizontal, WorthlyTheme.pagePadding)
                 .padding(.vertical, 24)
             }
+            .scrollDismissesKeyboard(.interactively)
         }
         .navigationTitle(mode == .bought ? "标记已买" : "标记没买")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
                 Button("取消") { dismiss() }
+            }
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                Button("完成") { inputIsFocused = false }
             }
         }
         .alert("保存失败", isPresented: Binding(
@@ -76,7 +82,7 @@ struct PurchaseDecisionView: View {
         VStack(alignment: .leading, spacing: 8) {
             Text(mode == .bought ? "PURCHASE" : "PASS")
                 .font(WorthlyTheme.overline)
-                .foregroundStyle(WorthlyTheme.accent)
+                .foregroundStyle(WorthlyTheme.muted)
 
             Text(item.name)
                 .font(WorthlyTheme.displayTitle)
@@ -96,13 +102,14 @@ struct PurchaseDecisionView: View {
 
             VStack(alignment: .leading, spacing: 6) {
                 TextField("最终到手价（可选）", text: $paidPriceText)
+                    .focused($inputIsFocused)
                     .keyboardType(.decimalPad)
                     .textFieldStyle(.roundedBorder)
 
                 if let paidPriceError {
                     Text(paidPriceError)
                         .font(.caption)
-                        .foregroundStyle(WorthlyTheme.accent)
+                        .foregroundStyle(WorthlyTheme.text)
                 }
             }
 
@@ -115,7 +122,7 @@ struct PurchaseDecisionView: View {
         VStack(alignment: .leading, spacing: 12) {
             Text("这条记录不会消失。")
                 .font(WorthlyTheme.sectionTitle)
-            Text("以后 Worthly 才能知道：哪些东西你很想要，但最后没有买；这些“没有发生的消费”同样会帮助建立你的消费画像。")
+            Text("保留当时为什么想买，也保留最后没买的决定。以后再遇到相似的东西，可以回来看看。")
                 .foregroundStyle(WorthlyTheme.muted)
         }
         .worthlyCard()

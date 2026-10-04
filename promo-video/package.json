@@ -1,0 +1,41 @@
+{
+  "name": "worthly-promo",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Worthly / 值不值 — product promo film built with Remotion",
+  "license": "UNLICENSED",
+  "scripts": {
+    "dev": "remotion studio",
+    "score": "node scripts/make-score.mjs",
+    "render": "remotion render WorthlyPromo16x9 renders/worthly-promo-v0.2.0.mp4 --codec=h264 --crf=14 --x264-preset=slow --pixel-format=yuv420p",
+    "render:16x9": "npm run render",
+    "frames": "node scripts/extract-qa-frames.mjs --out qa/frames-v020",
+    "frames:extra": "node scripts/extract-qa-frames.mjs --times 7 11 16.8 20.5 24.5 28.5 30.5 34 36 39 41 45 47 49 51.5 55 59.5 63.5 70.5 75 77.5 81.5 --out qa/frames-v020-extra",
+    "analyze": "node scripts/analyze-frames.mjs --dir qa/frames-v020",
+    "probe": "node scripts/probe-frames.mjs",
+    "screens": "node scripts/measure-screens.mjs",
+    "contact-sheet": "node scripts/contact-sheet.mjs --frames qa/frames-v020",
+    "sequence": "node scripts/analyze-sequence.mjs",
+    "verify:encode": "node scripts/verify-encode.mjs --stills qa/frames-v020",
+    "verify:audio": "node scripts/verify-audio.mjs",
+    "qa": "npm run screens && npm run frames && npm run analyze && npm run probe && npm run contact-sheet",
+    "qa:full": "npm run score && npm run qa && npm run render && npm run sequence && npm run verify:encode && npm run verify:audio",
+    "typecheck": "tsc --noEmit",
+    "verify:data": "node scripts/verify-insights.mjs"
+  },
+  "dependencies": {
+    "@remotion/bundler": "4.0.532",
+    "@remotion/cli": "4.0.532",
+    "@remotion/media-utils": "4.0.532",
+    "@remotion/renderer": "4.0.532",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "remotion": "4.0.532"
+  },
+  "devDependencies": {
+    "@types/react": "19.2.2",
+    "@types/react-dom": "19.2.2",
+    "typescript": "5.9.3"
+  },
+  "type": "module"
+}

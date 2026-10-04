@@ -34,7 +34,8 @@ enum PriceInputParser {
         if value.rounded() == value {
             return String(format: "%.0f", value)
         }
-        return String(format: "%.2f", value)
+        // Display formatting may round, but an editor must preserve the stored amount.
+        return String(value)
     }
 
     private static func normalize(_ text: String) -> String {

@@ -41,7 +41,7 @@ struct InsightsView: View {
         VStack(alignment: .leading, spacing: 10) {
             Text("YOUR WORTH MEMORY")
                 .font(WorthlyTheme.overline)
-                .foregroundStyle(WorthlyTheme.accent)
+                .foregroundStyle(WorthlyTheme.muted)
 
             Text("你真正觉得\n值得的是什么？")
                 .font(WorthlyTheme.displayTitle)
@@ -66,7 +66,7 @@ struct InsightsView: View {
                     .foregroundStyle(WorthlyTheme.muted)
             }
 
-            Text("来自 \(snapshot.evaluatedCount) 件已经完成至少一次回访的购买。它不是消费成绩，只是你目前留下来的真实满意度快照。")
+            Text("来自 \(snapshot.evaluatedCount) 件已经完成阶段回访的购买。它不是消费成绩，只是你目前留下来的真实满意度快照。")
                 .font(.subheadline)
                 .foregroundStyle(WorthlyTheme.muted)
         }
@@ -79,16 +79,16 @@ struct InsightsView: View {
         return VStack(alignment: .leading, spacing: 14) {
             Text("INSIGHTS · EARLY")
                 .font(WorthlyTheme.overline)
-                .foregroundStyle(WorthlyTheme.accent)
+                .foregroundStyle(WorthlyTheme.muted)
 
             Text(remaining > 0
-                 ? "再完成 \(remaining) 次有效回访，Worthly 才开始尝试找出你的消费规律。"
-                 : "正在建立你的消费画像。")
+                 ? "再为 \(remaining) 件购买完成阶段回访，Worthly 才开始尝试找出你的消费规律。"
+                 : "正在整理你的消费记忆。")
                 .font(WorthlyTheme.sectionTitle)
                 .foregroundStyle(WorthlyTheme.text)
                 .fixedSize(horizontal: false, vertical: true)
 
-            Text("Worthly 不会用一两次购买就给你贴标签。至少积累 3 件已经回访的购买后，才开始比较买前想要和后来满意。")
+            Text("Worthly 不会用一两次购买就给你贴标签。至少积累 3 件完成 7 / 30 / 90 天阶段回访的购买后，才开始比较买前想要和后来满意。随时回访保留在时间线里，不计入洞察样本。")
                 .font(.body)
                 .foregroundStyle(WorthlyTheme.muted)
         }
@@ -137,7 +137,7 @@ private struct InsightCardView: View {
         VStack(alignment: .leading, spacing: 16) {
             Text(card.overline)
                 .font(WorthlyTheme.overline)
-                .foregroundStyle(card.isEmphasis ? WorthlyTheme.accent : WorthlyTheme.muted)
+                .foregroundStyle(secondaryText)
 
             Text(card.headline)
                 .font(WorthlyTheme.sectionTitle)

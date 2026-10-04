@@ -21,6 +21,13 @@ final class PriceInputParserAndExportTests: XCTestCase {
         XCTAssertTrue(PriceInputParser.value(from: "1e308")?.isFinite == true)
     }
 
+    func testEditingAmountRoundTripsWithoutChangingStoredPrecision() {
+        for value in [639.0, 639.5, 639.1234, 0.001, 0.00000001] {
+            XCTAssertEqual(PriceInputParser.value(from: PriceInputParser.editingString(value)), value)
+        }
+        XCTAssertEqual(PriceInputParser.editingString(nil), "")
+    }
+
     func testExportHasCompleteItemCheckInAndISO8601Dates() throws {
         let created = fixedDate
         let purchase = created.addingTimeInterval(86_400)

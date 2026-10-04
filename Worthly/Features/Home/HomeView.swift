@@ -2,16 +2,18 @@ import SwiftUI
 import SwiftData
 
 struct HomeView: View {
+    @Environment(\.scenePhase) private var scenePhase
+    @State private var now = Date.now
     @Query(sort: \WorthlyItem.createdAt, order: .reverse) private var items: [WorthlyItem]
     let onAdd: () -> Void
     let onOpenInsights: () -> Void
 
     private var dueReviews: [CheckInDueEntry] {
-        CheckInSchedule.dueEntries(for: items)
+        CheckInSchedule.dueEntries(for: items, now: now)
     }
 
     private var decisionRevisits: [DecisionReviewEntry] {
-        DecisionReviewSchedule.dueEntries(for: items)
+        DecisionReviewSchedule.dueEntries(for: items, now: now)
     }
 
     private var considering: [WorthlyItem] {
@@ -70,11 +72,20 @@ struct HomeView: View {
             }
         }
         .toolbarBackground(WorthlyTheme.background, for: .navigationBar)
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active { now = .now }
+        }
+        .task {
+            while !Task.isCancelled {
+                now = .now
+                do { try await Task.sleep(for: .seconds(60)) } catch { return }
+            }
+        }
     }
 
     private var header: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text(Date.now.formatted(.dateTime.weekday(.wide).month(.abbreviated).day()))
+            Text(now.formatted(.dateTime.weekday(.wide).month(.abbreviated).day()))
                 .font(WorthlyTheme.overline)
                 .textCase(.uppercase)
                 .foregroundStyle(WorthlyTheme.muted)
@@ -121,6 +132,15 @@ struct HomeView: View {
                 }
                 .buttonStyle(.plain)
             }
+            if dueReviews.count > 3 {
+                NavigationLink {
+                    ReviewQueueView(kind: .checkIn)
+                } label: {
+                    Label("查看全部 \(dueReviews.count) 件待回访", systemImage: "arrow.right")
+                        .frame(minHeight: 44)
+                }
+                .foregroundStyle(WorthlyTheme.text)
+            }
         }
     }
 
@@ -145,9 +165,13 @@ struct HomeView: View {
             }
 
             if decisionRevisits.count > 3 {
-                Text("还有 \(decisionRevisits.count - 3) 件也放了很久。")
-                    .font(.subheadline)
-                    .foregroundStyle(WorthlyTheme.muted)
+                NavigationLink {
+                    ReviewQueueView(kind: .decision)
+                } label: {
+                    Label("查看全部 \(decisionRevisits.count) 件待决定", systemImage: "arrow.right")
+                        .frame(minHeight: 44)
+                }
+                .foregroundStyle(WorthlyTheme.text)
             }
         }
     }
@@ -158,7 +182,7 @@ struct HomeView: View {
                 VStack(alignment: .leading, spacing: 7) {
                     Text("YOUR FIRST PATTERN")
                         .font(WorthlyTheme.overline)
-                        .foregroundStyle(WorthlyTheme.accent)
+                        .foregroundStyle(WorthlyTheme.background.opacity(0.72))
 
                     Text(insight.headline)
                         .font(WorthlyTheme.sectionTitle)
@@ -203,6 +227,64 @@ struct HomeView: View {
     }
 }
 
+/// Home stays concise; the complete queue is a separate native navigation destination.
+private struct ReviewQueueView: View {
+    enum Kind: Equatable { case checkIn, decision }
+    let kind: Kind
+    @Query private var items: [WorthlyItem]
+    @Environment(\.scenePhase) private var scenePhase
+    @State private var now = Date.now
+
+    var body: some View {
+        let reviews = CheckInSchedule.dueEntries(for: items, now: now)
+        let decisions = DecisionReviewSchedule.dueEntries(for: items, now: now)
+        let isEmpty = kind == .checkIn ? reviews.isEmpty : decisions.isEmpty
+        ScrollView {
+            VStack(alignment: .leading, spacing: 14) {
+                if isEmpty {
+                    Text("现在没有待处理的回访。")
+                        .font(WorthlyTheme.sectionTitle)
+                    Text("新的回访到期后，会出现在这里。")
+                        .foregroundStyle(WorthlyTheme.muted)
+                } else if kind == .checkIn {
+                    ForEach(reviews) { entry in
+                        NavigationLink {
+                            CheckInView(item: entry.item, stage: entry.stage)
+                        } label: {
+                            DueCheckInRow(entry: entry)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                } else {
+                    ForEach(decisions) { entry in
+                        NavigationLink {
+                            ItemDetailView(item: entry.item)
+                        } label: {
+                            DecisionReviewRow(entry: entry)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(WorthlyTheme.pagePadding)
+        }
+        .background(WorthlyTheme.background.ignoresSafeArea())
+        .foregroundStyle(WorthlyTheme.text)
+        .navigationTitle(kind == .checkIn ? "待回访" : "待决定")
+        .navigationBarTitleDisplayMode(.inline)
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active { now = .now }
+        }
+        .task {
+            while !Task.isCancelled {
+                now = .now
+                do { try await Task.sleep(for: .seconds(60)) } catch { return }
+            }
+        }
+    }
+}
+
 struct DueCheckInRow: View {
     let entry: CheckInDueEntry
 
@@ -211,7 +293,7 @@ struct DueCheckInRow: View {
             VStack(alignment: .leading, spacing: 7) {
                 Text("\(entry.stage.rawValue) DAYS LATER")
                     .font(WorthlyTheme.overline)
-                    .foregroundStyle(WorthlyTheme.accent)
+                    .foregroundStyle(WorthlyTheme.muted)
 
                 Text(entry.item.name)
                     .font(.headline)
@@ -241,7 +323,7 @@ struct DecisionReviewRow: View {
             VStack(alignment: .leading, spacing: 7) {
                 Text("DECISION · \(DecisionReviewSchedule.reviewIntervalDays) DAYS")
                     .font(WorthlyTheme.overline)
-                    .foregroundStyle(WorthlyTheme.accent)
+                    .foregroundStyle(WorthlyTheme.muted)
 
                 Text(entry.item.name)
                     .font(.headline)

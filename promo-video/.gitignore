@@ -1,0 +1,28 @@
+# Remotion install output — never commit.
+node_modules/
+
+# Remotion's bundled browser and scratch state.
+.remotion/
+
+# Contact-sheet scratch document.
+qa/_sheet.html
+
+# Intermediate documents written by the headless-Chrome QA passes. They are
+# regenerated on every run and are not source.
+qa/_*.html
+
+# Local render scratch.
+*.log
+
+# Generated intermediate frames; retain final video and summary reports.
+qa/frames*/
+qa/contact-sheets/*.png
+renders/*.mp4
+!renders/worthly-promo-v0.2.0.mp4
+
+# Preserve earlier local audit reports without including them in this release.
+qa/reports/*frames-revised*
+qa/reports/*frames-extra.*
+qa/reports/*frames.json
+qa/reports/*frames.txt
+qa/reports/probes-revised.json

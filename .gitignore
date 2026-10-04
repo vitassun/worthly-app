@@ -26,3 +26,6 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output/
+
+# Downloaded release packages and local audit artifacts
+release-artifacts/

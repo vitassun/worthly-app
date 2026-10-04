@@ -1,0 +1,485 @@
+[
+  {
+    "file": "frame-0002.png",
+    "label": "演示数据与界面重绘说明",
+    "pixels": 2702,
+    "min": 100,
+    "pass": true
+  },
+  {
+    "file": "frame-0002.png",
+    "label": "主标题可见",
+    "pixels": 42724,
+    "min": 1500,
+    "pass": true
+  },
+  {
+    "file": "frame-0005.png",
+    "label": "演示数据与界面重绘说明",
+    "pixels": 2702,
+    "min": 100,
+    "pass": true
+  },
+  {
+    "file": "frame-0005.png",
+    "label": "主标题可见",
+    "pixels": 43912,
+    "min": 1500,
+    "pass": true
+  },
+  {
+    "file": "frame-0009.png",
+    "label": "演示数据与界面重绘说明",
+    "pixels": 2702,
+    "min": 100,
+    "pass": true
+  },
+  {
+    "file": "frame-0009.png",
+    "label": "主标题可见",
+    "pixels": 31095,
+    "min": 1500,
+    "pass": true
+  },
+  {
+    "file": "frame-0009.png",
+    "label": "完整设备与屏幕",
+    "pixels": 93164,
+    "min": 10000,
+    "pass": true
+  },
+  {
+    "file": "frame-0009.png",
+    "label": "屏幕导航标题",
+    "pixels": 1101,
+    "min": 60,
+    "pass": true
+  },
+  {
+    "file": "frame-14.5.png",
+    "label": "演示数据与界面重绘说明",
+    "pixels": 2702,
+    "min": 100,
+    "pass": true
+  },
+  {
+    "file": "frame-14.5.png",
+    "label": "主标题可见",
+    "pixels": 30124,
+    "min": 1500,
+    "pass": true
+  },
+  {
+    "file": "frame-17.5.png",
+    "label": "演示数据与界面重绘说明",
+    "pixels": 2702,
+    "min": 100,
+    "pass": true
+  },
+  {
+    "file": "frame-17.5.png",
+    "label": "主标题可见",
+    "pixels": 19760,
+    "min": 1500,
+    "pass": true
+  },
+  {
+    "file": "frame-0021.png",
+    "label": "演示数据与界面重绘说明",
+    "pixels": 2702,
+    "min": 100,
+    "pass": true
+  },
+  {
+    "file": "frame-0021.png",
+    "label": "主标题可见",
+    "pixels": 37523,
+    "min": 1500,
+    "pass": true
+  },
+  {
+    "file": "frame-0021.png",
+    "label": "完整设备与屏幕",
+    "pixels": 81950,
+    "min": 10000,
+    "pass": true
+  },
+  {
+    "file": "frame-0021.png",
+    "label": "屏幕导航标题",
+    "pixels": 820,
+    "min": 60,
+    "pass": true
+  },
+  {
+    "file": "frame-0025.png",
+    "label": "演示数据与界面重绘说明",
+    "pixels": 2702,
+    "min": 100,
+    "pass": true
+  },
+  {
+    "file": "frame-0025.png",
+    "label": "主标题可见",
+    "pixels": 38435,
+    "min": 1500,
+    "pass": true
+  },
+  {
+    "file": "frame-0025.png",
+    "label": "完整设备与屏幕",
+    "pixels": 92903,
+    "min": 10000,
+    "pass": true
+  },
+  {
+    "file": "frame-0025.png",
+    "label": "屏幕导航标题",
+    "pixels": 1686,
+    "min": 60,
+    "pass": true
+  },
+  {
+    "file": "frame-0025.png",
+    "label": "已经买了开关",
+    "pixels": 1131,
+    "min": 300,
+    "pass": true
+  },
+  {
+    "file": "frame-0029.png",
+    "label": "演示数据与界面重绘说明",
+    "pixels": 2702,
+    "min": 100,
+    "pass": true
+  },
+  {
+    "file": "frame-0029.png",
+    "label": "主标题可见",
+    "pixels": 21186,
+    "min": 1500,
+    "pass": true
+  },
+  {
+    "file": "frame-33.5.png",
+    "label": "演示数据与界面重绘说明",
+    "pixels": 2702,
+    "min": 100,
+    "pass": true
+  },
+  {
+    "file": "frame-33.5.png",
+    "label": "主标题可见",
+    "pixels": 25173,
+    "min": 1500,
+    "pass": true
+  },
+  {
+    "file": "frame-33.5.png",
+    "label": "阶段回访及感受",
+    "pixels": 9725,
+    "min": 1200,
+    "pass": true
+  },
+  {
+    "file": "frame-33.5.png",
+    "label": "阶段回访及感受",
+    "pixels": 13577,
+    "min": 1200,
+    "pass": true
+  },
+  {
+    "file": "frame-33.5.png",
+    "label": "阶段回访及感受",
+    "pixels": 15164,
+    "min": 1200,
+    "pass": true
+  },
+  {
+    "file": "frame-0038.png",
+    "label": "演示数据与界面重绘说明",
+    "pixels": 2702,
+    "min": 100,
+    "pass": true
+  },
+  {
+    "file": "frame-0038.png",
+    "label": "主标题可见",
+    "pixels": 36245,
+    "min": 1500,
+    "pass": true
+  },
+  {
+    "file": "frame-0038.png",
+    "label": "完整设备与屏幕",
+    "pixels": 56154,
+    "min": 10000,
+    "pass": true
+  },
+  {
+    "file": "frame-0038.png",
+    "label": "屏幕导航标题",
+    "pixels": 696,
+    "min": 60,
+    "pass": true
+  },
+  {
+    "file": "frame-0042.png",
+    "label": "演示数据与界面重绘说明",
+    "pixels": 2702,
+    "min": 100,
+    "pass": true
+  },
+  {
+    "file": "frame-0042.png",
+    "label": "主标题可见",
+    "pixels": 26104,
+    "min": 1500,
+    "pass": true
+  },
+  {
+    "file": "frame-0042.png",
+    "label": "完整设备与屏幕",
+    "pixels": 95855,
+    "min": 10000,
+    "pass": true
+  },
+  {
+    "file": "frame-0042.png",
+    "label": "屏幕导航标题",
+    "pixels": 1666,
+    "min": 60,
+    "pass": true
+  },
+  {
+    "file": "frame-0046.png",
+    "label": "演示数据与界面重绘说明",
+    "pixels": 2702,
+    "min": 100,
+    "pass": true
+  },
+  {
+    "file": "frame-0046.png",
+    "label": "主标题可见",
+    "pixels": 37864,
+    "min": 1500,
+    "pass": true
+  },
+  {
+    "file": "frame-0046.png",
+    "label": "完整设备与屏幕",
+    "pixels": 95876,
+    "min": 10000,
+    "pass": true
+  },
+  {
+    "file": "frame-0046.png",
+    "label": "屏幕导航标题",
+    "pixels": 2461,
+    "min": 60,
+    "pass": true
+  },
+  {
+    "file": "frame-0050.png",
+    "label": "演示数据与界面重绘说明",
+    "pixels": 2702,
+    "min": 100,
+    "pass": true
+  },
+  {
+    "file": "frame-0050.png",
+    "label": "主标题可见",
+    "pixels": 37093,
+    "min": 1500,
+    "pass": true
+  },
+  {
+    "file": "frame-0050.png",
+    "label": "完整设备与屏幕",
+    "pixels": 59081,
+    "min": 10000,
+    "pass": true
+  },
+  {
+    "file": "frame-0050.png",
+    "label": "屏幕导航标题",
+    "pixels": 397,
+    "min": 60,
+    "pass": true
+  },
+  {
+    "file": "frame-0052.png",
+    "label": "演示数据与界面重绘说明",
+    "pixels": 2702,
+    "min": 100,
+    "pass": true
+  },
+  {
+    "file": "frame-0052.png",
+    "label": "主标题可见",
+    "pixels": 37093,
+    "min": 1500,
+    "pass": true
+  },
+  {
+    "file": "frame-0052.png",
+    "label": "完整设备与屏幕",
+    "pixels": 54364,
+    "min": 10000,
+    "pass": true
+  },
+  {
+    "file": "frame-0052.png",
+    "label": "屏幕导航标题",
+    "pixels": 397,
+    "min": 60,
+    "pass": true
+  },
+  {
+    "file": "frame-0056.png",
+    "label": "演示数据与界面重绘说明",
+    "pixels": 2702,
+    "min": 100,
+    "pass": true
+  },
+  {
+    "file": "frame-0056.png",
+    "label": "主标题可见",
+    "pixels": 129614,
+    "min": 1500,
+    "pass": true
+  },
+  {
+    "file": "frame-0056.png",
+    "label": "买前与买后洞察",
+    "pixels": 340833,
+    "min": 50000,
+    "pass": true
+  },
+  {
+    "file": "frame-0062.png",
+    "label": "演示数据与界面重绘说明",
+    "pixels": 2702,
+    "min": 100,
+    "pass": true
+  },
+  {
+    "file": "frame-0062.png",
+    "label": "主标题可见",
+    "pixels": 40222,
+    "min": 1500,
+    "pass": true
+  },
+  {
+    "file": "frame-0062.png",
+    "label": "长期规律指标",
+    "pixels": 10719,
+    "min": 2000,
+    "pass": true
+  },
+  {
+    "file": "frame-0062.png",
+    "label": "长期规律指标",
+    "pixels": 9545,
+    "min": 2000,
+    "pass": true
+  },
+  {
+    "file": "frame-0062.png",
+    "label": "长期规律指标",
+    "pixels": 10168,
+    "min": 2000,
+    "pass": true
+  },
+  {
+    "file": "frame-0066.png",
+    "label": "演示数据与界面重绘说明",
+    "pixels": 2702,
+    "min": 100,
+    "pass": true
+  },
+  {
+    "file": "frame-0066.png",
+    "label": "主标题可见",
+    "pixels": 51619,
+    "min": 1500,
+    "pass": true
+  },
+  {
+    "file": "frame-0072.png",
+    "label": "演示数据与界面重绘说明",
+    "pixels": 2702,
+    "min": 100,
+    "pass": true
+  },
+  {
+    "file": "frame-0072.png",
+    "label": "主标题可见",
+    "pixels": 41771,
+    "min": 1500,
+    "pass": true
+  },
+  {
+    "file": "frame-0072.png",
+    "label": "完整设备与屏幕",
+    "pixels": 60896,
+    "min": 10000,
+    "pass": true
+  },
+  {
+    "file": "frame-0072.png",
+    "label": "屏幕导航标题",
+    "pixels": 476,
+    "min": 60,
+    "pass": true
+  },
+  {
+    "file": "frame-76.5.png",
+    "label": "演示数据与界面重绘说明",
+    "pixels": 2702,
+    "min": 100,
+    "pass": true
+  },
+  {
+    "file": "frame-76.5.png",
+    "label": "主标题可见",
+    "pixels": 38865,
+    "min": 1500,
+    "pass": true
+  },
+  {
+    "file": "frame-76.5.png",
+    "label": "完整设备与屏幕",
+    "pixels": 420371,
+    "min": 10000,
+    "pass": true
+  },
+  {
+    "file": "frame-76.5.png",
+    "label": "屏幕导航标题",
+    "pixels": 18937,
+    "min": 60,
+    "pass": true
+  },
+  {
+    "file": "frame-76.5.png",
+    "label": "深色强调卡文字",
+    "pixels": 3992,
+    "min": 100,
+    "pass": true
+  },
+  {
+    "file": "frame-0080.png",
+    "label": "演示数据与界面重绘说明",
+    "pixels": 2702,
+    "min": 100,
+    "pass": true
+  },
+  {
+    "file": "frame-0080.png",
+    "label": "主标题可见",
+    "pixels": 20394,
+    "min": 1500,
+    "pass": true
+  }
+]

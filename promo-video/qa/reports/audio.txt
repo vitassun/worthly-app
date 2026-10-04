@@ -1,0 +1,113 @@
+audio verification · renders/worthly-promo-v0.2.0.mp4
+====================================================================================================
+
+score (source WAV)   public/audio/worthly-score.wav
+----------------------------------------------------------------------------------------------------
+  streams        0 video · 1 audio (pcm_s16le, 2ch, 48000 Hz)
+  duration       video 82.000s · audio 82.000s · decoded 82.000s
+  level          peak -1.43 dBFS · RMS -18.25 dBFS · L/R skew 1.39 dB
+  loudness       -16.00 LUFS integrated · true peak -1.43 dBTP · LRA 6.10 LU
+  stereo         correlation 0.899
+  DC offset      L -1.13e-7 · R -1.20e-7
+  continuity     max sample step 0.0665 at 55.22s · 0 steps > 0.25
+  edges          first 20ms max 0.00e+0 · last 20ms max 0.00e+0 · final sample 0.00e+0
+  onset          0.550s
+  cue lift       24/24 cues lift the high band ≥ 3 dB
+  dead air       longest silent stretch 3s–30s: 0.000s
+
+film (delivered MP4)   renders/worthly-promo-v0.2.0.mp4
+----------------------------------------------------------------------------------------------------
+  streams        1 video · 1 audio (aac, 2ch, 48000 Hz)
+  duration       video 82.000s · audio 82.000s · decoded 82.005s
+  level          peak -1.43 dBFS · RMS -18.25 dBFS · L/R skew 1.38 dB
+  loudness       -16.00 LUFS integrated · true peak -1.43 dBTP · LRA 6.10 LU
+  stereo         correlation 0.899
+  DC offset      L -2.94e-7 · R -3.28e-7
+  continuity     max sample step 0.0665 at 55.22s · 0 steps > 0.25
+  edges          first 20ms max 0.00e+0 · last 20ms max 0.00e+0 · final sample 0.00e+0
+  onset          0.550s
+  cue lift       24/24 cues lift the high band ≥ 3 dB
+  dead air       longest silent stretch 3s–30s: 0.000s
+
+score vs cut
+----------------------------------------------------------------------------------------------------
+  declared bells  24
+  high-band lift  worst 3.8 dB (floor 3 dB)
+  strike offset   worst 14 ms (tolerance ±20 ms)
+
+     cue    midi     lift    strike   offset
+     0.55s   74  76.7 dB    0.546s    -4 ms
+     2.05s   69  13.3 dB    2.052s     2 ms
+     3.68s   65  11.0 dB    3.687s     4 ms
+     6.17s   74   7.5 dB    6.156s   -11 ms
+    12.30s   69   4.3 dB   12.308s     8 ms
+    16.17s   74   7.5 dB   16.173s     6 ms
+    19.17s   69   3.8 dB   19.181s    14 ms
+    23.45s   74   6.2 dB   23.454s     4 ms
+    27.17s   74   6.5 dB   27.173s     6 ms
+    27.67s   74   3.9 dB   27.678s    11 ms
+    29.66s   76   9.0 dB   29.666s     3 ms
+    31.67s   77   8.2 dB   31.674s     4 ms
+    35.45s   74   9.7 dB   35.444s    -6 ms
+    40.20s   76   6.4 dB   40.205s     5 ms
+    44.45s   74   6.4 dB   44.457s     7 ms
+    48.15s   69   7.8 dB   48.156s     6 ms
+    53.40s   81  13.3 dB   53.401s     1 ms
+    54.30s   77   5.8 dB   54.306s     6 ms
+    55.20s   74   3.8 dB   55.209s     9 ms
+    58.45s   74   6.2 dB   58.456s     6 ms
+    64.23s   69   6.2 dB   64.239s     6 ms
+    68.45s   74   8.8 dB   68.454s     4 ms
+    74.45s   74   8.5 dB   74.455s     5 ms
+    78.57s   62   9.4 dB   78.562s    -5 ms
+
+  7 / 30 / 90 motif — bells must land on the row animations
+    7-day check-in     picture 27.667s · score 27.667s · struck 27.678s · offset 11 ms
+    30-day check-in    picture 29.667s · score 29.663s · struck 29.666s · offset 3 ms
+    90-day check-in    picture 31.667s · score 31.670s · struck 31.674s · offset 4 ms
+
+  sound design — no cue may announce itself
+    38 cues · largest lift 1.79 dB at 20.27s (tick) · limit 2.5 dB
+
+checks
+----------------------------------------------------------------------------------------------------
+  PASS  mux carried one video and one audio stream
+        1 video · 1 audio
+  PASS  audio length matches the picture
+        video 82.000s · audio 82.000s · decoded 82.005s
+  PASS  audio is not silent
+        RMS -18.25 dBFS
+  PASS  no clipping
+        peak -1.43 dBFS (ceiling −1.0)
+  PASS  integrated loudness is on target
+        -16.00 LUFS vs target -16
+  PASS  true peak is under the codec headroom
+        -1.43 dBTP
+  PASS  stereo image is real, not duplicated mono
+        correlation 0.899
+  PASS  left and right are balanced
+        1.38 dB
+  PASS  no DC offset
+        L -2.94e-7 · R -3.28e-7
+  PASS  no clicks or pops
+        max sample step 0.0665 at 55.22s
+  PASS  starts and ends in true silence
+        first 20ms 0.00e+0 · last 20ms 0.00e+0 · final sample 0.00e+0
+  PASS  audio is aligned with the score
+        score 0.550s · film 0.550s
+  PASS  no dead air in the body of the film
+        longest 0.000s
+  PASS  cue sheet length matches the film
+        82s vs 82.000s
+  PASS  every score cue lifts the high band where it is declared
+        24/24 cues ≥ 3 dB · worst 3.8 dB
+  PASS  every score cue strikes on its declared time
+        worst 14 ms of ±20 ms
+  PASS  the 7 / 30 / 90 motif lands on the check-in rows
+        7-day check-in exact · 30-day check-in exact · 90-day check-in exact
+  PASS  the cue sheet declares the sound design
+        38 cues across 5 kinds
+  PASS  no sound-design cue draws attention to itself
+        largest lift 1.79 dB (tick at 20.27s) · limit 2.5 dB
+
+19 checks · 0 failed

@@ -5,6 +5,8 @@ struct ItemDetailView: View {
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.scenePhase) private var scenePhase
+    @State private var now = Date.now
     @State private var isEditing = false
     @State private var decisionMode: PurchaseDecisionMode?
     @State private var showingDeleteConfirmation = false
@@ -44,6 +46,15 @@ struct ItemDetailView: View {
         }
         .navigationTitle(item.name)
         .navigationBarTitleDisplayMode(.inline)
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active { now = .now }
+        }
+        .task {
+            while !Task.isCancelled {
+                now = .now
+                do { try await Task.sleep(for: .seconds(60)) } catch { return }
+            }
+        }
         .toolbar {
             ToolbarItemGroup(placement: .topBarTrailing) {
                 Button("编辑") { isEditing = true }
@@ -100,7 +111,7 @@ struct ItemDetailView: View {
         VStack(alignment: .leading, spacing: 10) {
             Text(item.state.displayName.uppercased())
                 .font(WorthlyTheme.overline)
-                .foregroundStyle(WorthlyTheme.accent)
+                .foregroundStyle(WorthlyTheme.muted)
 
             Text(item.name)
                 .font(WorthlyTheme.displayTitle)
@@ -157,7 +168,7 @@ struct ItemDetailView: View {
                    let saved = item.savedAmount {
                     Text("-\(PriceFormatter.percent(discount)) · SAVED \(PriceFormatter.currency(saved))")
                         .font(WorthlyTheme.overline)
-                        .foregroundStyle(WorthlyTheme.accent)
+                        .foregroundStyle(WorthlyTheme.muted)
                 }
 
                 if let purchaseDate = item.purchaseDate {
@@ -193,7 +204,7 @@ struct ItemDetailView: View {
         VStack(alignment: .leading, spacing: 12) {
             Text("DECIDE")
                 .font(WorthlyTheme.overline)
-                .foregroundStyle(WorthlyTheme.accent)
+                .foregroundStyle(WorthlyTheme.muted)
 
             Text("后来呢？")
                 .font(WorthlyTheme.sectionTitle)
@@ -229,7 +240,20 @@ struct ItemDetailView: View {
                         .font(WorthlyTheme.sectionTitle)
 
                     ForEach(reflections) { checkIn in
-                        checkInRow(checkIn)
+                        NavigationLink {
+                            CheckInView(item: item, checkIn: checkIn)
+                        } label: {
+                            VStack(alignment: .leading, spacing: 8) {
+                                checkInRow(checkIn)
+                                Label("编辑回访", systemImage: "pencil")
+                                    .font(.caption)
+                                    .foregroundStyle(WorthlyTheme.background.opacity(0.72))
+                            }
+                            .frame(maxWidth: .infinity, minHeight: 44, alignment: .leading)
+                            .contentShape(Rectangle())
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityHint("查看、更正或删除这次回访")
                     }
                 }
 
@@ -238,7 +262,7 @@ struct ItemDetailView: View {
                     Divider()
                         .overlay(WorthlyTheme.background.opacity(0.18))
 
-                    if dueDate <= .now {
+                    if CheckInSchedule.isDue(stage, for: item, now: now) {
                         NavigationLink {
                             CheckInView(item: item, stage: stage)
                         } label: {
