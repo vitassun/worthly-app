@@ -31,6 +31,10 @@ enum CheckInRecordService {
         }
         guard (1...10).contains(satisfactionScore) else { throw EditError.invalidScore }
 
+        let originalScore = checkIn.satisfactionScore
+        let originalUsage = checkIn.usageFrequency
+        let originalNote = checkIn.note
+
         checkIn.satisfactionScore = satisfactionScore
         checkIn.usageFrequency = usageFrequency.rawValue
         let trimmedNote = note.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -40,6 +44,11 @@ enum CheckInRecordService {
             if let saveChanges { try saveChanges() } else { try modelContext.save() }
         } catch {
             modelContext.rollback()
+            // SwiftData may not have registered these synchronous property mutations yet.
+            // Restore the live model as well as rolling back the persistence transaction.
+            checkIn.satisfactionScore = originalScore
+            checkIn.usageFrequency = originalUsage
+            checkIn.note = originalNote
             throw error
         }
     }
