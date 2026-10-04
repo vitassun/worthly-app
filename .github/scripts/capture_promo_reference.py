@@ -388,7 +388,7 @@ extension NotificationAndDeletionTests {
             ]
             let requestData = try JSONSerialization.data(withJSONObject: request, options: [.sortedKeys])
             try requestData.write(to: output.appendingPathComponent("home-request.json"), options: .atomic)
-            let deadline = Date.now.addingTimeInterval(30)
+            let deadline = Date.now.addingTimeInterval(60)
             var acknowledgement: [String: Any]?
             while Date.now < deadline {
                 if let ackData = try? Data(contentsOf: output.appendingPathComponent("home-ack.json")),
@@ -400,7 +400,7 @@ extension NotificationAndDeletionTests {
                 }
                 try await Task.sleep(for: .milliseconds(100))
             }
-            let ack = try XCTUnwrap(acknowledgement, "Full-screen Simulator capture did not acknowledge \(appearance) within 30 seconds")
+            let ack = try XCTUnwrap(acknowledgement, "Full-screen Simulator capture did not acknowledge \(appearance) within 60 seconds")
             XCTAssertEqual(host.traitCollection.userInterfaceStyle, style)
             XCTAssertEqual(ack["captureMethod"] as? String, "simctl-io-full-screen")
             XCTAssertEqual(ack["sourceSHA"] as? String, "__SOURCE_SHA__")
@@ -580,6 +580,7 @@ def observe_home(args: argparse.Namespace) -> None:
     captured: list[dict] = []
     handled_nonces: set[str] = set()
     original_appearance = None
+    sandbox: Path | None = None
     status_overridden = False
     observer_started_at = time.time()
     deadline = time.monotonic() + args.timeout
@@ -602,13 +603,20 @@ def observe_home(args: argparse.Namespace) -> None:
             original_appearance = match.group(1)
         print("Observer ready; waiting for app installation and a live Home capture request", flush=True)
         while time.monotonic() < deadline:
-            # xcodebuild installs the test host later. Missing containers and files
-            # are expected here, and must not end the observer on the initial 404.
-            container = simctl("get_app_container", simulator, "com.vitassun.worthly", "data", check=False)
-            if container.returncode != 0 or not container.stdout.strip():
-                time.sleep(0.5)
-                continue
-            sandbox = Path(container.stdout.strip()) / "tmp/worthly-promo-native"
+            # xcodebuild installs the test host later. Discovery can time out
+            # during installation just as it can return an initial missing app.
+            # Once found, poll files directly instead of repeatedly asking simctl.
+            if sandbox is None:
+                try:
+                    container = simctl("get_app_container", simulator, "com.vitassun.worthly", "data", check=False)
+                except subprocess.TimeoutExpired:
+                    print("App container discovery timed out; retrying within the observer deadline", flush=True)
+                    time.sleep(0.5)
+                    continue
+                if container.returncode != 0 or not container.stdout.strip():
+                    time.sleep(0.5)
+                    continue
+                sandbox = Path(container.stdout.strip()) / "tmp/worthly-promo-native"
             try:
                 request_path = sandbox / "home-request.json"
                 if request_path.stat().st_mtime < observer_started_at:
