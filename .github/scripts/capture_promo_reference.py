@@ -262,6 +262,180 @@ extension NotificationAndDeletionTests {
         ]
         let data = try JSONSerialization.data(withJSONObject: metadata, options: [.prettyPrinted, .sortedKeys])
         try data.write(to: output.appendingPathComponent("metadata.json"), options: .atomic)
+
+        // Capture the actual four-tab shell as well as the detail route. These are
+        // generated references with our demo item, never copies of user screenshots.
+        let defaults = UserDefaults.standard
+        let originalOnboarding = defaults.object(forKey: "hasCompletedOnboarding")
+        let originalRoute = CheckInNotificationRouter.shared.pendingRoute
+        let originalDefaultTimeZone = NSTimeZone.default
+        let homeTimeZone = try XCTUnwrap(TimeZone(identifier: "Asia/Shanghai"))
+        NSTimeZone.default = homeTimeZone
+        CheckInNotificationRouter.shared.pendingRoute = nil
+        defaults.set(true, forKey: "hasCompletedOnboarding")
+        defer {
+            if let originalOnboarding {
+                defaults.set(originalOnboarding, forKey: "hasCompletedOnboarding")
+            } else {
+                defaults.removeObject(forKey: "hasCompletedOnboarding")
+            }
+            NSTimeZone.default = originalDefaultTimeZone
+            CheckInNotificationRouter.shared.pendingRoute = originalRoute
+            originalKeyWindow?.makeKey()
+        }
+
+        let homeConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: true)
+        let homeContainer = try ModelContainer(for: schema, configurations: [homeConfiguration])
+        var homeCalendar = Calendar(identifier: .gregorian)
+        homeCalendar.timeZone = homeTimeZone
+        let homeNow = Date.now
+        let homePurchaseDate = try XCTUnwrap(homeCalendar.date(byAdding: .day, value: -40, to: homeNow))
+        let homeItem = WorthlyItem(
+            id: try XCTUnwrap(UUID(uuidString: seed.id)),
+            name: seed.name,
+            category: seed.category,
+            sourceNote: seed.sourceNote,
+            createdAt: homePurchaseDate,
+            state: .bought,
+            reason: try XCTUnwrap(PurchaseReason(rawValue: seed.reason)),
+            expectedUsage: try XCTUnwrap(ExpectedUsage(rawValue: seed.expectedUsage)),
+            desireScore: seed.desireScore,
+            originalPrice: seed.originalPrice,
+            paidPrice: seed.paidPrice,
+            purchaseDate: homePurchaseDate,
+            decisionDate: homePurchaseDate
+        )
+        homeContainer.mainContext.insert(homeItem)
+        let homeReview = CheckIn(
+            id: try XCTUnwrap(UUID(uuidString: seed.checkIns[0].id)),
+            stage: .day7,
+            satisfactionScore: seed.checkIns[0].satisfactionScore,
+            usageFrequency: try XCTUnwrap(UsageFrequency(rawValue: seed.checkIns[0].usageFrequency)),
+            note: seed.checkIns[0].note,
+            createdAt: try XCTUnwrap(homeCalendar.date(byAdding: .day, value: 7, to: homePurchaseDate)),
+            item: homeItem
+        )
+        homeContainer.mainContext.insert(homeReview)
+        try homeContainer.mainContext.save()
+        XCTAssertEqual(CheckInSchedule.dueEntries(for: [homeItem], now: homeNow).map(\.stage), [.day30])
+        XCTAssertTrue(InsightEngine.snapshot(for: [homeItem]).cards.isEmpty)
+        XCTAssertTrue(DecisionReviewSchedule.dueEntries(for: [homeItem], now: homeNow).isEmpty)
+        var homeImages: [[String: Any]] = []
+        var homeBoundsMetadata: [String: Any] = [:]
+
+        for (appearance, style) in [("light", UIUserInterfaceStyle.light), ("dark", UIUserInterfaceStyle.dark)] {
+            let host = UIHostingController(rootView:
+                RootTabView()
+                    .modelContainer(homeContainer)
+                    .environment(\.locale, Locale(identifier: "zh_CN"))
+                    .environment(\.calendar, homeCalendar)
+                    .environment(\.timeZone, homeTimeZone)
+                    .tint(WorthlyTheme.accent)
+            )
+            let window = UIWindow(windowScene: scene)
+            window.frame = scene.coordinateSpace.bounds
+            window.overrideUserInterfaceStyle = style
+            window.rootViewController = host
+            window.windowLevel = .normal + 1
+            window.makeKeyAndVisible()
+            defer {
+                window.isHidden = true
+                window.rootViewController = nil
+                originalKeyWindow?.makeKey()
+            }
+            for _ in 0..<4 {
+                host.view.setNeedsLayout()
+                window.layoutIfNeeded()
+                try await Task.sleep(for: .milliseconds(250))
+            }
+            XCTAssertEqual(host.traitCollection.userInterfaceStyle, style)
+            XCTAssertEqual(window.bounds.width, 402, accuracy: 0.1)
+            XCTAssertEqual(window.bounds.height, 874, accuracy: 0.1)
+            XCTAssertNil(CheckInNotificationRouter.shared.pendingRoute)
+
+            func findTabBar(_ view: UIView) -> UITabBar? {
+                if let tabBar = view as? UITabBar, !tabBar.isHidden { return tabBar }
+                for child in view.subviews {
+                    if let found = findTabBar(child) { return found }
+                }
+                return nil
+            }
+            let tabBar = try XCTUnwrap(findTabBar(window), "Actual system TabView bar is missing")
+            let tabBarFrame = tabBar.convert(tabBar.bounds, to: window)
+            XCTAssertEqual(tabBar.items?.count, 4)
+            XCTAssertGreaterThan(tabBarFrame.height, 0)
+            XCTAssertLessThanOrEqual(tabBarFrame.maxY, window.bounds.height + 1)
+
+            let format = UIGraphicsImageRendererFormat()
+            format.preferredRange = .standard
+            format.scale = window.screen.scale
+            format.opaque = true
+            let renderer = UIGraphicsImageRenderer(bounds: window.bounds, format: format)
+            var hierarchyDrawn = false
+            let screenshot = renderer.image { _ in
+                hierarchyDrawn = window.drawHierarchy(in: window.bounds, afterScreenUpdates: true)
+            }
+            XCTAssertTrue(hierarchyDrawn, "Native RootTabView hierarchy did not render")
+            // A color-managed sRGB export preserves the rendered colors. There is
+            // no palette replacement, grading, pixel painting or screenshot reuse.
+            let sourceImage = try XCTUnwrap(screenshot.cgImage)
+            let exportColorSpace = try XCTUnwrap(CGColorSpace(name: CGColorSpace.sRGB))
+            let exportContext = try XCTUnwrap(CGContext(
+                data: nil, width: sourceImage.width, height: sourceImage.height,
+                bitsPerComponent: 8, bytesPerRow: 0, space: exportColorSpace,
+                bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+            ))
+            exportContext.draw(sourceImage, in: CGRect(x: 0, y: 0,
+                width: CGFloat(sourceImage.width), height: CGFloat(sourceImage.height)))
+            let exportedImage = try XCTUnwrap(exportContext.makeImage())
+            let exportedScreenshot = UIImage(cgImage: exportedImage, scale: screenshot.scale, orientation: .up)
+            let filename = "home-\(appearance).png"
+            try XCTUnwrap(exportedScreenshot.pngData()).write(to: output.appendingPathComponent(filename), options: .atomic)
+            homeImages.append([
+                "file": filename, "appearance": appearance, "section": "home",
+                "hierarchyDrawn": hierarchyDrawn, "pixelWidth": exportedImage.width,
+                "pixelHeight": exportedImage.height, "colorSpace": "sRGB", "bitsPerComponent": 8,
+                "tabBar": ["x": Double(tabBarFrame.minX), "y": Double(tabBarFrame.minY),
+                           "width": Double(tabBarFrame.width), "height": Double(tabBarFrame.height),
+                           "items": tabBar.items?.compactMap(\.title) ?? []]
+            ])
+            homeBoundsMetadata = [
+                "width": Double(window.bounds.width), "height": Double(window.bounds.height),
+                "scale": Double(window.screen.scale),
+                "safeArea": ["top": Double(host.view.safeAreaInsets.top),
+                             "bottom": Double(host.view.safeAreaInsets.bottom),
+                             "left": Double(host.view.safeAreaInsets.left),
+                             "right": Double(host.view.safeAreaInsets.right)]
+            ]
+        }
+        let homeMetadata: [String: Any] = [
+            "sourceSHA": "__SOURCE_SHA__",
+            "version": Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "unknown",
+            "build": Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "unknown",
+            "bundleIdentifier": Bundle.main.bundleIdentifier ?? "unknown",
+            "simulatorName": __SIMULATOR_NAME__, "simulatorUDID": "__SIMULATOR_UDID__",
+            "simulatorOS": UIDevice.current.systemVersion,
+            "modelIdentifier": ProcessInfo.processInfo.environment["SIMULATOR_MODEL_IDENTIFIER"] ?? "unknown",
+            "renderMethod": "UIHostingController + actual RootTabView + UIWindow.drawHierarchy + sRGB export",
+            "referenceKind": "Generated native SwiftUI Simulator home view; not a user screenshot or physical-device recording",
+            "locale": "zh_CN", "timeZone": homeTimeZone.identifier,
+            "foundationCurrentTimeZone": TimeZone.current.identifier,
+            "foundationDefaultTimeZone": NSTimeZone.default.identifier,
+            "homeDateText": homeNow.formatted(.dateTime.weekday(.wide).month(.abbreviated).day()),
+            "bounds": homeBoundsMetadata, "images": homeImages,
+            "seed": ["name": homeItem.name, "category": homeItem.category,
+                     "reason": homeItem.reason.rawValue, "expectedUsage": homeItem.expectedUsage.rawValue,
+                     "desireScore": homeItem.desireScore, "originalPrice": homeItem.originalPrice ?? 0,
+                     "paidPrice": homeItem.paidPrice ?? 0,
+                     "purchaseDate": ISO8601DateFormatter().string(from: homePurchaseDate),
+                     "purchaseDaysBeforeCapture": 40,
+                     "checkIns": [["stageDays": 7, "satisfactionScore": homeReview.satisfactionScore]],
+                     "dueStage": 30, "dueCards": 1, "recentBoughtCards": 1,
+                     "consideringCards": 0, "insightCards": 0],
+            "capturedAt": ISO8601DateFormatter().string(from: .now)
+        ]
+        let homeData = try JSONSerialization.data(withJSONObject: homeMetadata, options: [.prettyPrinted, .sortedKeys])
+        try homeData.write(to: output.appendingPathComponent("home-metadata.json"), options: .atomic)
     }
 }
 // END TEMPORARY WORTHLY PROMO NATIVE REFERENCE
@@ -274,7 +448,7 @@ def select_simulator(args: argparse.Namespace) -> None:
     groups = json.loads(result.stdout)["devices"]
     devices = [(device, runtime) for runtime, group in groups.items() for device in group
                if device.get("isAvailable") and device["name"].startswith("iPhone")]
-    preferred = ["iPhone 16", "iPhone 15", "iPhone 14 Pro", "iPhone 16 Pro", "iPhone 17"]
+    preferred = ["iPhone 17", "iPhone 16 Pro", "iPhone 16", "iPhone 15", "iPhone 14 Pro"]
     devices.sort(key=lambda pair: (preferred.index(pair[0]["name"]) if pair[0]["name"] in preferred else 100,
                                    pair[0]["name"], pair[1], pair[0]["udid"]))
     if not devices:
@@ -336,29 +510,42 @@ def restore(_: argparse.Namespace) -> None:
 
 def collect(args: argparse.Namespace) -> None:
     source = args.container / "tmp/worthly-promo-native"
-    metadata = json.loads((source / "metadata.json").read_text(encoding="utf-8"))
-    if metadata["sourceSHA"] != args.source_sha:
-        raise RuntimeError("Screenshot source SHA does not match the checkout")
-    if metadata["bundleIdentifier"] != "com.vitassun.worthly":
-        raise RuntimeError("Reference did not come from the Worthly app test host")
-    required = {"item-detail-light.png", "item-detail-dark.png"}
-    listed = {entry["file"] for entry in metadata["images"]}
-    if not required.issubset(listed):
-        raise RuntimeError("Both light and dark native references are required")
     args.output.mkdir(parents=True, exist_ok=True)
-    for entry in metadata["images"]:
-        filename = entry["file"]
-        if Path(filename).name != filename or not filename.endswith(".png") or not entry["hierarchyDrawn"]:
-            raise RuntimeError("Invalid native screenshot metadata")
-        png = (source / filename).read_bytes()
-        if len(png) < 10_000 or png[:8] != b"\x89PNG\r\n\x1a\n":
-            raise RuntimeError(f"Invalid or empty PNG: {filename}")
-        width, height = struct.unpack(">II", png[16:24])
-        if width != entry["pixelWidth"] or height != entry["pixelHeight"] or width <= 0 or height <= width:
-            raise RuntimeError(f"PNG dimensions disagree with native metadata: {filename}")
-        shutil.copy2(source / filename, args.output / filename)
-    shutil.copy2(source / "metadata.json", args.output / "metadata.json")
-    print(f"Collected {len(metadata['images'])} native reference images from {metadata['sourceSHA']}")
+    count = 0
+    for metadata_name, required in [
+        ("metadata.json", {"item-detail-light.png", "item-detail-dark.png"}),
+        ("home-metadata.json", {"home-light.png", "home-dark.png"}),
+    ]:
+        metadata = json.loads((source / metadata_name).read_text(encoding="utf-8"))
+        if metadata["sourceSHA"] != args.source_sha:
+            raise RuntimeError("Screenshot source SHA does not match the checkout")
+        if metadata["bundleIdentifier"] != "com.vitassun.worthly":
+            raise RuntimeError("Reference did not come from the Worthly app test host")
+        listed = {entry["file"] for entry in metadata["images"]}
+        if not required.issubset(listed):
+            raise RuntimeError(f"Both light and dark native references are required: {metadata_name}")
+        for entry in metadata["images"]:
+            filename = entry["file"]
+            if Path(filename).name != filename or not filename.endswith(".png") or not entry["hierarchyDrawn"]:
+                raise RuntimeError("Invalid native screenshot metadata")
+            png = (source / filename).read_bytes()
+            if len(png) < 10_000 or png[:8] != b"\x89PNG\r\n\x1a\n":
+                raise RuntimeError(f"Invalid or empty PNG: {filename}")
+            width, height = struct.unpack(">II", png[16:24])
+            if width != entry["pixelWidth"] or height != entry["pixelHeight"] or width <= 0 or height <= width:
+                raise RuntimeError(f"PNG dimensions disagree with native metadata: {filename}")
+            if metadata_name == "home-metadata.json":
+                bounds = metadata["bounds"]
+                if (bounds["width"], bounds["height"]) != (402, 874):
+                    raise RuntimeError("Home reference must use the actual 402 x 874 iPhone viewport")
+                if entry["colorSpace"] != "sRGB" or png[24] != 8:
+                    raise RuntimeError("Home reference must be a standard 8-bit sRGB export")
+                if len(entry["tabBar"]["items"]) != 4:
+                    raise RuntimeError("Home reference is missing the real four-tab system bar")
+            shutil.copy2(source / filename, args.output / filename)
+            count += 1
+        shutil.copy2(source / metadata_name, args.output / metadata_name)
+    print(f"Collected {count} native reference images from {args.source_sha}")
 
 
 def main() -> None:
