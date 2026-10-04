@@ -42,11 +42,27 @@ jobs:
             --simulator-name "$SIMULATOR_NAME" \
             --simulator-udid "$SIMULATOR_ID"
 
-      - name: Render actual SwiftUI detail in light and dark appearance
+      - name: Render detail references and capture live system-composited Home
         env:
           SIMULATOR_ID: ${{ steps.simulator.outputs.id }}
         run: |
           set -o pipefail
+          python3 .github/scripts/capture_promo_reference.py observe-home \
+            --simulator-udid "$SIMULATOR_ID" \
+            --source-sha "$GITHUB_SHA" \
+            --output artifacts/promo-native-reference \
+            > artifacts/promo-native-reference/home-observer.log 2>&1 &
+          PROMO_OBSERVER_PID=$!
+          cleanup_observer() {
+            if [ -n "${PROMO_OBSERVER_PID:-}" ]; then
+              if kill -0 "$PROMO_OBSERVER_PID" 2>/dev/null; then
+                kill "$PROMO_OBSERVER_PID" 2>/dev/null || true
+              fi
+              wait "$PROMO_OBSERVER_PID" 2>/dev/null || true
+            fi
+          }
+          trap cleanup_observer EXIT
+          set +e
           xcodebuild \
             -project Worthly.xcodeproj \
             -scheme Worthly \
@@ -60,6 +76,25 @@ jobs:
             -resultBundlePath build/promo-native-result.xcresult \
             CODE_SIGNING_ALLOWED=NO \
             test 2>&1 | tee artifacts/promo-native-reference/xcodebuild.log
+          PROMO_PIPELINE_STATUS=("${PIPESTATUS[@]}")
+          set -e
+          if [ "${PROMO_PIPELINE_STATUS[0]}" -ne 0 ]; then
+            cat artifacts/promo-native-reference/home-observer.log
+            exit "${PROMO_PIPELINE_STATUS[0]}"
+          fi
+          if [ "${PROMO_PIPELINE_STATUS[1]}" -ne 0 ]; then
+            exit "${PROMO_PIPELINE_STATUS[1]}"
+          fi
+          touch artifacts/promo-native-reference/home-test-complete
+          set +e
+          wait "$PROMO_OBSERVER_PID"
+          PROMO_OBSERVER_STATUS=$?
+          set -e
+          PROMO_OBSERVER_PID=""
+          cat artifacts/promo-native-reference/home-observer.log
+          if [ "$PROMO_OBSERVER_STATUS" -ne 0 ]; then
+            exit "$PROMO_OBSERVER_STATUS"
+          fi
 
       - name: Collect native PNGs and provenance metadata
         env:

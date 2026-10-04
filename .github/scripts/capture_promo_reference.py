@@ -9,14 +9,17 @@ The restore command removes the temporary addition and verifies original bytes.
 from __future__ import annotations
 
 import argparse
+from datetime import datetime, timezone
 import hashlib
 import json
 import os
 from pathlib import Path
 import re
 import shutil
+import signal
 import struct
 import subprocess
+import time
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -334,7 +337,7 @@ extension NotificationAndDeletionTests {
             )
             let window = UIWindow(windowScene: scene)
             window.frame = scene.coordinateSpace.bounds
-            window.overrideUserInterfaceStyle = style
+            window.overrideUserInterfaceStyle = .unspecified
             window.rootViewController = host
             window.windowLevel = .normal + 1
             window.makeKeyAndVisible()
@@ -348,7 +351,6 @@ extension NotificationAndDeletionTests {
                 window.layoutIfNeeded()
                 try await Task.sleep(for: .milliseconds(250))
             }
-            XCTAssertEqual(host.traitCollection.userInterfaceStyle, style)
             XCTAssertEqual(window.bounds.width, 402, accuracy: 0.1)
             XCTAssertEqual(window.bounds.height, 874, accuracy: 0.1)
             XCTAssertNil(CheckInNotificationRouter.shared.pendingRoute)
@@ -366,35 +368,41 @@ extension NotificationAndDeletionTests {
             XCTAssertGreaterThan(tabBarFrame.height, 0)
             XCTAssertLessThanOrEqual(tabBarFrame.maxY, window.bounds.height + 1)
 
-            let format = UIGraphicsImageRendererFormat()
-            format.preferredRange = .standard
-            format.scale = window.screen.scale
-            format.opaque = true
-            let renderer = UIGraphicsImageRenderer(bounds: window.bounds, format: format)
-            var hierarchyDrawn = false
-            let screenshot = renderer.image { _ in
-                hierarchyDrawn = window.drawHierarchy(in: window.bounds, afterScreenUpdates: true)
+            // Keep this actual window visible until the macOS observer captures the
+            // Simulator's full system compositor, including material and status bar.
+            let nonce = UUID().uuidString
+            let request: [String: Any] = [
+                "appearance": appearance, "nonce": nonce, "sourceSHA": "__SOURCE_SHA__",
+                "pixelWidth": Int((window.bounds.width * window.screen.scale).rounded()),
+                "pixelHeight": Int((window.bounds.height * window.screen.scale).rounded())
+            ]
+            let requestData = try JSONSerialization.data(withJSONObject: request, options: [.sortedKeys])
+            try requestData.write(to: output.appendingPathComponent("home-request.json"), options: .atomic)
+            let deadline = Date.now.addingTimeInterval(30)
+            var acknowledgement: [String: Any]?
+            while Date.now < deadline {
+                if let ackData = try? Data(contentsOf: output.appendingPathComponent("home-ack.json")),
+                   let ack = (try? JSONSerialization.jsonObject(with: ackData)) as? [String: Any],
+                   ack["nonce"] as? String == nonce,
+                   ack["appearance"] as? String == appearance {
+                    acknowledgement = ack
+                    break
+                }
+                try await Task.sleep(for: .milliseconds(100))
             }
-            XCTAssertTrue(hierarchyDrawn, "Native RootTabView hierarchy did not render")
-            // A color-managed sRGB export preserves the rendered colors. There is
-            // no palette replacement, grading, pixel painting or screenshot reuse.
-            let sourceImage = try XCTUnwrap(screenshot.cgImage)
-            let exportColorSpace = try XCTUnwrap(CGColorSpace(name: CGColorSpace.sRGB))
-            let exportContext = try XCTUnwrap(CGContext(
-                data: nil, width: sourceImage.width, height: sourceImage.height,
-                bitsPerComponent: 8, bytesPerRow: 0, space: exportColorSpace,
-                bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
-            ))
-            exportContext.draw(sourceImage, in: CGRect(x: 0, y: 0,
-                width: CGFloat(sourceImage.width), height: CGFloat(sourceImage.height)))
-            let exportedImage = try XCTUnwrap(exportContext.makeImage())
-            let exportedScreenshot = UIImage(cgImage: exportedImage, scale: screenshot.scale, orientation: .up)
+            let ack = try XCTUnwrap(acknowledgement, "Full-screen Simulator capture did not acknowledge \(appearance) within 30 seconds")
+            XCTAssertEqual(host.traitCollection.userInterfaceStyle, style)
+            XCTAssertEqual(ack["captureMethod"] as? String, "simctl-io-full-screen")
+            XCTAssertEqual(ack["sourceSHA"] as? String, "__SOURCE_SHA__")
+            XCTAssertEqual(ack["pixelWidth"] as? Int, 1206)
+            XCTAssertEqual(ack["pixelHeight"] as? Int, 2622)
             let filename = "home-\(appearance).png"
-            try XCTUnwrap(exportedScreenshot.pngData()).write(to: output.appendingPathComponent(filename), options: .atomic)
             homeImages.append([
                 "file": filename, "appearance": appearance, "section": "home",
-                "hierarchyDrawn": hierarchyDrawn, "pixelWidth": exportedImage.width,
-                "pixelHeight": exportedImage.height, "colorSpace": "sRGB", "bitsPerComponent": 8,
+                "captureMethod": "simctl-io-full-screen", "nonce": nonce,
+                "pixelWidth": ack["pixelWidth"] ?? 0, "pixelHeight": ack["pixelHeight"] ?? 0,
+                "sha256": ack["sha256"] ?? "unknown",
+                "colorHandling": "Unmodified Simulator compositor PNG; no grading or conversion",
                 "tabBar": ["x": Double(tabBarFrame.minX), "y": Double(tabBarFrame.minY),
                            "width": Double(tabBarFrame.width), "height": Double(tabBarFrame.height),
                            "items": tabBar.items?.compactMap(\.title) ?? []]
@@ -416,8 +424,8 @@ extension NotificationAndDeletionTests {
             "simulatorName": __SIMULATOR_NAME__, "simulatorUDID": "__SIMULATOR_UDID__",
             "simulatorOS": UIDevice.current.systemVersion,
             "modelIdentifier": ProcessInfo.processInfo.environment["SIMULATOR_MODEL_IDENTIFIER"] ?? "unknown",
-            "renderMethod": "UIHostingController + actual RootTabView + UIWindow.drawHierarchy + sRGB export",
-            "referenceKind": "Generated native SwiftUI Simulator home view; not a user screenshot or physical-device recording",
+            "renderMethod": "Live actual RootTabView + xcrun simctl io screenshot of the entire system compositor",
+            "referenceKind": "Full-screen native Simulator capture; not a user screenshot or physical-device recording",
             "locale": "zh_CN", "timeZone": homeTimeZone.identifier,
             "foundationCurrentTimeZone": TimeZone.current.identifier,
             "foundationDefaultTimeZone": NSTimeZone.default.identifier,
@@ -508,10 +516,147 @@ def restore(_: argparse.Namespace) -> None:
     print("Restored original test source byte for byte")
 
 
+def png_information(path: Path) -> dict:
+    """Inspect PNG headers/profile identifiers without decoding or changing pixels."""
+    data = path.read_bytes()
+    if len(data) < 10_000 or data[:8] != b"\x89PNG\r\n\x1a\n":
+        raise RuntimeError(f"Invalid or empty PNG: {path.name}")
+    width, height = struct.unpack(">II", data[16:24])
+    profiles = []
+    position = 8
+    while position + 12 <= len(data):
+        length = struct.unpack(">I", data[position:position + 4])[0]
+        chunk_type = data[position + 4:position + 8]
+        chunk = data[position + 8:position + 8 + length]
+        if len(chunk) != length:
+            raise RuntimeError(f"Truncated PNG chunk: {path.name}")
+        if chunk_type == b"iCCP":
+            profiles.append({"chunk": "iCCP", "profileName": chunk.split(b"\x00", 1)[0].decode("latin-1")})
+        elif chunk_type in [b"sRGB", b"cICP", b"gAMA", b"cHRM"]:
+            profiles.append({"chunk": chunk_type.decode("ascii"), "payloadHex": chunk.hex()})
+        position += 12 + length
+        if chunk_type == b"IEND":
+            break
+    return {"pixelWidth": width, "pixelHeight": height, "bitsPerComponent": data[24],
+            "pngColorProfiles": profiles, "sha256": hashlib.sha256(data).hexdigest()}
+
+
+def atomic_json(path: Path, value: object) -> None:
+    temporary = path.with_name(path.name + ".tmp")
+    dump_json(temporary, value)
+    temporary.replace(path)
+
+
+def observe_home(args: argparse.Namespace) -> None:
+    """Capture the live Simulator compositor while the native test keeps its window visible."""
+    args.output.mkdir(parents=True, exist_ok=True)
+    simulator = args.simulator_udid
+    captured: list[dict] = []
+    handled_nonces: set[str] = set()
+    original_appearance = None
+    status_overridden = False
+    observer_started_at = time.time()
+    deadline = time.monotonic() + args.timeout
+    test_complete = args.output / "home-test-complete"
+    test_complete.unlink(missing_ok=True)
+
+    def simctl(*command: str, check: bool = True) -> subprocess.CompletedProcess:
+        return subprocess.run(["xcrun", "simctl", *command], check=check, capture_output=True,
+                              text=True, timeout=20)
+
+    def stop_observer(signum, _frame):
+        raise SystemExit(128 + signum)
+
+    signal.signal(signal.SIGTERM, stop_observer)
+    signal.signal(signal.SIGINT, stop_observer)
+    try:
+        current = simctl("ui", simulator, "appearance", check=False)
+        match = re.search(r"\b(light|dark)\b", current.stdout.lower())
+        if current.returncode == 0 and match:
+            original_appearance = match.group(1)
+        print("Observer ready; waiting for app installation and a live Home capture request", flush=True)
+        while time.monotonic() < deadline:
+            # xcodebuild installs the test host later. Missing containers and files
+            # are expected here, and must not end the observer on the initial 404.
+            container = simctl("get_app_container", simulator, "com.vitassun.worthly", "data", check=False)
+            if container.returncode != 0 or not container.stdout.strip():
+                time.sleep(0.5)
+                continue
+            sandbox = Path(container.stdout.strip()) / "tmp/worthly-promo-native"
+            try:
+                request_path = sandbox / "home-request.json"
+                if request_path.stat().st_mtime < observer_started_at:
+                    time.sleep(0.2)
+                    continue
+                request = json.loads(request_path.read_text(encoding="utf-8"))
+            except (FileNotFoundError, json.JSONDecodeError):
+                time.sleep(0.2)
+                continue
+            if request.get("sourceSHA") != args.source_sha or request.get("nonce") in handled_nonces:
+                time.sleep(0.2)
+                continue
+            appearance = request.get("appearance")
+            nonce = request.get("nonce")
+            if appearance not in ["light", "dark"] or not isinstance(nonce, str) or not re.fullmatch(r"[0-9A-Fa-f-]{36}", nonce):
+                raise RuntimeError("Invalid live Home capture handshake")
+            if any(image["appearance"] == appearance for image in captured):
+                raise RuntimeError("A second capture request reused the same appearance")
+            if (request.get("pixelWidth"), request.get("pixelHeight")) != (1206, 2622):
+                raise RuntimeError("Live Home window does not match the 1206 x 2622 reference screen")
+            simctl("ui", simulator, "appearance", appearance)
+            simctl("status_bar", simulator, "override", "--time", "9:41",
+                   "--batteryState", "charged", "--batteryLevel", "100",
+                   "--wifiMode", "active", "--wifiBars", "3",
+                   "--cellularMode", "active", "--cellularBars", "4")
+            status_overridden = True
+            time.sleep(0.4)
+            filename = f"home-{appearance}.png"
+            simctl("io", simulator, "screenshot", "--type=png", str(args.output / filename))
+            image = {"file": filename, "appearance": appearance, "nonce": nonce,
+                     "sourceSHA": args.source_sha, "captureMethod": "simctl-io-full-screen",
+                     "capturedAt": datetime.now(timezone.utc).isoformat(),
+                     "colorHandling": "Original simctl compositor PNG bytes; no pixel modification",
+                     **png_information(args.output / filename)}
+            if (image["pixelWidth"], image["pixelHeight"]) != (1206, 2622):
+                raise RuntimeError("Full-screen Simulator screenshot has unexpected dimensions")
+            captured.append(image)
+            handled_nonces.add(nonce)
+            atomic_json(args.output / "home-compositor-capture.json", {
+                "sourceSHA": args.source_sha, "simulatorUDID": simulator,
+                "captureMethod": "simctl-io-full-screen", "images": captured,
+                "demoStatusBar": {"time": "9:41", "batteryLevel": 100, "batteryState": "charged",
+                                  "wifiBars": 3, "cellularBars": 4},
+                "colorHandling": "Unmodified PNGs; actual embedded profile/chunks recorded per image",
+            })
+            atomic_json(sandbox / "home-ack.json", image)
+            print(f"Captured full-screen {appearance} Home, nonce={nonce}, sha256={image['sha256']}", flush=True)
+            if len(captured) == 2:
+                # Keep the system's dark appearance until the Swift test has
+                # checked traits and finished. Restoring after its ACK is a race.
+                print("Both frames acknowledged; waiting for xcodebuild test completion before restoring Simulator state", flush=True)
+                while time.monotonic() < deadline:
+                    if test_complete.exists():
+                        return
+                    time.sleep(0.1)
+                raise TimeoutError("xcodebuild did not signal Home test completion")
+        raise TimeoutError("Home compositor observer timed out before both live captures")
+    finally:
+        for command in [
+            ("status_bar", simulator, "clear") if status_overridden else None,
+            ("ui", simulator, "appearance", original_appearance) if original_appearance else None,
+        ]:
+            if command:
+                try:
+                    simctl(*command, check=False)
+                except (OSError, subprocess.TimeoutExpired) as error:
+                    print(f"Simulator demo-state cleanup failed: {error}", flush=True)
+
+
 def collect(args: argparse.Namespace) -> None:
     source = args.container / "tmp/worthly-promo-native"
     args.output.mkdir(parents=True, exist_ok=True)
     count = 0
+    combined_images = []
     for metadata_name, required in [
         ("metadata.json", {"item-detail-light.png", "item-detail-dark.png"}),
         ("home-metadata.json", {"home-light.png", "home-dark.png"}),
@@ -524,27 +669,48 @@ def collect(args: argparse.Namespace) -> None:
         listed = {entry["file"] for entry in metadata["images"]}
         if not required.issubset(listed):
             raise RuntimeError(f"Both light and dark native references are required: {metadata_name}")
+        observer_images = {}
+        if metadata_name == "home-metadata.json":
+            observer_manifest = json.loads((args.output / "home-compositor-capture.json").read_text(encoding="utf-8"))
+            if observer_manifest["sourceSHA"] != args.source_sha or observer_manifest["captureMethod"] != "simctl-io-full-screen":
+                raise RuntimeError("Home observer provenance does not match this capture")
+            observer_images = {image["file"]: image for image in observer_manifest["images"]}
         for entry in metadata["images"]:
             filename = entry["file"]
-            if Path(filename).name != filename or not filename.endswith(".png") or not entry["hierarchyDrawn"]:
+            if Path(filename).name != filename or not filename.endswith(".png"):
                 raise RuntimeError("Invalid native screenshot metadata")
-            png = (source / filename).read_bytes()
-            if len(png) < 10_000 or png[:8] != b"\x89PNG\r\n\x1a\n":
-                raise RuntimeError(f"Invalid or empty PNG: {filename}")
-            width, height = struct.unpack(">II", png[16:24])
+            png_path = args.output / filename if metadata_name == "home-metadata.json" else source / filename
+            png = png_information(png_path)
+            width, height = png["pixelWidth"], png["pixelHeight"]
             if width != entry["pixelWidth"] or height != entry["pixelHeight"] or width <= 0 or height <= width:
                 raise RuntimeError(f"PNG dimensions disagree with native metadata: {filename}")
             if metadata_name == "home-metadata.json":
                 bounds = metadata["bounds"]
                 if (bounds["width"], bounds["height"]) != (402, 874):
                     raise RuntimeError("Home reference must use the actual 402 x 874 iPhone viewport")
-                if entry["colorSpace"] != "sRGB" or png[24] != 8:
-                    raise RuntimeError("Home reference must be a standard 8-bit sRGB export")
+                if (width, height) != (1206, 2622):
+                    raise RuntimeError("Full-screen Home reference must have 1206 x 2622 pixels")
                 if len(entry["tabBar"]["items"]) != 4:
                     raise RuntimeError("Home reference is missing the real four-tab system bar")
-            shutil.copy2(source / filename, args.output / filename)
+                observed = observer_images.get(filename)
+                if not observed or observed["nonce"] != entry["nonce"] or observed["sha256"] != png["sha256"] or entry["sha256"] != png["sha256"]:
+                    raise RuntimeError("Home screenshot does not match the acknowledged live window")
+                if entry["captureMethod"] != "simctl-io-full-screen":
+                    raise RuntimeError("Home screenshot was not captured from the system compositor")
+                entry["pngColorProfiles"] = png["pngColorProfiles"]
+                entry["bitsPerComponent"] = png["bitsPerComponent"]
+            else:
+                if not entry["hierarchyDrawn"]:
+                    raise RuntimeError("Detail hierarchy was not drawn")
+                shutil.copy2(png_path, args.output / filename)
+            combined_images.append({"file": filename, "appearance": entry["appearance"],
+                                    "section": entry["section"], "sha256": png["sha256"],
+                                    "captureMethod": "simctl-io-full-screen" if metadata_name == "home-metadata.json" else "UIWindow.drawHierarchy",
+                                    "metadata": metadata_name, "pixelWidth": width, "pixelHeight": height})
             count += 1
-        shutil.copy2(source / metadata_name, args.output / metadata_name)
+        dump_json(args.output / metadata_name, metadata)
+    dump_json(args.output / "reference-capture-manifest.json", {"sourceSHA": args.source_sha,
+              "images": combined_images, "homeColorHandling": "Original system compositor PNG bytes; no modification"})
     print(f"Collected {count} native reference images from {args.source_sha}")
 
 
@@ -561,6 +727,12 @@ def main() -> None:
     prep.set_defaults(function=prepare)
     recovery = commands.add_parser("restore")
     recovery.set_defaults(function=restore)
+    observer = commands.add_parser("observe-home")
+    observer.add_argument("--simulator-udid", required=True)
+    observer.add_argument("--source-sha", required=True)
+    observer.add_argument("--output", type=Path, required=True)
+    observer.add_argument("--timeout", type=float, default=1200)
+    observer.set_defaults(function=observe_home)
     copy = commands.add_parser("collect")
     copy.add_argument("--container", type=Path, required=True)
     copy.add_argument("--output", type=Path, required=True)
