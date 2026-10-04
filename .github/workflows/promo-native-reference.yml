@@ -1,0 +1,86 @@
+name: Promo Native Reference
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  capture-native-reference:
+    runs-on: macos-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Show native toolchain
+        run: xcodebuild -version
+
+      - name: Select available reference iPhone
+        id: simulator
+        run: |
+          python3 .github/scripts/capture_promo_reference.py select-simulator \
+            --output artifacts/promo-native-reference/simulator-selection.json
+
+      - name: Boot reference Simulator
+        env:
+          SIMULATOR_ID: ${{ steps.simulator.outputs.id }}
+          SIMULATOR_STATE: ${{ steps.simulator.outputs.state }}
+        run: |
+          if [ "$SIMULATOR_STATE" != "Booted" ]; then
+            xcrun simctl boot "$SIMULATOR_ID"
+          fi
+          xcrun simctl bootstatus "$SIMULATOR_ID" -b
+
+      - name: Append temporary capture test in disposable checkout
+        env:
+          SIMULATOR_ID: ${{ steps.simulator.outputs.id }}
+          SIMULATOR_NAME: ${{ steps.simulator.outputs.name }}
+        run: |
+          python3 .github/scripts/capture_promo_reference.py prepare \
+            --source-sha "$GITHUB_SHA" \
+            --simulator-name "$SIMULATOR_NAME" \
+            --simulator-udid "$SIMULATOR_ID"
+
+      - name: Render actual SwiftUI detail in light and dark appearance
+        env:
+          SIMULATOR_ID: ${{ steps.simulator.outputs.id }}
+        run: |
+          set -o pipefail
+          xcodebuild \
+            -project Worthly.xcodeproj \
+            -scheme Worthly \
+            -configuration Debug \
+            -destination "platform=iOS Simulator,id=$SIMULATOR_ID" \
+            -testLanguage zh-Hans \
+            -testRegion CN \
+            -parallel-testing-enabled NO \
+            -only-testing:WorthlyTests/NotificationAndDeletionTests/testCapturePromoNativeReference \
+            -derivedDataPath build/promo-native-derived \
+            -resultBundlePath build/promo-native-result.xcresult \
+            CODE_SIGNING_ALLOWED=NO \
+            test 2>&1 | tee artifacts/promo-native-reference/xcodebuild.log
+
+      - name: Collect native PNGs and provenance metadata
+        env:
+          SIMULATOR_ID: ${{ steps.simulator.outputs.id }}
+        run: |
+          APP_CONTAINER=$(xcrun simctl get_app_container "$SIMULATOR_ID" com.vitassun.worthly data)
+          python3 .github/scripts/capture_promo_reference.py collect \
+            --container "$APP_CONTAINER" \
+            --source-sha "$GITHUB_SHA" \
+            --output artifacts/promo-native-reference
+
+      - name: Restore original tests and verify production sources stayed unchanged
+        if: always()
+        run: |
+          python3 .github/scripts/capture_promo_reference.py restore
+          git diff --exit-code -- Worthly WorthlyTests Worthly.xcodeproj
+
+      - name: Upload native render reference
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Worthly-promo-native-reference
+          path: artifacts/promo-native-reference/
+          if-no-files-found: error
